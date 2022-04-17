@@ -7,4 +7,6 @@ on:
 jobs:
   pages-build-deployment-on-merge:
     if: github.event.pull_request.merged == true
-    steps: pages-build-deployment
+    steps:
+    - name: Random name
+      run: pages-build-deployment
