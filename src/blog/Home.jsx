@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Grid
 } from "@mui/material";
 import Gravatar from 'react-gravatar'
 import TypeAnimation from 'react-type-animation';
-import {Container, Nav} from "react-bootstrap";
+import {Container, Navbar, Nav} from "react-bootstrap";
+import {LinkContainer} from 'react-router-bootstrap'
+
 import './Home.sass';
 
 export default function Home() {
@@ -25,20 +27,27 @@ export default function Home() {
                     className={"mt-3 mb-3"}
                     style={{borderRadius: "50%"}}/>
           <TypeAnimation
-              cursor={true}
-              repeat={Infinity}
+              cursor={false}
               className="text-light"
               sequence={[
-                '> David Fuentes_', 5000,
-                '> Technical Lead_', 1000,
-                '> Software Architect_', 1000,
-                '> Cybersecurity Specialist_', 1000,
-                '> ML Engineer_', 1000,
-                '> React Developer_', 1000,
-                '> Free Time Photographer 📸_', 1000,
-                '> Blockchain tech geek_'
+                'David Fuentes_'
               ]}
               wrapper="h1"
+          />
+          <TypeAnimation
+              cursor={true}
+              repeat={Infinity}
+              className="text-gray"
+              sequence={[
+                '> Technical Lead_', 2000,
+                '> Software Architect_', 2000,
+                '> Cybersecurity Specialist_', 2000,
+                '> ML Engineer_', 2000,
+                '> React Developer_', 2000,
+                '> Free Time Photographer 📸_', 2000,
+                '> Blockchain tech geek_'
+              ]}
+              wrapper="h3"
           />
           <Container className={"pt-3"}>
             <Nav
@@ -65,5 +74,6 @@ export default function Home() {
           </Container>
         </Grid>
       </Container>
-  );
+  )
+      ;
 }
