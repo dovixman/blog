@@ -7,7 +7,7 @@ on:
 jobs:
   pages-build-deployment-on-merge:
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
     - name: Random name
       run: pages-build-deployment
