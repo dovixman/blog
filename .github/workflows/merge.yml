@@ -9,5 +9,4 @@ jobs:
     #if: github.event.pull_request.merged == true
     runs-on: ubuntu-18.04
     steps:
-    - name: Build and deploy
-      uses: pages-build-deployment
+    - uses: pages-build-deployment
