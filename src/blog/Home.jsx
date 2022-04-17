@@ -4,8 +4,7 @@ import {
 } from "@mui/material";
 import Gravatar from 'react-gravatar'
 import TypeAnimation from 'react-type-animation';
-import {Container, Navbar, Nav} from "react-bootstrap";
-import {LinkContainer} from 'react-router-bootstrap'
+import {Container, Nav} from "react-bootstrap";
 
 import './Home.sass';
 
