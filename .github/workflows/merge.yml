@@ -9,4 +9,5 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
     - name: Random name
+      runs-on: ubuntu-latest
       run: pages-build-deployment
