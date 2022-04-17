@@ -1,0 +1,10 @@
+name: Deploy on merge
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pages-build-deployment-on-merge:
+    if: github.event.pull_request.merged == true
+    steps: pages-build-deployment
