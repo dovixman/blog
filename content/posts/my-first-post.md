@@ -6,7 +6,7 @@ draft: false
 twemoji: true
 linkToMarkdown: false
 
-tags: ["test"]["feature"]
+tags: ["test", "test-features"]
 categories: ["Tests"]
 ---
 
