@@ -25,7 +25,7 @@ public static void main(String[] args){
 {{< /highlight >}}
 
 {{< highlight python >}}
-def main:{
+def main:
    print("Hello World!")
 {{< /highlight >}}
 
