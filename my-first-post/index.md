@@ -12,4 +12,8 @@ This is some other test
 
 **this is bold text**
 
+Some code from GitHub gist
+
+{{< gist spf13 7896402 >}}
+
 
