@@ -6,8 +6,8 @@ draft: false
 twemoji: true
 linkToMarkdown: false
 
-tags: ["test"]
-categories: ["tests"]
+tags: ["test"]["feature-tests"]
+categories: ["Tests"]
 ---
 
 
