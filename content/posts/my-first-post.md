@@ -2,7 +2,7 @@
 title: "My First Post"
 date: 2020-03-06T21:29:01+08:00
 lastmod: 2020-03-06T21:29:01+08:00
-draft: true
+draft: false
 
 tags: ["installation", "configuration"]
 categories: ["documentation"]
