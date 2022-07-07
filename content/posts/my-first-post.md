@@ -6,7 +6,7 @@ draft: false
 twemoji: true
 linkToMarkdown: false
 
-tags: ["installation", "configuration"]
+tags: ["installation", "configuration", "coding"]
 categories: ["documentation"]
 ---
 
