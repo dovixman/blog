@@ -23,3 +23,15 @@ Some code from GitHub gist
 
 {{< gist spf13 7896402 >}}
 
+And this is some code with syntax highligh
+
+{{< highlight java >}}
+public static void main(String[] args){
+   System.out.println("Hello world!");
+}
+{{< /highlight >}}
+
+{{< highlight python >}}
+def main:{
+   print("Hello World!")
+{{< /highlight >}}
