@@ -1,8 +1,8 @@
-# My First Post
+# My First Post :joy:
 
 
 
-## Some test
+## Some test :joy:
 This is some test content
 
 ## Some other test
