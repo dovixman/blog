@@ -15,6 +15,7 @@ La sintaxis de Protocol Buffers es sencilla, empecemos por el ejemplo más simpl
 
 Un fichero ‘**.proto**’ puede tener uno o varios elementos '_**message**_', además de enumerados y comentarios como veremos más adelante.
 
+```protobuf
 syntax = "proto3";
 
 message SearchRequest {
@@ -32,6 +33,7 @@ message SearchRequest {
   }
   Corpus corpus = 4;
 }
+```
 
 La primera línea del ejemplo define qué sintaxis vamos a utilizar, en este caso estamos definiendo que utilizaremos la sintaxis de la versión [v3](https://developers.google.com/protocol-buffers/docs/proto3). Si omitimos esta línea, el compilador asumirá que estamos utilizando la versión [v2](https://developers.google.com/protocol-buffers/docs/proto).
 
@@ -65,10 +67,12 @@ Para saber más acerca de los tipos de datos y su codificación, podéis acceder
 
 En los campos de un mensaje, al igual que en los enumerados, los índices se pueden reservar utilizando la siguiente sintaxis.
 
+```protobuf
 message Foo {
   reserved 2, 15, 9 to 11;
   reserved "foo", "bar";
 }
+```
 
 Podemos reservar tanto campos numéricos como textos, pero nunca mezclandolos en la misma línea.
 
@@ -76,6 +80,7 @@ Podemos reservar tanto campos numéricos como textos, pero nunca mezclandolos en
 
 Las estructuras de datos pueden contener, a su vez, otras estructuras de datos:
 
+```protobuf
 message SearchResponse {
   repeated Result results = 1;
 }
@@ -85,6 +90,7 @@ message Result {
   string title = 2;
   repeated string snippets = 3;
 }
+```
 
 Para ello, podemos definir la estructura que vamos a utilizar como campo, y una vez definida, añadirla a otra estructura de datos, como en el ejemplo anterior.
 
@@ -94,6 +100,7 @@ Además, vemos como en el ejemplo se define el campo con la palabra ‘**_repeat
 
 Siguiendo la misma lógica anterior, también podemos definir estructuras anidadas dentro de otras estructuras de datos, sin la necesidad de implementar las estructuras por separado, fuera del propio '**_message_**' contenedor:
 
+```protobuf
 message SearchResponse {
   message Result {
     string url = 1;
@@ -102,12 +109,15 @@ message SearchResponse {
   }
   repeated Result results = 1;
 }
+```
 
 Uno de los aspectos que diferencia una estructura anidada, es que si queremos hacer uso de esta en otras estructuras, deberemos definirla de la siguiente manera:
 
+```protobuf
 message SomeOtherMessage {
   SearchResponse.Result result = 1;
 }
+```
 
 Se pueden anidar tantas estructuras de datos como se quieran, Protocol Buffers no define ningún límite en la anidación.
 
@@ -117,7 +127,9 @@ Protocol Buffers nos permite reutilizar los esquemas definidos mediante la impor
 
 Para realizar una importación, solo tendremos que definir la siguiente línea en la cabecera del ‘**.proto**’ actual, y una vez importado, podremos utilizar los message definidos:
 
+```protobuf
 import "myproject/other\_protos.proto";
+```
 
 ## Comentarios en ficheros ‘**.proto**’
 
@@ -125,6 +137,7 @@ Los ficheros **_‘.proto’_** se pueden comentar con la sintaxis habitual de J
 
 Estos comentarios se convertirán a comentarios del lenguaje seleccionado, documentando las clases generadas para facilitar su utilización.
 
+```protobuf
 /\* SearchRequest represents a search query, with pagination options to indicate which results to include in the response. \*/
 
 message SearchRequest {
@@ -132,6 +145,7 @@ message SearchRequest {
   int32 page\_number = 2;  // Which page number do we want?
   int32 result\_per\_page = 3;  // Number of results to return per page.
 }
+```
 
 ## Enumerados
 
@@ -139,6 +153,7 @@ Los campos definidos en un '**_message_**' también pueden ser de tipo enumerado
 
 Un ejemplo de definición de los enumerados es la siguiente:
 
+```protobuf
 enum Corpus {
     UNIVERSAL = 0;
     WEB = 1;
@@ -148,6 +163,7 @@ enum Corpus {
     PRODUCTS = 5;
     VIDEO = 6;
 }
+```
 
 Al igual que los campos de una estructura de datos, los campos de los enumerados también están numerados, por los mismos motivos, pero con algunas diferencias.
 
@@ -157,10 +173,12 @@ La problemática más habitual en enumerados y elementos '**_message_**' es la r
 
 Para darle una solución, Protocol Buffers permite reservar el uso de ciertos valores mediante la palabra reservada ‘_**reserved**_’, con la cual podemos definir qué valores, ya sean numéricos o strings, queremos reservar para que no puedan ser utilizados en futuras actualizaciones. De esta manera restringimos los valores que podemos utilizar y aseguramos la retrocompatibilidad entre versiones.
 
+```protobuf
 enum Foo {
   reserved 2, 15, 9 to 11, 40 to max;
   reserved "FOO", "BAR";
 }
+```
 
 ### Aliases
 
@@ -168,12 +186,14 @@ Los enumerados tienen otra particularidad, y es que permiten utilizar aliases. L
 
 Para utilizarlos tenemos que habilitarlos en el propio enumerado de la siguiente manera, de lo contrario el compilador nos lanzará un error al detectar numeración duplicada:
 
+```protobuf
 enum EnumAllowingAlias {
   option allow\_alias = true;
   UNKNOWN = 0;
   STARTED = 1;
   RUNNING = 1;
 }
+```
 
 Una vez habilitados, podremos definir varios elementos con la misma numeración, que se podrán utilizar como aliases para definir un mismo valor. En el caso anterior, los campos _STARTED_, y _RUNNING_ tienen el mismo valor en el enumerado.
 
@@ -185,12 +205,14 @@ Además de los tipos básicos, Protocol Buffers nos ofrece ciertos comandos más
 
 La palabra reservada ‘**oneOf**’ se utiliza para definir que, de un conjunto de campos, solo uno de ellos debe ser definido al mismo tiempo. Cuando se define un valor para uno de los campos dentro de esta estructura, se borra el valor del resto de campos que contiene.
 
+```protobuf
 message SampleMessage {
   oneof test\_oneof {
     string name = 4;
     SubMessage sub\_message = 9;
   }
 }
+```
 
 Para saber cual de los campos ha sido el que se ha definido, Protocol Buffers implementado dos métodos que nos dan esta información en la compilación de las clases, el método _**case()**_ y el método _**WhichOneOf()**_.
 
@@ -200,7 +222,9 @@ Una de las limitaciones de esta funcionalidad, es que no se pueden utilizar camp
 
 Protocol Buffers permite definir mapas de datos mediante la siguiente sintaxis:
 
+```protobuf
 map<key\_type, value\_type> map\_field = N;
+```
 
 Donde:
 
@@ -213,9 +237,11 @@ Por otro lado, los campos de un mapa no pueden ser de tipo ‘**repeated**’, y
 
 De querer utilizar los protos definidos en un sistema de RPC, Protocol Buffers permite definir un servicio que especifica el contrato que se deberá cumplir para poder utilizar el mensaje con el protocolo RPC.
 
+```protobuf
 service SearchService {
   rpc Search (SearchRequest) returns (SearchResponse);
 }
+```
 
 La implementación del protocolo de comunicaciones RPC más común a utilizar con Protocol Buffers es gRPC, un sistema RPC agnóstico de lenguaje y plataforma, también creado por Google, que permite generar el código necesario para la comunicación RPC directamente en la compilación de los ficheros ‘**_.proto_**’.
 
@@ -239,7 +265,9 @@ Además de la definición de la sintaxis, existen otras opciones disponibles par
 
 Para generar el código a partir del fichero ‘**_.proto_**’, deberemos utilizar la opción pertinente para cada lenguaje en el compilador. El comando para la compilación y generación de código es el siguiente, en el que podemos ver los distintos lenguajes soportados:
 
+```bash
 protoc --proto\_path=IMPORT\_PATH --cpp\_out=DST\_DIR --java\_out=DST\_DIR --python\_out=DST\_DIR --go\_out=DST\_DIR --ruby\_out=DST\_DIR --objc\_out=DST\_DIR --csharp\_out=DST\_DIR path/to/file.proto
+```
 
 Donde:
 

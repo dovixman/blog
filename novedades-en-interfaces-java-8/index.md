@@ -13,6 +13,7 @@ Esto evita las duplicaciones de código en clases que implementen el mismo compo
 
 El siguiente ejemplo define una interfaz con un método _default,_ y muestra cómo utilizarlo en una clase que lo implemente.
 
+```java
 public interface MyInterface {
 
     // Default method for getting "Hello World" String
@@ -31,11 +32,12 @@ class MyClass implements MyInterface {
     }
 
 }
+```
 
 Y obtenemos los resultados esperados.
 
-//Result
-Default: Default Hello World!
+// Result
+> Default: Default Hello World!
 
 ## Métodos estáticos
 
@@ -43,6 +45,7 @@ Los métodos _estáticos_ siguen la misma idea que los _default_, permitir defin
 
 La diferencia con respecto a los métodos _default_, es que al ser estáticos, los métodos que definamos no serán sobreescribibles en las clases que implementen la interfaz.
 
+```java
 public interface MyInterface{
 
     // Static method for getting "Hello World" String
@@ -61,11 +64,12 @@ class MyClass implements MyInterface {
     }
 
 }
+```
 
 Y obtenemos los resultados.
 
-//Result
-Static: Static Hello World!
+// Result
+> Static: Static Hello World!
 
 Pero como siempre, con las nuevas funcionalidades, también se plantean diversas casuísticas que pueden llevarnos a confusión.
 
@@ -75,6 +79,7 @@ Utilizando los métodos default podría darse el caso de tener una clase que imp
 
 No hay jerarquía entre ambas interfaces, por lo que el compilador no sabrá cuál de las dos seleccionar a la hora de invocar el método.
 
+```java
 public interface Interface1 {
     default String getHelloWorldStr(){
         return "Hello world from Interface 1";
@@ -86,15 +91,18 @@ public interface Interface2 {
         return "Hello world from Interface 2";
     }
 }
+```
 
 Por tanto, la clase que implemente ambas interfaces se verá obligada a sobrescribir el método _**getHelloWorld**_ por el compilador, para evitar errores de compilación.
 
+```java
 public class HelloWorldClass implements Interface1, Interface2 {
     @Override
     public String getHelloWorldStr() {
         return "Hello World from HelloWorldClass";
     }
 }
+```
 
 ## El problema del diamante
 
@@ -108,6 +116,7 @@ Problema del diamante
 
 Imaginemos un escenario en el cual existen dos interfaces, _Interface1_ e _Interface2,_ que extienden de una tercera interfaz _Interface0._
 
+```java
 interface Interface0 {
     default String getHelloWorldStr(){
         return "Hello world from Interface 0";
@@ -125,9 +134,11 @@ interface Interface2 extends Interface0{
         return "Hello world from Interface 2";
     }
 }
+```
 
 Como se puede observar en el código anterior, las interfaces _Interface1_, e **Interface2** quedan al mismo nivel jerárquico, mientras que Interface0 queda por debajo de estas. Esto genera un problema, ya que al no existir una cadena jerárquica, el compilador no es capaz de inferir el método a utilizar, y nos forzará a reescribirlo explícitamente en nuestra clase.
 
+```java
 public class MyClass implements Interface1, Interface2 {
 
     // Overwritten method from both Interface1 and Interface2 interfaces.
@@ -142,11 +153,12 @@ public class MyClass implements Interface1, Interface2 {
         System.out.println(myClass.getHelloWorldStr());
     }
 }
+```
 
 Obteniendo como resultado el de la implementación de la clase.
 
-//Result
-Hello World from MyClass
+// Result
+> Hello World from MyClass
 
 ## Reglas para la selección de métodos _default_
 
@@ -156,6 +168,7 @@ El compilador necesita una jerarquía de prioridades que aplicar cuando existen 
 
 - La implementación de las clases o superclases siempre tienen prioridad.
 
+```java
 public interface Interface1 {
     default String getHelloWorldStr(){
         return "Hello world from Interface 1";
@@ -173,14 +186,16 @@ class HelloWorldClass implements Interface1{
         System.out.println(helloWorldClass.getHelloWorldStr());
     }
 }
+```
 
 En este caso el resultado sería el definido en la implementación de la clase, que tiene prioridad con respecto al definido en la interfaz.
 
-//Result
-Hello World from HelloWorldClass
+// Result
+> Hello World from HelloWorldClass
 
 - Si no existe implementación para el método en la clase, siempre se utilizará la implementación del método _default_ más específico definido en las interfaces heredadas
 
+```java
 public interface Interface1 {
     default String getHelloWorldStr(){
         return "Hello world from Interface 1";
@@ -199,9 +214,10 @@ public class HelloWorldClass implements Interface1, Interface2 {
         System.out.println(helloWorldClass.getHelloWorldStr());
     }
 }
+```
 
 En este caso, la implementación del método de la interfaz _Interface2_ es la más específica en la cadena jerárquica, y será la que el compilador seleccione.
 
-//Result
-Hello world from Interface 2
+// Result
+> Hello world from Interface 2
 

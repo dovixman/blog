@@ -1,112 +1,267 @@
 <!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Java 8: Interfaces funcionales. - Dovixmans Blog</title><meta name=Description content="Dovixman tech blog"><meta property="og:title" content="Java 8: Interfaces funcionales."><meta property="og:description" content="Las interfaces funcionales son todas aquellas interfaces que definen un único método abstracto, pudiendo implementar uno o varios métodos default o static.
 Este nuevo tipo de interfaces son especialmente importantes debido a que son la base de la implementación de las nuevas expresiones lambda, una de las funcionalidades más importantes de Java 8.
-A continuación podemos ver un ejemplo de interfaz funcional, en la que se define un único método abstracto, y varios métodos default y static:"><meta property="og:type" content="article"><meta property="og:url" content="https://dovixman.io/interfaces-funcionales-java-8/"><meta property="og:image" content="https://dovixman.io/images/avatar.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-03-11T00:00:00+00:00"><meta property="article:modified_time" content="2022-07-15T02:02:33+02:00"><meta property="og:site_name" content="Dovixmans Blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://dovixman.io/images/avatar.png"><meta name=twitter:title content="Java 8: Interfaces funcionales."><meta name=twitter:description content="Las interfaces funcionales son todas aquellas interfaces que definen un único método abstracto, pudiendo implementar uno o varios métodos default o static.
+A continuación podemos ver un ejemplo de interfaz funcional, en la que se define un único método abstracto, y varios métodos default y static:"><meta property="og:type" content="article"><meta property="og:url" content="https://dovixman.io/interfaces-funcionales-java-8/"><meta property="og:image" content="https://dovixman.io/images/avatar.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-03-11T00:00:00+00:00"><meta property="article:modified_time" content="2022-07-15T10:56:36+02:00"><meta property="og:site_name" content="Dovixmans Blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://dovixman.io/images/avatar.png"><meta name=twitter:title content="Java 8: Interfaces funcionales."><meta name=twitter:description content="Las interfaces funcionales son todas aquellas interfaces que definen un único método abstracto, pudiendo implementar uno o varios métodos default o static.
 Este nuevo tipo de interfaces son especialmente importantes debido a que son la base de la implementación de las nuevas expresiones lambda, una de las funcionalidades más importantes de Java 8.
-A continuación podemos ver un ejemplo de interfaz funcional, en la que se define un único método abstracto, y varios métodos default y static:"><meta name=application-name content="Dovixman Blog"><meta name=apple-mobile-web-app-title content="Dovixman Blog"><meta name=theme-color content="#5bbad5"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=images/avatar.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://dovixman.io/interfaces-funcionales-java-8/><link rel=prev href=https://dovixman.io/expresiones-lambda-java-8/><link rel=next href=https://dovixman.io/referencias-metodos-constructores-java-8/><link rel=stylesheet href=/css/style.min.61c0835a1733ac3f92b41b61b403dca9b8d4a3a7e4021c89af2c45a731f6343a82bc7fb214f4926e2c4669c8d258218b7da5d0e86d081ec97f3c1d823d48df2e.css integrity="sha512-YcCDWhczrD+StBthtAPcqbjUo6fkAhyJryxFpzH2NDqCvH+yFPSSbixGacjSWCGLfaXQ6G0IHsl/PB2CPUjfLg=="><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Java 8: Interfaces funcionales.","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/dovixman.io\/interfaces-funcionales-java-8\/"},"image":["https:\/\/dovixman.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"functional-interfaces","wordcount":769,"url":"https:\/\/dovixman.io\/interfaces-funcionales-java-8\/","datePublished":"2019-03-11T00:00:00+00:00","dateModified":"2022-07-15T02:02:33+02:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/dovixman.io\/images\/avatar.png","width":300,"height":300}},"author":{"@type":"Person","name":"David"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Dovixmans Blog"><span class=header-title-pre><i class='fas fa-terminal' aria-hidden=true></i></span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/><i class='fas fa-comment-alt'></i> Posts </a><a class=menu-item href=/tags/><i class='fas fa-tags'></i> Tags </a><a class=menu-item href=/categories/><i class='fas fa-hashtag'></i> Categories </a><a class=menu-item href=/about/><i class='fas fa-address-card'></i> About </a><a class=menu-item href=https://github.com/dovixman title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+A continuación podemos ver un ejemplo de interfaz funcional, en la que se define un único método abstracto, y varios métodos default y static:"><meta name=application-name content="Dovixman Blog"><meta name=apple-mobile-web-app-title content="Dovixman Blog"><meta name=theme-color content="#5bbad5"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=images/avatar.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://dovixman.io/interfaces-funcionales-java-8/><link rel=prev href=https://dovixman.io/expresiones-lambda-java-8/><link rel=next href=https://dovixman.io/referencias-metodos-constructores-java-8/><link rel=stylesheet href=/css/style.min.61c0835a1733ac3f92b41b61b403dca9b8d4a3a7e4021c89af2c45a731f6343a82bc7fb214f4926e2c4669c8d258218b7da5d0e86d081ec97f3c1d823d48df2e.css integrity="sha512-YcCDWhczrD+StBthtAPcqbjUo6fkAhyJryxFpzH2NDqCvH+yFPSSbixGacjSWCGLfaXQ6G0IHsl/PB2CPUjfLg=="><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Java 8: Interfaces funcionales.","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/dovixman.io\/interfaces-funcionales-java-8\/"},"image":["https:\/\/dovixman.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"functional-interfaces","wordcount":899,"url":"https:\/\/dovixman.io\/interfaces-funcionales-java-8\/","datePublished":"2019-03-11T00:00:00+00:00","dateModified":"2022-07-15T10:56:36+02:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/dovixman.io\/images\/avatar.png","width":300,"height":300}},"author":{"@type":"Person","name":"David"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Dovixmans Blog"><span class=header-title-pre><i class='fas fa-terminal' aria-hidden=true></i></span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/><i class='fas fa-comment-alt'></i> Posts </a><a class=menu-item href=/tags/><i class='fas fa-tags'></i> Tags </a><a class=menu-item href=/categories/><i class='fas fa-hashtag'></i> Categories </a><a class=menu-item href=/about/><i class='fas fa-address-card'></i> About </a><a class=menu-item href=https://github.com/dovixman title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
 <i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Dovixmans Blog"><span class=header-title-pre><i class='fas fa-terminal' aria-hidden=true></i></span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title><i class='fas fa-comment-alt'></i>Posts</a><a class=menu-item href=/tags/ title><i class='fas fa-tags'></i>Tags</a><a class=menu-item href=/categories/ title><i class='fas fa-hashtag'></i>Categories</a><a class=menu-item href=/about/ title><i class='fas fa-address-card'></i>About</a><a class=menu-item href=https://github.com/dovixman title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Java 8: Interfaces funcionales.</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://dovixman.io title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>David</a></span>&nbsp;<span class=post-category>included in <a href=/categories/java/><i class="far fa-folder fa-fw" aria-hidden=true></i>java</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=11-03-2019>11-03-2019</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;769 words&nbsp;
-<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;4 minutes&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span>
-<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#ejemplos-de-interfaces-funcionales-incluidas-en-java-8>Ejemplos de interfaces funcionales incluidas en Java 8</a><ul><li><a href=#interfaces-consumert-y-biconsumertu>Interfaces Consumer<t> y BiConsumer&lt;T,U></a></li><li><a href=#interfaz-suppliert>Interfaz Supplier<t></a></li><li><a href=#interfaces-functiont-y-bifunctiontu>Interfaces Function<t> y BiFunction&lt;T,U></a></li><li><a href=#interfaz-unaryoperator>Interfaz UnaryOperator</a></li><li><a href=#interfaz-binaryoperator>Interfaz BinaryOperator</a></li><li><a href=#interfaces-predicate-y-bipredicate>Interfaces Predicate y BiPredicate</a></li></ul></li></ul></nav></div></div><div class=content id=content><p>Las interfaces funcionales son todas aquellas interfaces que definen un único método abstracto, pudiendo implementar uno o varios métodos <strong><em>default</em></strong> o <strong><em>static</em></strong>.</p><p>Este nuevo tipo de interfaces son especialmente importantes debido a que son la base de la implementación de las nuevas <a href=https://davidfuentes.blog/2019/02/03/java-8-expresiones-lambda/ target=_blank rel="noopener noreffer">expresiones lambda</a>, una de las funcionalidades más importantes de Java 8.</p><p>A continuación podemos ver un ejemplo de interfaz funcional, en la que se define un único método abstracto, y varios métodos <strong><em>default</em></strong> y <strong><em>static</em></strong>:</p><p>public interface Calculator {
-// My abstract method
-String calculate(int arg1, int arg2);</p><pre><code>// Default method
-default int sum(int arg1, int arg2) {
-    return arg1 + arg2;
-}
-
-// Static method
-static int floatToInt(float arg) {
-    return Math.round(arg);
-}
-</code></pre><p>}</p><p>Para asegurarnos de que nuestra interfaz funcional está bien implementada, Java 8 ha incluido una anotación que nos permite verificarlo, para ello deberemos incluir la anotación <strong><em>@FunctionalInterface</em></strong> a nivel de la clase.</p><p>Esta anotación es procesada por nuestro IDE, y nos marcará si la interfaz está correctamente implementada.</p><p>@FunctionalInterface
-public interface Calculator {
-// My abstract method
-String calculate(int arg1, int arg2);
-}</p><h2 id=ejemplos-de-interfaces-funcionales-incluidas-en-java-8>Ejemplos de interfaces funcionales incluidas en Java 8</h2><p>Java 8 incluye múltiples interfaces funcionales que podemos utilizar para crear expresiones lambda, y que son muy utilizadas en la API de Streams de Java. Podemos encontrar estas interfaces en el paquete <strong><em><a href=https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html target=_blank rel="noopener noreffer">java.util.function.</a></em></strong></p><p>Sin entrar en cada una de ellas, a continuación os dejo ejemplos de las interfaces nuevas que se han incluido en la versión de Java 8.</p><h3 id=interfaces-consumert-y-biconsumertu>Interfaces Consumer<t> y BiConsumer&lt;T,U></h3><p>Las interfaces <strong>Consumer</strong> y <strong>BiConsumer</strong> representan una operación que recibe uno y dos valores respectivamente, y no devuelven ningún resultado.</p><p>@FunctionalInterface
-public interface Consumer<t> {
-void accept(T t);</p><pre><code>default Consumer&lt;T&gt; andThen(Consumer&lt;? super T&gt; after) {
-    Objects.requireNonNull(after);
-    return (T t) -&gt; { accept(t); after.accept(t); };
-}
-</code></pre><p>}</p><p>@FunctionalInterface
-public interface BiConsumer&lt;T,U> {
-void accept(T t, U u);</p><pre><code>default BiConsumer&lt;T,U&gt; andThen(BiConsumer&lt;? super T,? super U&gt; after) {
-    Objects.requireNonNull(after);
-    return (T t, U u) -&gt; { accept(t,u); after.accept(t,u); };
-}
-</code></pre><p>}</p><h3 id=interfaz-suppliert>Interfaz Supplier<t></h3><p>La interfaz <strong>Supplier</strong> representa un proveedor de resultados, sin parámetros de entrada y con un parámetro de salida.</p><p>@FunctionalInterface
-public interface Supplier<t> {
-T get();
-}</p><h3 id=interfaces-functiont-y-bifunctiontu>Interfaces Function<t> y BiFunction&lt;T,U></h3><p>Las interfaces <strong>Function</strong> y <strong>BiFunction</strong> representan una función que recibe uno y dos valores respectivamente, y produce un valor como resultado.</p><p>@FunctionalInterface
-public interface Function&lt;T,R> {
-R apply(T t);</p><pre><code>default &lt;V&gt; Function&lt;V, R&gt; compose(Function&lt;? super V, ? extends T&gt; before) {
-    Objects.requireNonNull(before);
-    return (V v) -&gt; apply(before.apply(v));
-}
-
-default &lt;V&gt; Function&lt;T, V&gt; andThen(Function&lt;? super R, ? extends V&gt; after) {
-    Objects.requireNonNull(after);
-    return (T t) -&gt; after.apply(apply(t));
-}
-
-static &lt;T&gt; Function&lt;T, T&gt; identity() {
-    return t -&gt; t;
-}
-</code></pre><p>}</p><p>@FunctionalInterface
-public interface BiFunction&lt;T, U, R> {
-R apply(T t, U u);</p><pre><code>default &lt;V&gt; BiFunction&lt;T, U, V&gt; andThen(Function&lt;? super R, ? extends V&gt; after) {
-    Objects.requireNonNull(after);
-    return (T t, U u) -&gt; after.apply(apply(t, u));
-}
-</code></pre><p>}</p><h3 id=interfaz-unaryoperator>Interfaz UnaryOperator</h3><p>La interfaz <strong>UnaryOperator</strong> representa una operación en la cual se recibe un parámetro de entrada, y se devuelve un valor del mismo tipo como resultado.</p><p>@FunctionalInterface
-public interface UnaryOperator<t> extends Function&lt;T, T> {
-static <t>UnaryOperator<t> identity() {
-return t -> t;
-}
-}</p><h3 id=interfaz-binaryoperator>Interfaz BinaryOperator</h3><p>La interfaz <strong>BinaryOperator</strong> representa una operación en la cual se reciben dos parámetro de entrada del mismo tipo, y se devuelve un valor del mismo tipo como resultado.</p><p>@FunctionalInterface
-public interface BinaryOperator<t> extends BiFunction&lt;T,T,T> {
-public static <t>BinaryOperator<t> minBy(Comparator&lt;? super T> comparator) {
-Objects.requireNonNull(comparator);
-return (a, b) -> comparator.compare(a, b) &lt;= 0 ? a : b;
-}</p><pre><code>public static &lt;T&gt; BinaryOperator&lt;T&gt; maxBy(Comparator&lt;? super T&gt; comparator) {
-    Objects.requireNonNull(comparator);
-    return (a, b) -&gt; comparator.compare(a, b) &gt;= 0 ? a : b;
-}
-</code></pre><p>}</p><h3 id=interfaces-predicate-y-bipredicate>Interfaces Predicate y BiPredicate</h3><p>Las interfaces <strong>Predicate</strong> y <strong>BiPredicate</strong> representan funciones que devuelven un booleano como resultado, y reciben uno y dos parámetros de entrada respectivamente.</p><p>@FunctionalInterface
-public interface Predicate<t> {
-boolean test(T t);</p><pre><code>default Predicate&lt;T&gt; and(Predicate&lt;? super T&gt; other) {
-    Objects.requireNonNull(other);
-    return (t) -&gt; test(t) &amp;&amp; other.test(t);
-}
-
-default Predicate&lt;T&gt; negate() {
-    return (t) -&gt; !test(t);
-}
-
-default Predicate&lt;T&gt; or(Predicate&lt;? super T&gt; other) {
-    Objects.requireNonNull(other);
-    return (t) -&gt; test(t) || other.test(t);
-}
-
-static &lt;T&gt; Predicate&lt;T&gt; isEqual(Object targetRef) {
-    return (null == targetRef)
-            ? Objects::isNull
-            : object -&gt; targetRef.equals(object);
-}
-</code></pre><p>}</p><p>@FunctionalInterface
-public interface BiPredicate&lt;T, U> {
-boolean test(T t, U u);</p><pre><code>default BiPredicate&lt;T, U&gt; and(BiPredicate&lt;? super T, ? super U&gt; other) {
-    Objects.requireNonNull(other);
-    return (T t, U u) -&gt; test(t, u) &amp;&amp; other.test(t, u);
-}
-
-default BiPredicate&lt;T, U&gt; negate() {
-    return (T t, U u) -&gt; !test(t, u);
-}
-
-default BiPredicate&lt;T, U&gt; or(BiPredicate&lt;? super T, ? super U&gt; other) {
-    Objects.requireNonNull(other);
-    return (T t, U u) -&gt; test(t, u) || other.test(t, u);
-}
-</code></pre><p>}</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 15-07-2022</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span><a href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales." data-hashtags=functional-interfaces><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-hashtag=functional-interfaces><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://dovixman.io/interfaces-funcionales-java-8/><i class="fab fa-linkedin fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on WhatsApp" data-sharer=whatsapp data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales." data-web><i class="fab fa-whatsapp fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Reddit" data-sharer=reddit data-url=https://dovixman.io/interfaces-funcionales-java-8/><i class="fab fa-reddit fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Instapaper" data-sharer=instapaper data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales." data-description><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/instapaper.svg aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Pocket" data-sharer=pocket data-url=https://dovixman.io/interfaces-funcionales-java-8/><i class="fab fa-get-pocket fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Flipboard" data-sharer=flipboard data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales."><i class="fab fa-flipboard fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/functional-interfaces/>functional-interfaces</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/expresiones-lambda-java-8/ class=prev rel=prev title="Java 8: Expresiones Lambda"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Java 8: Expresiones Lambda</a>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Java 8: Interfaces funcionales.</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://dovixman.io title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>David</a></span>&nbsp;<span class=post-category>included in <a href=/categories/java/><i class="far fa-folder fa-fw" aria-hidden=true></i>java</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=11-03-2019>11-03-2019</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;899 words&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;5 minutes&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#ejemplos-de-interfaces-funcionales-incluidas-en-java-8>Ejemplos de interfaces funcionales incluidas en Java 8</a><ul><li><a href=#interfaces-consumert-y-biconsumertu>Interfaces Consumer<t> y BiConsumer&lt;T,U></a></li><li><a href=#interfaz-suppliert>Interfaz Supplier<t></a></li><li><a href=#interfaces-functiont-y-bifunctiontu>Interfaces Function<t> y BiFunction&lt;T,U></a></li><li><a href=#interfaz-unaryoperator>Interfaz UnaryOperator</a></li><li><a href=#interfaz-binaryoperator>Interfaz BinaryOperator</a></li><li><a href=#interfaces-predicate-y-bipredicate>Interfaces Predicate y BiPredicate</a></li></ul></li></ul></nav></div></div><div class=content id=content><p>Las interfaces funcionales son todas aquellas interfaces que definen un único método abstracto, pudiendo implementar uno o varios métodos <strong><em>default</em></strong> o <strong><em>static</em></strong>.</p><p>Este nuevo tipo de interfaces son especialmente importantes debido a que son la base de la implementación de las nuevas <a href=https://davidfuentes.blog/2019/02/03/java-8-expresiones-lambda/ target=_blank rel="noopener noreffer">expresiones lambda</a>, una de las funcionalidades más importantes de Java 8.</p><p>A continuación podemos ver un ejemplo de interfaz funcional, en la que se define un único método abstracto, y varios métodos <strong><em>default</em></strong> y <strong><em>static</em></strong>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Calculator</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// My abstract method
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>String</span> <span class=nf>calculate</span><span class=o>(</span><span class=kt>int</span> <span class=n>arg1</span><span class=o>,</span> <span class=kt>int</span> <span class=n>arg2</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Default method
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>default</span> <span class=kt>int</span> <span class=nf>sum</span><span class=o>(</span><span class=kt>int</span> <span class=n>arg1</span><span class=o>,</span> <span class=kt>int</span> <span class=n>arg2</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>arg1</span> <span class=o>+</span> <span class=n>arg2</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Static method
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kd>static</span> <span class=kt>int</span> <span class=nf>floatToInt</span><span class=o>(</span><span class=kt>float</span> <span class=n>arg</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>Math</span><span class=o>.</span><span class=na>round</span><span class=o>(</span><span class=n>arg</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Para asegurarnos de que nuestra interfaz funcional está bien implementada, Java 8 ha incluido una anotación que nos permite verificarlo, para ello deberemos incluir la anotación <strong><em>@FunctionalInterface</em></strong> a nivel de la clase.</p><p>Esta anotación es procesada por nuestro IDE, y nos marcará si la interfaz está correctamente implementada.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Calculator</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// My abstract method
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>String</span> <span class=nf>calculate</span><span class=o>(</span><span class=kt>int</span> <span class=n>arg1</span><span class=o>,</span> <span class=kt>int</span> <span class=n>arg2</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=ejemplos-de-interfaces-funcionales-incluidas-en-java-8>Ejemplos de interfaces funcionales incluidas en Java 8</h2><p>Java 8 incluye múltiples interfaces funcionales que podemos utilizar para crear expresiones lambda, y que son muy utilizadas en la API de Streams de Java. Podemos encontrar estas interfaces en el paquete <strong><em><a href=https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html target=_blank rel="noopener noreffer">java.util.function.</a></em></strong></p><p>Sin entrar en cada una de ellas, a continuación os dejo ejemplos de las interfaces nuevas que se han incluido en la versión de Java 8.</p><h3 id=interfaces-consumert-y-biconsumertu>Interfaces Consumer<t> y BiConsumer&lt;T,U></h3><p>Las interfaces <strong>Consumer</strong> y <strong>BiConsumer</strong> representan una operación que recibe uno y dos valores respectivamente, y no devuelven ningún resultado.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Consumer</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>accept</span><span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>Consumer</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>andThen</span><span class=o>(</span><span class=n>Consumer</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>&gt;</span> <span class=n>after</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>after</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=o>{</span> <span class=n>accept</span><span class=o>(</span><span class=n>t</span><span class=o>);</span> <span class=n>after</span><span class=o>.</span><span class=na>accept</span><span class=o>(</span><span class=n>t</span><span class=o>);</span> <span class=o>};</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>BiConsumer</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span><span class=n>U</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>accept</span><span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>BiConsumer</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span><span class=n>U</span><span class=o>&gt;</span> <span class=nf>andThen</span><span class=o>(</span><span class=n>BiConsumer</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>,?</span> <span class=kd>super</span> <span class=n>U</span><span class=o>&gt;</span> <span class=n>after</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>after</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=o>{</span> <span class=n>accept</span><span class=o>(</span><span class=n>t</span><span class=o>,</span><span class=n>u</span><span class=o>);</span> <span class=n>after</span><span class=o>.</span><span class=na>accept</span><span class=o>(</span><span class=n>t</span><span class=o>,</span><span class=n>u</span><span class=o>);</span> <span class=o>};</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=interfaz-suppliert>Interfaz Supplier<t></h3><p>La interfaz <strong>Supplier</strong> representa un proveedor de resultados, sin parámetros de entrada y con un parámetro de salida.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Supplier</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=nf>get</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=interfaces-functiont-y-bifunctiontu>Interfaces Function<t> y BiFunction&lt;T,U></h3><p>Las interfaces <strong>Function</strong> y <strong>BiFunction</strong> representan una función que recibe uno y dos valores respectivamente, y produce un valor como resultado.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Function</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span><span class=n>R</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>R</span> <span class=nf>apply</span><span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=o>&lt;</span><span class=n>V</span><span class=o>&gt;</span> <span class=n>Function</span><span class=o>&lt;</span><span class=n>V</span><span class=o>,</span> <span class=n>R</span><span class=o>&gt;</span> <span class=nf>compose</span><span class=o>(</span><span class=n>Function</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>V</span><span class=o>,</span> <span class=o>?</span> <span class=kd>extends</span> <span class=n>T</span><span class=o>&gt;</span> <span class=n>before</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>before</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>V</span> <span class=n>v</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>apply</span><span class=o>(</span><span class=n>before</span><span class=o>.</span><span class=na>apply</span><span class=o>(</span><span class=n>v</span><span class=o>));</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=o>&lt;</span><span class=n>V</span><span class=o>&gt;</span> <span class=n>Function</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>V</span><span class=o>&gt;</span> <span class=nf>andThen</span><span class=o>(</span><span class=n>Function</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>R</span><span class=o>,</span> <span class=o>?</span> <span class=kd>extends</span> <span class=n>V</span><span class=o>&gt;</span> <span class=n>after</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>after</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>after</span><span class=o>.</span><span class=na>apply</span><span class=o>(</span><span class=n>apply</span><span class=o>(</span><span class=n>t</span><span class=o>));</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>static</span> <span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=n>Function</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>T</span><span class=o>&gt;</span> <span class=nf>identity</span><span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>t</span> <span class=o>-&gt;</span> <span class=n>t</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>BiFunction</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>U</span><span class=o>,</span> <span class=n>R</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>R</span> <span class=nf>apply</span><span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=o>&lt;</span><span class=n>V</span><span class=o>&gt;</span> <span class=n>BiFunction</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>U</span><span class=o>,</span> <span class=n>V</span><span class=o>&gt;</span> <span class=nf>andThen</span><span class=o>(</span><span class=n>Function</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>R</span><span class=o>,</span> <span class=o>?</span> <span class=kd>extends</span> <span class=n>V</span><span class=o>&gt;</span> <span class=n>after</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>after</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>after</span><span class=o>.</span><span class=na>apply</span><span class=o>(</span><span class=n>apply</span><span class=o>(</span><span class=n>t</span><span class=o>,</span> <span class=n>u</span><span class=o>));</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=interfaz-unaryoperator>Interfaz UnaryOperator</h3><p>La interfaz <strong>UnaryOperator</strong> representa una operación en la cual se recibe un parámetro de entrada, y se devuelve un valor del mismo tipo como resultado.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>UnaryOperator</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=kd>extends</span> <span class=n>Function</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>T</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>static</span> <span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=n>UnaryOperator</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>identity</span><span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>t</span> <span class=o>-&gt;</span> <span class=n>t</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=interfaz-binaryoperator>Interfaz BinaryOperator</h3><p>La interfaz <strong>BinaryOperator</strong> representa una operación en la cual se reciben dos parámetro de entrada del mismo tipo, y se devuelve un valor del mismo tipo como resultado.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>BinaryOperator</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=kd>extends</span> <span class=n>BiFunction</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span><span class=n>T</span><span class=o>,</span><span class=n>T</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kd>static</span> <span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=n>BinaryOperator</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>minBy</span><span class=o>(</span><span class=n>Comparator</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>&gt;</span> <span class=n>comparator</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>comparator</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>a</span><span class=o>,</span> <span class=n>b</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>comparator</span><span class=o>.</span><span class=na>compare</span><span class=o>(</span><span class=n>a</span><span class=o>,</span> <span class=n>b</span><span class=o>)</span> <span class=o>&lt;=</span> <span class=n>0</span> <span class=o>?</span> <span class=n>a</span> <span class=o>:</span> <span class=n>b</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kd>static</span> <span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=n>BinaryOperator</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>maxBy</span><span class=o>(</span><span class=n>Comparator</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>&gt;</span> <span class=n>comparator</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>comparator</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>a</span><span class=o>,</span> <span class=n>b</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>comparator</span><span class=o>.</span><span class=na>compare</span><span class=o>(</span><span class=n>a</span><span class=o>,</span> <span class=n>b</span><span class=o>)</span> <span class=o>&gt;=</span> <span class=n>0</span> <span class=o>?</span> <span class=n>a</span> <span class=o>:</span> <span class=n>b</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=interfaces-predicate-y-bipredicate>Interfaces Predicate y BiPredicate</h3><p>Las interfaces <strong>Predicate</strong> y <strong>BiPredicate</strong> representan funciones que devuelven un booleano como resultado, y reciben uno y dos parámetros de entrada respectivamente.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Predicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>boolean</span> <span class=nf>test</span><span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>Predicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>and</span><span class=o>(</span><span class=n>Predicate</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>&gt;</span> <span class=n>other</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>other</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>t</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>test</span><span class=o>(</span><span class=n>t</span><span class=o>)</span> <span class=o>&amp;&amp;</span> <span class=n>other</span><span class=o>.</span><span class=na>test</span><span class=o>(</span><span class=n>t</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>Predicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>negate</span><span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>t</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=o>!</span><span class=n>test</span><span class=o>(</span><span class=n>t</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>Predicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>or</span><span class=o>(</span><span class=n>Predicate</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>&gt;</span> <span class=n>other</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>other</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>t</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>test</span><span class=o>(</span><span class=n>t</span><span class=o>)</span> <span class=o>||</span> <span class=n>other</span><span class=o>.</span><span class=na>test</span><span class=o>(</span><span class=n>t</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>static</span> <span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=n>Predicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=nf>isEqual</span><span class=o>(</span><span class=n>Object</span> <span class=n>targetRef</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=kc>null</span> <span class=o>==</span> <span class=n>targetRef</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>                <span class=o>?</span> <span class=n>Objects</span><span class=o>::</span><span class=n>isNull</span>
+</span></span><span class=line><span class=cl>                <span class=o>:</span> <span class=n>object</span> <span class=o>-&gt;</span> <span class=n>targetRef</span><span class=o>.</span><span class=na>equals</span><span class=o>(</span><span class=n>object</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@FunctionalInterface</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>interface</span> <span class=nc>BiPredicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>U</span><span class=o>&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>boolean</span> <span class=nf>test</span><span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>BiPredicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>U</span><span class=o>&gt;</span> <span class=nf>and</span><span class=o>(</span><span class=n>BiPredicate</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>,</span> <span class=o>?</span> <span class=kd>super</span> <span class=n>U</span><span class=o>&gt;</span> <span class=n>other</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>other</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>test</span><span class=o>(</span><span class=n>t</span><span class=o>,</span> <span class=n>u</span><span class=o>)</span> <span class=o>&amp;&amp;</span> <span class=n>other</span><span class=o>.</span><span class=na>test</span><span class=o>(</span><span class=n>t</span><span class=o>,</span> <span class=n>u</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>BiPredicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>U</span><span class=o>&gt;</span> <span class=nf>negate</span><span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=o>!</span><span class=n>test</span><span class=o>(</span><span class=n>t</span><span class=o>,</span> <span class=n>u</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>default</span> <span class=n>BiPredicate</span><span class=o>&lt;</span><span class=n>T</span><span class=o>,</span> <span class=n>U</span><span class=o>&gt;</span> <span class=nf>or</span><span class=o>(</span><span class=n>BiPredicate</span><span class=o>&lt;?</span> <span class=kd>super</span> <span class=n>T</span><span class=o>,</span> <span class=o>?</span> <span class=kd>super</span> <span class=n>U</span><span class=o>&gt;</span> <span class=n>other</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>other</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>(</span><span class=n>T</span> <span class=n>t</span><span class=o>,</span> <span class=n>U</span> <span class=n>u</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>test</span><span class=o>(</span><span class=n>t</span><span class=o>,</span> <span class=n>u</span><span class=o>)</span> <span class=o>||</span> <span class=n>other</span><span class=o>.</span><span class=na>test</span><span class=o>(</span><span class=n>t</span><span class=o>,</span> <span class=n>u</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 15-07-2022</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span><a href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales." data-hashtags=functional-interfaces><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-hashtag=functional-interfaces><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://dovixman.io/interfaces-funcionales-java-8/><i class="fab fa-linkedin fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on WhatsApp" data-sharer=whatsapp data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales." data-web><i class="fab fa-whatsapp fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Reddit" data-sharer=reddit data-url=https://dovixman.io/interfaces-funcionales-java-8/><i class="fab fa-reddit fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Instapaper" data-sharer=instapaper data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales." data-description><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/instapaper.svg aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Pocket" data-sharer=pocket data-url=https://dovixman.io/interfaces-funcionales-java-8/><i class="fab fa-get-pocket fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Flipboard" data-sharer=flipboard data-url=https://dovixman.io/interfaces-funcionales-java-8/ data-title="Java 8: Interfaces funcionales."><i class="fab fa-flipboard fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/functional-interfaces/>functional-interfaces</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/expresiones-lambda-java-8/ class=prev rel=prev title="Java 8: Expresiones Lambda"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Java 8: Expresiones Lambda</a>
 <a href=/referencias-metodos-constructores-java-8/ class=next rel=next title="Java 8: Referencias a métodos y constructores">Java 8: Referencias a métodos y constructores<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://dovixman.io target=_blank>David</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
 </a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/typeit@8.6.0/dist/index.umd.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:50},comment:{},data:{"id-1":"Dovixman Blog","id-2":"Dovixman Blog"},twemoji:!0,typeit:{cursorChar:"_",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:150}}</script><script type=text/javascript src=/js/theme.min.8f3907fa55b08d1250417a302a5836b4095aeba0e8de276226fbabed0058c004aec93be43d27a90cb1c7b80dffd331535aae064d507b1c9f140b42edb18d7d90.js integrity="sha512-jzkH+lWwjRJQQXowKlg2tAla66Do3idiJvur7QBYwASuyTvkPSepDLHHuA3/0zFTWq4GTVB7HJ8UC0LtsY19kA=="></script></body></html>

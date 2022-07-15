@@ -7,6 +7,7 @@ De este modo, podemos trabajar con colecciones utilizando el paradigma de progra
 
 El siguiente código muestra la lógica de un programa que filtra una lista de enteros, y devuelve el valor más pequeño de la lista, sin tener en cuenta los números pares:
 
+```java
 public static void main(String\[\] args) {
     List<Integer> integers = Arrays.asList(3, 12, 21, 4, 2, 7, 5);
     Integer min = integers.get(0);
@@ -21,9 +22,11 @@ public static void main(String\[\] args) {
 
     System.out.println(min);
 }
+```
 
 Ahora veremos cómo se escribiría este mismo código utilizando _Streams_.
 
+```java
 public static void main(String\[\] args) {
     List<Integer> integers = Arrays.asList(3, 12, 21, 4, 2, 7, 5);
 
@@ -33,6 +36,7 @@ public static void main(String\[\] args) {
 
     System.out.println(min.get());
 }
+```
 
 Como se puede observar, el código queda mucho más claro, ya que se organiza por funciones anidadas, que se ejecutan como un flujo de trabajo, generando nuevos _Stream_s a medida que avanzan en la cadena de ejecución.
 
@@ -104,6 +108,7 @@ Un ejemplo práctico sería el siguiente, en el cual creamos un _Stream_ a parti
 
 Este método nos genera un nuevo _Stream_ a partir de cada uno de los resultados obtenidos que podemos seguir procesando.
 
+```java
 public static void main(String\[\] args) {
 
     Stream.of("Some, Comma, Separated, Values")
@@ -111,6 +116,7 @@ public static void main(String\[\] args) {
                 .map(string -> string.trim())
                 .forEach(System.out::println);
 }
+```
 
 #### Operaciones de restricción de tamaño
 
