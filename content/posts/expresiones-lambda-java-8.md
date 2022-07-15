@@ -35,28 +35,38 @@ El primer elemento de la expresión lambda, los **parámetros de entrada** se pu
 
 - Expresión lambda sin parámetros de entrada
 
+```java
 () -> System.out.println("Hello Lambda World!")
+```
 
 - Expresión lambda con un parámetro de entrada simple
 
+```java
 x -> x + 10
+```
 
 - Expresión lambda con múltiples parámetros de entrada
 
+```java
 (int x, int y) -> { return x + y; } ﻿
+```
 
 Con respecto al cuerpo del método, para los métodos con una única línea de código no es necesario definir las llaves.
 
+```java
 // Expresión lambda con dos parámetros de entrada sin return definido
 (String x, String y) -> x.length() - y.length()
+```
 
 Mientras que para métodos con varias líneas, las llaves serán obligatorias.
 
+```java
 // Expresión lambda con varias líneas de código como cuerpo
 (String x) -> {     
     //Code...     
     return x.length();
 }﻿
+```
 
 
 ### Referenciando variables externas
@@ -67,22 +77,26 @@ _**¿Y qué es eso de variables efectivamente finales?**_ Las variables efectiva
 
 En el siguiente ejemplo podemos ver cómo se utiliza la variable "_before_" , una variable efectivamente final, dentro de la expresión lambda que filtra los resultados de la lista de ficheros.
 
+```java
 //Utilizando variables efectivamente finales dentro de funciones lambda
 void expire(File root, long before) {  
     root.listFiles(File p -> p.lastModified() <= before);
 }
+```
 
 
 ### Referencia "**_this"_** en las funciones lambda
 
 El uso de "_this_" en las expresiones lambda hace referencia al objeto en el cual se ha definido la expresión. Siguiendo con el ejemplo anterior, se podría definir una variable final en el objeto que encapsula al método "_expire_", y utilizar "_this_" para hacer referencia a dicha variable.
 
+```java
 //Referenciando a 'this' dentro de una función lambda
 public final long currentDate = new Date().getTime();
 
 void expire(File root) {  
     root.listFiles(File p -> p.lastModified() <= this.currentDate);
 }
+```
 
 Esto es así debido a que las expresiones lambda no son más que una representación de funciones anónimas, y estas no están asociadas a ninguna clase, por tanto, una función lambda no puede referenciarse a sí misma.
 
@@ -95,13 +109,16 @@ Las **interfaces funcionales** son aquellas que definen un único método _abstr
 
 Para crear nuestra interfaz funcional, deberemos utilizar la anotación _@FunctionalInterface._
 
+```java
 @FunctionalInterface
 public interface Math{
     int calculate(int x, int y);
 }
+```
 
 Una vez creada nuestra interfaz funcional, podremos instanciarla utilizando una expresión lambda, tal y como se define a continuación:
 
+```java
 public class Test{
 
     public static void main(String\[\] args){
@@ -112,5 +129,6 @@ public class Test{
         return math.calculate(x, y);
     }
 }
+```
 
 Si quieres saber más acerca de las interfaces funcionales puedes hacerlo [aquí](https://davidfuentes.blog/2019/03/11/java-8-interfaces-funcionales/).

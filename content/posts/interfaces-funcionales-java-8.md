@@ -15,6 +15,7 @@ Este nuevo tipo de interfaces son especialmente importantes debido a que son la 
 
 A continuación podemos ver un ejemplo de interfaz funcional, en la que se define un único método abstracto, y varios métodos **_default_** y **_static_**:
 
+```java
 public interface Calculator {
     // My abstract method
     String calculate(int arg1, int arg2);
@@ -29,16 +30,19 @@ public interface Calculator {
         return Math.round(arg);
     }
 }
+```
 
 Para asegurarnos de que nuestra interfaz funcional está bien implementada, Java 8 ha incluido una anotación que nos permite verificarlo, para ello deberemos incluir la anotación **_@FunctionalInterface_** a nivel de la clase.
 
 Esta anotación es procesada por nuestro IDE, y nos marcará si la interfaz está correctamente implementada.
 
+```java
 @FunctionalInterface
 public interface Calculator {
     // My abstract method
     String calculate(int arg1, int arg2);
 }
+```
 
 ## Ejemplos de interfaces funcionales incluidas en Java 8
 
@@ -50,6 +54,7 @@ Sin entrar en cada una de ellas, a continuación os dejo ejemplos de las interfa
 
 Las interfaces **Consumer** y **BiConsumer** representan una operación que recibe uno y dos valores respectivamente, y no devuelven ningún resultado.
 
+```java
 @FunctionalInterface
 public interface Consumer<T> {
     void accept(T t);
@@ -59,7 +64,9 @@ public interface Consumer<T> {
         return (T t) -> { accept(t); after.accept(t); };
     }
 }
+```
 
+```java
 @FunctionalInterface
 public interface BiConsumer<T,U> {
     void accept(T t, U u);
@@ -69,20 +76,24 @@ public interface BiConsumer<T,U> {
         return (T t, U u) -> { accept(t,u); after.accept(t,u); };
     }
 }
+```
 
 ### Interfaz Supplier<T>
 
 La interfaz **Supplier** representa un proveedor de resultados, sin parámetros de entrada y con un parámetro de salida.
 
+```java
 @FunctionalInterface
 public interface Supplier<T> {
     T get();
 }
+```
 
 ### Interfaces Function<T> y BiFunction<T,U>
 
 Las interfaces **Function** y **BiFunction** representan una función que recibe uno y dos valores respectivamente, y produce un valor como resultado.
 
+```java
 @FunctionalInterface
 public interface Function<T,R> {
     R apply(T t);
@@ -101,7 +112,9 @@ public interface Function<T,R> {
         return t -> t;
     }
 }
+```
 
+```java
 @FunctionalInterface
 public interface BiFunction<T, U, R> {
     R apply(T t, U u);
@@ -111,22 +124,26 @@ public interface BiFunction<T, U, R> {
         return (T t, U u) -> after.apply(apply(t, u));
     }
 }
+```
 
 ### Interfaz UnaryOperator
 
 La interfaz **UnaryOperator** representa una operación en la cual se recibe un parámetro de entrada, y se devuelve un valor del mismo tipo como resultado.
 
+```java
 @FunctionalInterface
 public interface UnaryOperator<T> extends Function<T, T> {
     static <T> UnaryOperator<T> identity() {
         return t -> t;
     }
 }
+```
 
 ### Interfaz BinaryOperator
 
 La interfaz **BinaryOperator** representa una operación en la cual se reciben dos parámetro de entrada del mismo tipo, y se devuelve un valor del mismo tipo como resultado.
 
+```java
 @FunctionalInterface
 public interface BinaryOperator<T> extends BiFunction<T,T,T> {
     public static <T> BinaryOperator<T> minBy(Comparator<? super T> comparator) {
@@ -139,11 +156,13 @@ public interface BinaryOperator<T> extends BiFunction<T,T,T> {
         return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
     }
 }
+```
 
 ### Interfaces Predicate y BiPredicate
 
 Las interfaces **Predicate** y **BiPredicate** representan funciones que devuelven un booleano como resultado, y reciben uno y dos parámetros de entrada respectivamente.
 
+```java
 @FunctionalInterface
 public interface Predicate<T> {
     boolean test(T t);
@@ -168,7 +187,9 @@ public interface Predicate<T> {
                 : object -> targetRef.equals(object);
     }
 }
+```
 
+```java
 @FunctionalInterface
 public interface BiPredicate<T, U> {
     boolean test(T t, U u);
@@ -187,3 +208,4 @@ public interface BiPredicate<T, U> {
         return (T t, U u) -> test(t, u) || other.test(t, u);
     }
 }
+```

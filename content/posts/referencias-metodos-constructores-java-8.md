@@ -16,6 +16,7 @@ Estas referencias son lo que en inglés se denomina "_[syntactic sugar](https://
 
 Las referencias a métodos y constructores sólo pueden ser utilizadas cuando la [**_interfaz funcional_**](https://davidfuentes.blog/2019/03/11/java-8-interfaces-funcionales/) coincide con el patrón del método referenciado.
 
+```java
 public static void main(String\[\] args){
    // Normal lambda expression
    Consumer<String> consumer1 = (x) -> System.out.println(x);
@@ -25,9 +26,11 @@ public static void main(String\[\] args){
    Consumer<String> consumer2 = System.out::println;
    consumer2.accept("Hello consumer2");
 }
+```
 
 En el siguiente ejemplo podemos ver que el patrón esperado por el compilador en el momento de definir la expresión lambda es la de la interfaz funcional **_Consumer<T>_**, que recibe un parámetro de entrada, y no devuelve nada. Esto nos permite hacer referencia a métodos que tengan ese mismo patrón, como el que se hace referencia en el ejemplo, **_System.out::println_**.
 
+```java
 @FunctionalInterface
 public interface Consumer<T> {
     // Referenced method
@@ -38,6 +41,7 @@ public interface Consumer<T> {
         return (T t) -> { accept(t); after.accept(t); };
     }
 }
+```
 
 Al tener la información necesaria para inferir los parámetros de entrada, los parámetros de salida y el comportamiento a aplicar en la expresión lambda, es el compilador el que hace el resto del trabajo por nosotros, pudiendo utilizar las referencias a métodos y constructores sin necesidad de definir cómo queremos utilizar las variables de entrada o salida, como haríamos con una expresión lambda basada en una interfaz funcional.
 
@@ -60,6 +64,7 @@ Ejemplo de referencias a métodos en expresiones lambda
 
 De la misma forma, para hacer referencia a un constructor, utilizamos la misma lógica anterior, utilizando la palabra clave _**new**_ para instanciar el objeto.
 
+```java
 public static void main(String\[\] args){
    // Normal constructor call
    Factory<List<String>> f = () -> return new ArrayList<String>();
@@ -67,3 +72,4 @@ public static void main(String\[\] args){
    // Constructor reference call
    Factory<List<String>> f = ArrayList<String>::new;
 }
+```
