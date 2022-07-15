@@ -47,7 +47,7 @@ Los campos de las estructuras de datos están numerados. Esta numeración se uti
 
 La numeración debe ser **única**, es decir, no puede haber índices repetidos, ya que de lo contrario el compilador nos lanzará un error.
 
-El índice de datos que podemos utilizar va desde el 1 al $2^29 - 1$, estando reservados para uso interno de Protocol Buffers los índices del 19000 al 19999.
+El índice de datos que podemos utilizar va desde el 1 al $2^{29} - 1$, estando reservados para uso interno de Protocol Buffers los índices del 19000 al 19999.
 
 Tal y como se especifica en la documentación, los índices del 1 al 15 ocupan un byte de espacio, mientras que los índices del 16 al 2047 ocupan 2 bytes, por lo que deberíamos reservar los primeros 15 índices para campos que se utilizan muy frecuentemente en la estructura de datos. Esto hará que las los procesos de serialización y deserialización sean más eficientes.
 
