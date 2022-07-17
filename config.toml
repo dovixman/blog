@@ -823,6 +823,14 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         title = ""
       [[languages.en.menu.main]]
         weight = 6
+        identifier = "contact"
+        pre = "<i class='fas fa-paper-plane'></i>"
+        post = ""
+        name = "contact"
+        url = "/contact/"
+        title = ""
+      [[languages.en.menu.main]]
+        weight = 7
         identifier = "github"
         pre = "<i class='fab fa-github fa-fw' aria-hidden='true'></i>"
         post = ""
