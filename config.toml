@@ -216,7 +216,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     enable = true
     # type of search engine ["lunr", "algolia"]
     # 搜索引擎的类型 ["lunr", "algolia"]
-    type = "algolia"
+    type = "lunr"
     # max index length of the chunked content
     # 文章内容最长索引长度
     contentLength = 4000
@@ -839,8 +839,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         title = "GitHub"
     [languages.en.params]
       [languages.en.params.search]
-        enable = false
-        type = "algolia"
+        enable = true
+        type = "lunr"
         contentLength = 4000
         placeholder = ""
         maxResultLength = 10
@@ -848,9 +848,9 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         highlightTag = "em"
         absoluteURL = false
         [languages.en.params.search.algolia]
-          index = "index.en"
-          appID = "PASDMWALPK"
-          searchKey = "b42948e51daaa93df92381c8e2ac0f93"
+          index = ""
+          appID = ""
+          searchKey = ""
       [languages.en.params.home]
         rss = 10
         [languages.en.params.home.profile]
