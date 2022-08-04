@@ -22,7 +22,7 @@ hasCJKLanguage = false
 paginate = 12
 # google analytics code [UA-XXXXXXXX-X]
 # 谷歌分析代号 [UA-XXXXXXXX-X]
-googleAnalytics = "UA-236612299-1"
+googleAnalytics = "G-461656PKYM"
 # copyright description used only for seo schema
 # 版权描述，仅仅用于 SEO
 copyright = ""
@@ -645,7 +645,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     enable = true
     # Google Analytics
     [params.analytics.google]
-      id = "UA-236612299-1"
+      id = "G-461656PKYM"
       # whether to anonymize IP
       # 是否匿名化用户 IP
       anonymizeIP = true
