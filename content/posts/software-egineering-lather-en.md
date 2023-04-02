@@ -1,3 +1,16 @@
+---
+title: "Climbing the Engineering Ladder: From Junior Developer to Technical Lead"
+date: "2023-05-02"
+draft: false
+
+categories:
+  - "software-architecture"
+  - "career-path"
+tags:
+  - "career-path"
+  - "engineering-lather"
+---
+
 # Climbing the Engineering Ladder: From Junior Developer to Technical Lead
 
 For the Spanish version go [here](/software-engineering-lather)
