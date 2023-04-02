@@ -8,7 +8,6 @@ categories:
   - "career-path"
 tags:
   - "career-path"
-  - "engineering-lather"
 ---
 
 # Escalando la Escalera de la Ingeniería: Desde Desarrollador Junior hasta Líder Técnico

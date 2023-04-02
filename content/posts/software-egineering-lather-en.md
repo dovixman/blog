@@ -8,7 +8,6 @@ categories:
   - "career-path"
 tags:
   - "career-path"
-  - "engineering-lather"
 ---
 
 # Climbing the Engineering Ladder: From Junior Developer to Technical Lead
