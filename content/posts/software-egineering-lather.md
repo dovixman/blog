@@ -13,7 +13,7 @@ tags:
 
 # Climbing the Engineering Ladder: From Junior Developer to Technical Lead
 
-Para la versión en inglés ve [aquí](/software-engineering-lather-en)
+Para la versión en inglés ve [aquí](/software-engineering-lather-en).
 
 El viaje de un desarrollador junior a un líder técnico es una hazaña increíble que requiere aprendizaje continuo, adaptación y crecimiento. Este artículo tiene como objetivo proporcionar información sobre las habilidades técnicas y blandas necesarias en cada paso de esta escalera profesional, junto con lecturas recomendadas para cada nivel.
 

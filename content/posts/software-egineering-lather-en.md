@@ -13,7 +13,7 @@ tags:
 
 # Climbing the Engineering Ladder: From Junior Developer to Technical Lead
 
-For the Spanish version go [here](/software-engineering-lather)
+For the Spanish version go [here](/software-engineering-lather).
 
 The journey from a junior developer to a Technical Lead is an incredible feat that requires continuous learning, adaptation, and growth. This article aims to provide insights into the necessary technical and soft skills needed at each step of this career ladder, along with recommended reads for each level.
 
