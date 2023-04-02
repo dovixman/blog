@@ -1,5 +1,5 @@
 ---
-title: "Climbing the Engineering Ladder: From Junior Developer to Technical Lead"
+title: "Escalando la Escalera de la Ingeniería: Desde Desarrollador Junior hasta Líder Técnico"
 date: "2023-05-02"
 draft: false
 
@@ -11,7 +11,7 @@ tags:
   - "engineering-lather"
 ---
 
-# Climbing the Engineering Ladder: From Junior Developer to Technical Lead
+# Escalando la Escalera de la Ingeniería: Desde Desarrollador Junior hasta Líder Técnico
 
 Para la versión en inglés ve [aquí](/software-engineering-lather-en).
 
