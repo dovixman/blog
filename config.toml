@@ -19,7 +19,8 @@ hasCJKLanguage = false
 
 # default amount of posts in each pages
 # 默认每页列表显示的文章数目
-paginate = 12
+[pagination]
+  pagerSize = 12
 # google analytics code [UA-XXXXXXXX-X]
 # 谷歌分析代号 [UA-XXXXXXXX-X]
 googleAnalytics = "G-461656PKYM"
@@ -41,12 +42,8 @@ enableEmoji = true
 # 忽略一些构建错误
 ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
-# Author config
-# 作者配置
-[author]
-  name = "David"
-  email = ""
-  link = "https://dovixman.io"
+# Author config moved to params
+# 作者配置移动到 params 下
 
 # Menu config
 # 菜单配置
@@ -83,6 +80,13 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     title = ""
 
 [params]
+  # Author config
+  # 作者配置
+  [params.author]
+    name = "David"
+    email = ""
+    link = "https://dovixman.io"
+
   # site default theme ["auto", "light", "dark"]
   # 网站默认主题 ["auto", "light", "dark"]
   defaultTheme = "auto"
@@ -743,7 +747,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 # Permalinks 配置 (https://gohugo.io/content-management/urls/#permalinks)
 [Permalinks]
   # posts = ":year/:month/:filename"
-  posts = ":filename"
+  posts = ":contentbasename"
 
 # Privacy config (https://gohugo.io/about/hugo-and-gdpr/)
 # 隐私信息配置 (https://gohugo.io/about/hugo-and-gdpr/)
@@ -752,7 +756,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   # Google Analytics 相关隐私 (被 params.analytics.google 替代)
   [privacy.googleAnalytics]
     # ...
-  [privacy.twitter]
+  [privacy.x]
     enableDNT = true
   [privacy.youtube]
     privacyEnhanced = true
@@ -777,7 +781,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   page = ["HTML", "MarkDown"]
   section = ["HTML", "RSS"]
   taxonomy = ["HTML", "RSS"]
-  taxonomyTerm = ["HTML"]
+  term = ["HTML"]
 
 # Multilingual
 # 多语言
