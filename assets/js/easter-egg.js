@@ -57,7 +57,15 @@
     targetX: 0,
     targetY: 0,
     kickForce: 15,
-    kickDistance: 60
+    kickDistance: 60,
+    // Anti-stuck system
+    stuckCounter: 0,
+    lastPositions: [],
+    positionHistorySize: 10,
+    isGhosting: false,
+    ghostingEndTime: 0,
+    lastUnstuckTime: 0,
+    unstuckCooldown: 2000
   };
 
   // Physics constants (mobile only)
@@ -285,6 +293,138 @@
     game.lastDirectionChange = Date.now();
   }
 
+  // Detect if stick man is stuck
+  function detectStuck() {
+    // Add current position to history
+    game.lastPositions.push({ x: game.stickManX, y: game.stickManY });
+    if (game.lastPositions.length > game.positionHistorySize) {
+      game.lastPositions.shift();
+    }
+
+    // Need enough history to determine
+    if (game.lastPositions.length < game.positionHistorySize) {
+      return false;
+    }
+
+    // Calculate average movement
+    let totalMovement = 0;
+    for (let i = 1; i < game.lastPositions.length; i++) {
+      const dx = game.lastPositions[i].x - game.lastPositions[i - 1].x;
+      const dy = game.lastPositions[i].y - game.lastPositions[i - 1].y;
+      totalMovement += Math.sqrt(dx * dx + dy * dy);
+    }
+
+    const avgMovement = totalMovement / (game.lastPositions.length - 1);
+
+    // Stuck if average movement is very small
+    return avgMovement < 0.5;
+  }
+
+  // Find nearest free position
+  function findFreePosition() {
+    const angles = [0, 45, 90, 135, 180, 225, 270, 315];
+    const distances = [100, 150, 200];
+
+    for (let dist of distances) {
+      for (let angle of angles) {
+        const rad = (angle * Math.PI) / 180;
+        const testX = game.stickManX + Math.cos(rad) * dist;
+        const testY = game.stickManY + Math.sin(rad) * dist;
+
+        // Check if position is in bounds
+        if (testX < 20 || testX > window.innerWidth - 70 ||
+            testY < 20 || testY > window.innerHeight - 100) {
+          continue;
+        }
+
+        // Check if position is free of obstacles
+        if (!checkCollision(testX, testY, 10)) {
+          return { x: testX, y: testY };
+        }
+      }
+    }
+
+    // Last resort: random position
+    return {
+      x: 100 + Math.random() * (window.innerWidth - 200),
+      y: 100 + Math.random() * (window.innerHeight - 200)
+    };
+  }
+
+  // Unstuck the stick man
+  function unstuck() {
+    const now = Date.now();
+    if (now - game.lastUnstuckTime < game.unstuckCooldown) {
+      return; // Cooldown active
+    }
+
+    game.stuckCounter++;
+    game.lastUnstuckTime = now;
+
+    if (game.stuckCounter === 1) {
+      // First attempt: Strong boost in random direction
+      const angle = Math.random() * Math.PI * 2;
+      const boost = game.chaosMode ? 15 : 12;
+      game.velocityX = Math.cos(angle) * boost;
+      game.velocityY = Math.sin(angle) * boost;
+
+      // Visual feedback: boost burst
+      game.stickMan.style.animation = 'boost-burst 0.5s ease-out';
+      setTimeout(() => { game.stickMan.style.animation = ''; }, 500);
+    } else if (game.stuckCounter === 2) {
+      // Second attempt: Enable ghosting (pass through walls)
+      game.isGhosting = true;
+      game.ghostingEndTime = now + 1500; // 1.5 seconds of ghosting
+
+      // Also give a boost
+      const angle = Math.random() * Math.PI * 2;
+      const boost = game.chaosMode ? 18 : 15;
+      game.velocityX = Math.cos(angle) * boost;
+      game.velocityY = Math.sin(angle) * boost;
+
+      // Visual indicator - ghosting effect will be applied via CSS
+      game.stickMan.style.opacity = '0.6';
+    } else {
+      // Third attempt: Teleport to free position
+      const freePos = findFreePosition();
+
+      // Teleport out effect
+      game.stickMan.style.opacity = '0';
+      game.stickMan.style.transform = 'scale(0.5) rotate(180deg)';
+      game.stickMan.style.filter = 'blur(5px)';
+
+      setTimeout(() => {
+        // Actually move
+        game.stickManX = freePos.x;
+        game.stickManY = freePos.y;
+        game.velocityX = 0;
+        game.velocityY = 0;
+
+        // Teleport in effect
+        game.stickMan.style.animation = 'teleport-flash 0.4s ease-out';
+        game.stickMan.style.opacity = '1';
+        game.stickMan.style.transform = '';
+        game.stickMan.style.filter = '';
+
+        setTimeout(() => {
+          game.stickMan.style.animation = '';
+        }, 400);
+      }, 150);
+
+      game.stuckCounter = 0;
+      game.lastPositions = [];
+    }
+  }
+
+  // Update ghosting state
+  function updateGhosting() {
+    if (game.isGhosting && Date.now() > game.ghostingEndTime) {
+      game.isGhosting = false;
+      game.stickMan.style.opacity = '1';
+      game.stuckCounter = 0; // Reset after successful ghosting
+    }
+  }
+
   // Check if should change direction (mobile chaos mode)
   function shouldChangeDirection() {
     const now = Date.now();
@@ -426,7 +566,10 @@
   }
 
   // Check collision with obstacles
-  function checkCollision(x, y, padding = 25) {
+  function checkCollision(x, y, padding = 15) {
+    // Skip collision detection if ghosting
+    if (game.isGhosting) return null;
+
     const stickManRect = {
       left: x - padding,
       top: y - padding,
@@ -637,10 +780,12 @@
         const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
 
         if (bounceDist > 0) {
-          game.velocityX = (bounceX / bounceDist) * currentSpeed * 1.2;
-          game.velocityY = (bounceY / bounceDist) * currentSpeed * 1.2;
-          newX = game.stickManX + game.velocityX;
-          newY = game.stickManY + game.velocityY;
+          // Stronger bounce to avoid getting stuck
+          const bounceMultiplier = 2.0;
+          game.velocityX = (bounceX / bounceDist) * currentSpeed * bounceMultiplier;
+          game.velocityY = (bounceY / bounceDist) * currentSpeed * bounceMultiplier;
+          newX = game.stickManX + game.velocityX * 1.5;
+          newY = game.stickManY + game.velocityY * 1.5;
         }
       }
 
@@ -711,10 +856,12 @@
       const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
 
       if (bounceDist > 0) {
-        game.velocityX = (bounceX / bounceDist) * game.speed * 1.2;
-        game.velocityY = (bounceY / bounceDist) * game.speed * 1.2;
-        newX = game.stickManX + game.velocityX;
-        newY = game.stickManY + game.velocityY;
+        // Stronger bounce for chaos mode
+        const bounceMultiplier = 2.5;
+        game.velocityX = (bounceX / bounceDist) * game.speed * bounceMultiplier;
+        game.velocityY = (bounceY / bounceDist) * game.speed * bounceMultiplier;
+        newX = game.stickManX + game.velocityX * 1.5;
+        newY = game.stickManY + game.velocityY * 1.5;
       }
     }
 
@@ -755,6 +902,14 @@
   // Main game loop
   function gameLoop() {
     if (!game.active) return;
+
+    // Update ghosting state
+    updateGhosting();
+
+    // Detect if stuck and apply fixes
+    if (detectStuck()) {
+      unstuck();
+    }
 
     // Update stick man movement
     if (game.chaosMode) {
