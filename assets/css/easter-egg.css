@@ -1,4 +1,4 @@
-/* Easter Egg: Stick Man Animation */
+/* Easter Egg: Advanced Stick Man Animation */
 
 /* Container for the stick man */
 #stick-man {
@@ -8,14 +8,29 @@
   z-index: 10000;
   cursor: pointer;
   display: none;
-  transition: transform 0.1s linear;
   pointer-events: auto;
+  will-change: transform, left, top;
 }
 
 #stick-man.active {
   display: block;
 }
 
+/* Hidden trigger state - partially visible in corner */
+#stick-man.hidden-trigger {
+  width: 30px;
+  height: 48px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
+}
+
+#stick-man.hidden-trigger:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Flip horizontally */
 #stick-man.flip {
   transform: scaleX(-1);
 }
@@ -25,6 +40,7 @@
   position: relative;
   width: 100%;
   height: 100%;
+  transform-style: preserve-3d;
 }
 
 /* Head */
@@ -35,10 +51,30 @@
   transform: translateX(-50%);
   width: 20px;
   height: 20px;
-  background-color: #000;
+  background: #ffd4a3;
   border-radius: 50%;
   border: 2px solid #000;
-  background: #ffd4a3;
+  box-shadow: inset -2px -2px 4px rgba(0,0,0,0.1);
+}
+
+/* Simple face */
+.stick-man-head::before,
+.stick-man-head::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  width: 3px;
+  height: 3px;
+  background: #000;
+  border-radius: 50%;
+}
+
+.stick-man-head::before {
+  left: 5px;
+}
+
+.stick-man-head::after {
+  right: 5px;
 }
 
 /* Body - torso */
@@ -50,6 +86,7 @@
   width: 3px;
   height: 25px;
   background-color: #000;
+  border-radius: 2px;
 }
 
 /* Arms */
@@ -59,6 +96,7 @@
   width: 20px;
   height: 3px;
   background-color: #000;
+  border-radius: 2px;
   transform-origin: left center;
 }
 
@@ -80,6 +118,7 @@
   width: 3px;
   height: 22px;
   background-color: #000;
+  border-radius: 2px;
   transform-origin: top center;
 }
 
@@ -91,146 +130,323 @@
   transform: translateX(5px) rotate(15deg);
 }
 
-/* Running Animation */
-@keyframes running {
+/* ============================================
+   IDLE STATE ANIMATIONS
+   ============================================ */
+
+@keyframes idle-breathe {
+  0%, 100% {
+    top: 20px;
+    height: 25px;
+  }
+  50% {
+    top: 21px;
+    height: 24px;
+  }
+}
+
+@keyframes idle-head-bob {
+  0%, 100% { top: 0px; }
+  50% { top: 1px; }
+}
+
+@keyframes idle-arm-left {
+  0%, 100% { transform: rotate(-25deg); }
+  50% { transform: rotate(-20deg); }
+}
+
+@keyframes idle-arm-right {
+  0%, 100% { transform: rotate(25deg); }
+  50% { transform: rotate(20deg); }
+}
+
+#stick-man.idle .stick-man-torso {
+  animation: idle-breathe 2s ease-in-out infinite;
+}
+
+#stick-man.idle .stick-man-head {
+  animation: idle-head-bob 2s ease-in-out infinite;
+}
+
+#stick-man.idle .stick-man-arm.left {
+  animation: idle-arm-left 2s ease-in-out infinite;
+}
+
+#stick-man.idle .stick-man-arm.right {
+  animation: idle-arm-right 2s ease-in-out infinite;
+}
+
+/* ============================================
+   RUNNING ANIMATIONS
+   ============================================ */
+
+@keyframes running-leg-left {
   0% {
     top: 45px;
-    transform: translateX(-8px) rotate(-30deg);
+    transform: translateX(-8px) rotate(-45deg);
   }
   25% {
     top: 43px;
-    transform: translateX(-8px) rotate(-15deg);
+    transform: translateX(-8px) rotate(-20deg);
   }
   50% {
     top: 45px;
-    transform: translateX(-8px) rotate(0deg);
+    transform: translateX(-8px) rotate(10deg);
   }
   75% {
     top: 47px;
-    transform: translateX(-8px) rotate(15deg);
+    transform: translateX(-8px) rotate(30deg);
   }
   100% {
     top: 45px;
+    transform: translateX(-8px) rotate(-45deg);
+  }
+}
+
+@keyframes running-leg-right {
+  0% {
+    top: 45px;
+    transform: translateX(5px) rotate(45deg);
+  }
+  25% {
+    top: 47px;
+    transform: translateX(5px) rotate(30deg);
+  }
+  50% {
+    top: 45px;
+    transform: translateX(5px) rotate(-10deg);
+  }
+  75% {
+    top: 43px;
+    transform: translateX(5px) rotate(-20deg);
+  }
+  100% {
+    top: 45px;
+    transform: translateX(5px) rotate(45deg);
+  }
+}
+
+@keyframes running-arm-left {
+  0% { transform: rotate(-60deg); }
+  50% { transform: rotate(45deg); }
+  100% { transform: rotate(-60deg); }
+}
+
+@keyframes running-arm-right {
+  0% { transform: rotate(60deg); }
+  50% { transform: rotate(-45deg); }
+  100% { transform: rotate(60deg); }
+}
+
+@keyframes running-body-bounce {
+  0%, 100% { top: 20px; }
+  25%, 75% { top: 18px; }
+  50% { top: 19px; }
+}
+
+@keyframes running-head-bounce {
+  0%, 100% { top: 0px; }
+  25%, 75% { top: -2px; }
+  50% { top: -1px; }
+}
+
+/* Running state */
+#stick-man.running .stick-man-leg.left {
+  animation: running-leg-left 0.4s infinite ease-in-out;
+}
+
+#stick-man.running .stick-man-leg.right {
+  animation: running-leg-right 0.4s infinite ease-in-out;
+}
+
+#stick-man.running .stick-man-arm.left {
+  animation: running-arm-left 0.4s infinite ease-in-out;
+}
+
+#stick-man.running .stick-man-arm.right {
+  animation: running-arm-right 0.4s infinite ease-in-out;
+}
+
+#stick-man.running .stick-man-torso {
+  animation: running-body-bounce 0.4s infinite ease-in-out;
+}
+
+#stick-man.running .stick-man-head {
+  animation: running-head-bounce 0.4s infinite ease-in-out;
+}
+
+/* Panic running (faster + more exaggerated) */
+#stick-man.panic .stick-man-leg.left {
+  animation: running-leg-left 0.2s infinite ease-in-out;
+}
+
+#stick-man.panic .stick-man-leg.right {
+  animation: running-leg-right 0.2s infinite ease-in-out;
+}
+
+#stick-man.panic .stick-man-arm.left {
+  animation: running-arm-left 0.2s infinite ease-in-out;
+}
+
+#stick-man.panic .stick-man-arm.right {
+  animation: running-arm-right 0.2s infinite ease-in-out;
+}
+
+#stick-man.panic .stick-man-torso {
+  animation: running-body-bounce 0.2s infinite ease-in-out;
+}
+
+#stick-man.panic .stick-man-head {
+  animation: running-head-bounce 0.2s infinite ease-in-out;
+}
+
+/* ============================================
+   JUMPING ANIMATIONS
+   ============================================ */
+
+@keyframes jump-up {
+  0% { top: 45px; }
+  100% { top: 10px; }
+}
+
+@keyframes jump-legs-tuck {
+  0% {
+    transform: translateX(-8px) rotate(-15deg);
+  }
+  50% {
+    transform: translateX(-8px) rotate(-45deg);
+  }
+  100% {
+    transform: translateX(-8px) rotate(-15deg);
+  }
+}
+
+@keyframes jump-legs-tuck-right {
+  0% {
+    transform: translateX(5px) rotate(15deg);
+  }
+  50% {
+    transform: translateX(5px) rotate(45deg);
+  }
+  100% {
+    transform: translateX(5px) rotate(15deg);
+  }
+}
+
+@keyframes jump-arms-up {
+  0% { transform: rotate(-25deg); }
+  50% { transform: rotate(-90deg); }
+  100% { transform: rotate(-25deg); }
+}
+
+@keyframes jump-arms-up-right {
+  0% { transform: rotate(25deg); }
+  50% { transform: rotate(90deg); }
+  100% { transform: rotate(25deg); }
+}
+
+@keyframes jump-body {
+  0%, 100% { top: 20px; }
+  50% { top: 22px; }
+}
+
+#stick-man.jumping .stick-man-leg.left {
+  animation: jump-legs-tuck 0.5s ease-in-out;
+}
+
+#stick-man.jumping .stick-man-leg.right {
+  animation: jump-legs-tuck-right 0.5s ease-in-out;
+}
+
+#stick-man.jumping .stick-man-arm.left {
+  animation: jump-arms-up 0.5s ease-in-out;
+}
+
+#stick-man.jumping .stick-man-arm.right {
+  animation: jump-arms-up-right 0.5s ease-in-out;
+}
+
+#stick-man.jumping .stick-man-torso {
+  animation: jump-body 0.5s ease-in-out;
+}
+
+/* ============================================
+   CLIMBING ANIMATIONS
+   ============================================ */
+
+@keyframes climb-leg-left {
+  0%, 100% {
+    top: 45px;
+    transform: translateX(-8px) rotate(0deg);
+  }
+  50% {
+    top: 40px;
     transform: translateX(-8px) rotate(-30deg);
   }
 }
 
-@keyframes running-right {
-  0% {
-    top: 45px;
+@keyframes climb-leg-right {
+  0%, 100% {
+    top: 40px;
     transform: translateX(5px) rotate(30deg);
-  }
-  25% {
-    top: 47px;
-    transform: translateX(5px) rotate(15deg);
   }
   50% {
     top: 45px;
     transform: translateX(5px) rotate(0deg);
   }
-  75% {
-    top: 43px;
-    transform: translateX(5px) rotate(-15deg);
-  }
-  100% {
-    top: 45px;
-    transform: translateX(5px) rotate(30deg);
-  }
 }
 
-@keyframes arm-swing-left {
-  0% {
-    transform: rotate(-45deg);
-  }
-  50% {
-    transform: rotate(25deg);
-  }
-  100% {
-    transform: rotate(-45deg);
-  }
-}
-
-@keyframes arm-swing-right {
-  0% {
-    transform: rotate(45deg);
-  }
-  50% {
-    transform: rotate(-25deg);
-  }
-  100% {
-    transform: rotate(45deg);
-  }
-}
-
-@keyframes body-bounce {
+@keyframes climb-arm-left {
   0%, 100% {
-    top: 20px;
+    top: 25px;
+    transform: rotate(-90deg);
   }
   50% {
-    top: 18px;
+    top: 22px;
+    transform: rotate(-100deg);
   }
 }
 
-@keyframes head-bounce {
+@keyframes climb-arm-right {
   0%, 100% {
-    top: 0px;
+    top: 22px;
+    transform: rotate(100deg);
   }
   50% {
-    top: -2px;
+    top: 25px;
+    transform: rotate(90deg);
   }
 }
 
-/* Running state */
-#stick-man.running .stick-man-leg.left {
-  animation: running 0.4s infinite;
+@keyframes climb-body {
+  0%, 100% { top: 20px; }
+  50% { top: 22px; }
 }
 
-#stick-man.running .stick-man-leg.right {
-  animation: running-right 0.4s infinite;
+#stick-man.climbing .stick-man-leg.left {
+  animation: climb-leg-left 0.6s infinite ease-in-out;
 }
 
-#stick-man.running .stick-man-arm.left {
-  animation: arm-swing-left 0.4s infinite;
+#stick-man.climbing .stick-man-leg.right {
+  animation: climb-leg-right 0.6s infinite ease-in-out;
 }
 
-#stick-man.running .stick-man-arm.right {
-  animation: arm-swing-right 0.4s infinite;
+#stick-man.climbing .stick-man-arm.left {
+  animation: climb-arm-left 0.6s infinite ease-in-out;
 }
 
-#stick-man.running .stick-man-torso {
-  animation: body-bounce 0.4s infinite;
+#stick-man.climbing .stick-man-arm.right {
+  animation: climb-arm-right 0.6s infinite ease-in-out;
 }
 
-#stick-man.running .stick-man-head {
-  animation: head-bounce 0.4s infinite;
+#stick-man.climbing .stick-man-torso {
+  animation: climb-body 0.6s infinite ease-in-out;
 }
 
-/* Panic running (faster) */
-#stick-man.panic .stick-man-leg.left {
-  animation: running 0.2s infinite;
-}
+/* ============================================
+   EXPLOSION ANIMATION
+   ============================================ */
 
-#stick-man.panic .stick-man-leg.right {
-  animation: running-right 0.2s infinite;
-}
-
-#stick-man.panic .stick-man-arm.left {
-  animation: arm-swing-left 0.2s infinite;
-}
-
-#stick-man.panic .stick-man-arm.right {
-  animation: arm-swing-right 0.2s infinite;
-}
-
-#stick-man.panic .stick-man-torso {
-  animation: body-bounce 0.2s infinite;
-}
-
-#stick-man.panic .stick-man-head {
-  animation: head-bounce 0.2s infinite;
-}
-
-/* Explosion Animation */
 @keyframes explode {
   0% {
     transform: scale(1) rotate(0deg);
@@ -246,52 +462,74 @@
   }
 }
 
-@keyframes particle-1 {
+@keyframes particle-burst-1 {
   0% {
     transform: translate(0, 0) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translate(-50px, -50px) scale(0);
+    transform: translate(-60px, -60px) scale(0);
     opacity: 0;
   }
 }
 
-@keyframes particle-2 {
+@keyframes particle-burst-2 {
   0% {
     transform: translate(0, 0) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translate(50px, -50px) scale(0);
+    transform: translate(60px, -60px) scale(0);
     opacity: 0;
   }
 }
 
-@keyframes particle-3 {
+@keyframes particle-burst-3 {
   0% {
     transform: translate(0, 0) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translate(-50px, 50px) scale(0);
+    transform: translate(-60px, 60px) scale(0);
     opacity: 0;
   }
 }
 
-@keyframes particle-4 {
+@keyframes particle-burst-4 {
   0% {
     transform: translate(0, 0) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translate(50px, 50px) scale(0);
+    transform: translate(60px, 60px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-burst-5 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -80px) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-burst-6 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-70px, 0) scale(0) rotate(-360deg);
     opacity: 0;
   }
 }
 
 #stick-man.exploding {
-  animation: explode 0.5s ease-out forwards;
+  animation: explode 0.6s ease-out forwards;
 }
 
 /* Explosion particles */
@@ -301,18 +539,19 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 10px;
-  height: 10px;
-  background: #ff6b6b;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, #ff6b6b, #ff0000);
   border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
 }
 
 #stick-man.exploding::before {
-  animation: particle-1 0.5s ease-out forwards;
+  animation: particle-burst-1 0.6s ease-out forwards;
 }
 
 #stick-man.exploding::after {
-  animation: particle-2 0.5s ease-out forwards;
+  animation: particle-burst-2 0.6s ease-out forwards;
 }
 
 #stick-man.exploding .stick-man-head::before,
@@ -321,25 +560,55 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 8px;
-  height: 8px;
-  background: #ffa500;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #ffa500, #ff6b00);
   border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 165, 0, 0.8);
 }
 
 #stick-man.exploding .stick-man-head::before {
-  animation: particle-3 0.5s ease-out forwards;
+  animation: particle-burst-3 0.6s ease-out forwards;
 }
 
 #stick-man.exploding .stick-man-head::after {
-  animation: particle-4 0.5s ease-out forwards;
+  animation: particle-burst-4 0.6s ease-out forwards;
 }
 
-/* Mobile responsive */
+#stick-man.exploding .stick-man-torso::before,
+#stick-man.exploding .stick-man-torso::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #ffeb3b, #ff9800);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 235, 59, 0.8);
+}
+
+#stick-man.exploding .stick-man-torso::before {
+  animation: particle-burst-5 0.6s ease-out forwards;
+}
+
+#stick-man.exploding .stick-man-torso::after {
+  animation: particle-burst-6 0.6s ease-out forwards;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
 @media (max-width: 768px) {
   #stick-man {
     width: 40px;
     height: 64px;
+  }
+
+  #stick-man.hidden-trigger {
+    width: 24px;
+    height: 38px;
   }
 
   .stick-man-head {
@@ -360,12 +629,22 @@
   }
 }
 
+/* ============================================
+   UTILITIES
+   ============================================ */
+
 /* Prevent text selection while playing */
 #stick-man {
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth transitions between states */
+#stick-man:not(.exploding) {
+  transition: left 0.05s linear, top 0.05s linear;
 }
 
 /* ============================================

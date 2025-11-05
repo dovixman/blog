@@ -1,4 +1,4 @@
-// Easter Egg: Stick Man Game with Mobile Chaos Mode
+// Easter Egg: Advanced Stick Man Game with Mobile Chaos Mode
 (function() {
   'use strict';
 
@@ -6,14 +6,26 @@
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
                 || window.innerWidth <= 768;
 
-  // Physics-enabled elements that can fall
+  // Physics-enabled elements that can fall (mobile only)
   const physicsElements = new Map();
+
+  // State constants
+  const STATE = {
+    HIDDEN: 'hidden',
+    IDLE: 'idle',
+    RUNNING: 'running',
+    PANIC: 'panic',
+    JUMPING: 'jumping',
+    CLIMBING: 'climbing',
+    EXPLODING: 'exploding'
+  };
 
   // Game state
   const game = {
     active: false,
     isMobile: isMobile,
     chaosMode: false,
+    state: STATE.HIDDEN,
     stickMan: null,
     mouseX: 0,
     mouseY: 0,
@@ -23,13 +35,23 @@
     stickManY: 0,
     velocityX: 0,
     velocityY: 0,
-    speed: isMobile ? 6 : 3,
-    panicSpeed: isMobile ? 10 : 6,
-    panicDistance: 150,
+    isJumping: false,
+    isClimbing: false,
+    jumpStartY: 0,
+    climbProgress: 0,
+    climbTarget: null,
+    speed: isMobile ? 6 : 4,
+    panicSpeed: isMobile ? 10 : 8,
+    panicDistance: 200,
+    jumpDistance: 120,
     animationFrame: null,
     obstacles: [],
-    lastClickTime: 0,
-    clickTimeout: null,
+    lastObstacleUpdate: 0,
+    stateChangeTime: 0,
+    minStateTime: 300,
+    lastJumpTime: 0,
+    jumpCooldown: 1000,
+    // Mobile chaos mode specific
     lastDirectionChange: 0,
     directionChangeInterval: 2000,
     targetX: 0,
@@ -38,25 +60,23 @@
     kickDistance: 60
   };
 
-  // Physics constants
+  // Physics constants (mobile only)
   const GRAVITY = 0.5;
   const BOUNCE_DAMPING = 0.6;
   const FRICTION = 0.98;
   const ROTATION_SPEED = 5;
 
+  // Easing functions for smooth movement
+  const easing = {
+    easeOutQuad: (t) => t * (2 - t),
+    easeInOutQuad: (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t,
+    easeOutCubic: (t) => (--t) * t * t + 1
+  };
+
   // Initialize the easter egg
   function init() {
-    const logo = document.querySelector('.header-title');
-    if (!logo) {
-      console.warn('Logo element not found');
-      return;
-    }
-
-    // Create stick man element
     createStickMan();
-
-    // Add double-click listener to logo
-    logo.addEventListener('click', handleLogoClick);
+    spawnHiddenTrigger();
 
     // Track mouse/touch position
     if (isMobile) {
@@ -71,33 +91,24 @@
     if (isMobile) {
       game.stickMan.addEventListener('touchstart', handleStickManClick);
     }
-  }
 
-  // Handle logo clicks (double-click detection)
-  function handleLogoClick(e) {
-    const now = Date.now();
-    const timeDiff = now - game.lastClickTime;
+    // Update obstacles periodically
+    window.addEventListener('resize', () => {
+      if (game.active) updateObstacles();
+    });
 
-    if (timeDiff < 500) {
-      // Double-click detected
-      e.preventDefault();
-      activateEasterEgg();
-      clearTimeout(game.clickTimeout);
-    } else {
-      // First click - wait for potential second click
-      game.clickTimeout = setTimeout(() => {
-        game.lastClickTime = 0;
-      }, 500);
-    }
-
-    game.lastClickTime = now;
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      if (!game.active) return;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateObstacles, 100);
+    });
   }
 
   // Create stick man HTML element
   function createStickMan() {
     const stickMan = document.createElement('div');
     stickMan.id = 'stick-man';
-    stickMan.className = 'running';
     stickMan.innerHTML = `
       <div class="stick-man-body">
         <div class="stick-man-head"></div>
@@ -112,42 +123,25 @@
     game.stickMan = stickMan;
   }
 
-  // Activate the easter egg
-  function activateEasterEgg() {
-    if (game.active) return;
+  // Spawn stick man in hidden corner
+  function spawnHiddenTrigger() {
+    const corners = [
+      { x: -15, y: -20, name: 'top-left' },
+      { x: window.innerWidth - 35, y: -20, name: 'top-right' },
+      { x: -15, y: window.innerHeight - 60, name: 'bottom-left' },
+      { x: window.innerWidth - 35, y: window.innerHeight - 60, name: 'bottom-right' }
+    ];
 
-    game.active = true;
-    game.chaosMode = isMobile;
-    game.stickMan.classList.add('active', 'running');
+    // Random corner
+    const corner = corners[Math.floor(Math.random() * corners.length)];
 
-    // Add chaos class for mobile mode
-    if (game.chaosMode) {
-      game.stickMan.classList.add('chaos');
-    }
+    game.stickManX = corner.x;
+    game.stickManY = corner.y;
+    game.stickMan.style.left = corner.x + 'px';
+    game.stickMan.style.top = corner.y + 'px';
 
-    // Spawn stick man at random position
-    const spawnX = Math.random() * (window.innerWidth - 100) + 50;
-    const spawnY = Math.random() * (window.innerHeight - 150) + 100;
-
-    game.stickManX = spawnX;
-    game.stickManY = spawnY;
-    game.stickMan.style.left = spawnX + 'px';
-    game.stickMan.style.top = spawnY + 'px';
-
-    // Reset velocity
-    game.velocityX = 0;
-    game.velocityY = 0;
-
-    // Update obstacles
-    updateObstacles();
-
-    // On mobile, set initial random target
-    if (game.chaosMode) {
-      setRandomTarget();
-    }
-
-    // Start game loop
-    gameLoop();
+    game.stickMan.classList.add('active', 'hidden-trigger', 'idle');
+    game.state = STATE.HIDDEN;
   }
 
   // Update mouse position
@@ -156,7 +150,7 @@
     game.mouseY = e.clientY;
   }
 
-  // Handle touch events
+  // Handle touch events (mobile)
   function handleTouch(e) {
     if (e.touches.length > 0) {
       game.touchX = e.touches[0].clientX;
@@ -166,32 +160,64 @@
     }
   }
 
-  // Handle stick man click (explosion)
+  // Handle stick man click
   function handleStickManClick(e) {
-    if (!game.active) return;
-
     e.preventDefault();
     e.stopPropagation();
-    explodeStickMan();
+
+    if (game.state === STATE.HIDDEN) {
+      // Start the game!
+      startGame();
+    } else if (game.active && game.state !== STATE.EXPLODING) {
+      // Caught the stick man!
+      explodeStickMan();
+    }
+  }
+
+  // Start the game
+  function startGame() {
+    game.active = true;
+    game.chaosMode = isMobile; // Enable chaos mode on mobile
+    game.state = STATE.RUNNING;
+    game.stateChangeTime = Date.now();
+    game.stickMan.classList.remove('hidden-trigger', 'idle');
+    game.stickMan.classList.add('running');
+
+    // Add chaos class for mobile mode
+    if (game.chaosMode) {
+      game.stickMan.classList.add('chaos');
+      setRandomTarget();
+    }
+
+    // Move to center of screen briefly
+    game.stickManX = window.innerWidth / 2 - 25;
+    game.stickManY = window.innerHeight / 2 - 40;
+
+    updateObstacles();
+    gameLoop();
   }
 
   // Explode and deactivate stick man
   function explodeStickMan() {
     game.active = false;
-    game.stickMan.classList.remove('running', 'panic', 'chaos');
+    game.state = STATE.EXPLODING;
+    clearState();
     game.stickMan.classList.add('exploding');
 
-    // Stop animation loop
     if (game.animationFrame) {
       cancelAnimationFrame(game.animationFrame);
       game.animationFrame = null;
     }
 
-    // Remove after animation
+    // Reset after explosion
     setTimeout(() => {
       game.stickMan.classList.remove('active', 'exploding');
+      game.velocityX = 0;
+      game.velocityY = 0;
+      game.isJumping = false;
+      game.isClimbing = false;
 
-      // Clean up physics elements
+      // Clean up physics elements (mobile chaos mode)
       physicsElements.forEach((physics, element) => {
         if (element && element.parentNode) {
           element.style.transform = '';
@@ -202,43 +228,39 @@
         }
       });
       physicsElements.clear();
-    }, 500);
+
+      // Respawn in hidden corner after 3 seconds
+      setTimeout(spawnHiddenTrigger, 3000);
+    }, 600);
+  }
+
+  // Clear all state classes
+  function clearState() {
+    game.stickMan.classList.remove('idle', 'running', 'panic', 'jumping', 'climbing', 'flip', 'chaos');
   }
 
   // Update obstacles (DOM elements)
   function updateObstacles() {
+    const now = Date.now();
+    if (now - game.lastObstacleUpdate < 500) return; // Throttle
+    game.lastObstacleUpdate = now;
+
     game.obstacles = [];
 
-    // Get all major elements as obstacles
     const selectors = [
-      'header',
-      'nav',
-      'footer',
-      'article',
-      '.post',
-      '.card',
-      '.home-profile',
-      '.home-avatar',
-      '.single-title',
-      '.content',
-      '.page',
-      '.pagination',
-      '.post-footer',
-      '.post-nav',
-      'h1', 'h2', 'h3',
-      'img',
-      'p',
-      'a.menu-item'
+      'header', 'nav', 'footer', 'article', '.post', '.card',
+      '.home-profile', '.home-avatar', '.single-title',
+      '.content', '.page', '.pagination', '.post-footer',
+      '.post-nav', 'h1', 'h2', 'h3', 'img', '.button', 'p', 'a.menu-item'
     ];
 
     selectors.forEach(selector => {
       const elements = document.querySelectorAll(selector);
       elements.forEach(el => {
-        // Skip if it's the stick man or its children
         if (el.id === 'stick-man' || el.closest('#stick-man')) return;
 
         const rect = el.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
+        if (rect.width > 20 && rect.height > 20) {
           game.obstacles.push({
             element: el,
             left: rect.left + window.scrollX,
@@ -255,7 +277,7 @@
     });
   }
 
-  // Set random target for chaos mode
+  // Set random target for chaos mode (mobile)
   function setRandomTarget() {
     game.targetX = Math.random() * window.innerWidth;
     game.targetY = Math.random() * window.innerHeight;
@@ -277,9 +299,9 @@
     return distToTarget < 50;
   }
 
-  // Apply physics to element
+  // Apply physics to element (mobile chaos mode)
   function applyPhysicsToElement(element, kickVelX, kickVelY) {
-    if (physicsElements.has(element)) return; // Already has physics
+    if (physicsElements.has(element)) return;
 
     const rect = element.getBoundingClientRect();
     const originalStyles = {
@@ -290,7 +312,6 @@
       zIndex: element.style.zIndex
     };
 
-    // Setup physics object
     const physics = {
       x: rect.left,
       y: rect.top,
@@ -304,7 +325,6 @@
       grounded: false
     };
 
-    // Make element absolutely positioned
     element.style.position = 'fixed';
     element.style.left = physics.x + 'px';
     element.style.top = physics.y + 'px';
@@ -314,39 +334,29 @@
     physicsElements.set(element, physics);
   }
 
-  // Update physics for all affected elements
+  // Update physics for all affected elements (mobile chaos mode)
   function updatePhysics() {
     const toRemove = [];
 
     physicsElements.forEach((physics, element) => {
-      // Apply gravity
       physics.velY += GRAVITY;
-
-      // Apply friction
       physics.velX *= FRICTION;
       physics.velY *= FRICTION;
-
-      // Update rotation
       physics.rotation += physics.rotationVel;
-
-      // Update position
       physics.x += physics.velX;
       physics.y += physics.velY;
 
-      // Check ground collision
       const groundY = window.innerHeight;
       if (physics.y + physics.height > groundY) {
         physics.y = groundY - physics.height;
         physics.velY *= -BOUNCE_DAMPING;
         physics.rotationVel *= BOUNCE_DAMPING;
 
-        // Stop if velocity is low
         if (Math.abs(physics.velY) < 1 && Math.abs(physics.velX) < 1) {
           physics.grounded = true;
         }
       }
 
-      // Check side boundaries
       if (physics.x < -physics.width / 2) {
         physics.x = -physics.width / 2;
         physics.velX *= -BOUNCE_DAMPING;
@@ -356,23 +366,19 @@
         physics.velX *= -BOUNCE_DAMPING;
       }
 
-      // Apply transform
       element.style.left = physics.x + 'px';
       element.style.top = physics.y + 'px';
       element.style.transform = `rotate(${physics.rotation}deg)`;
 
-      // Remove if element fell off screen bottom significantly
       if (physics.y > window.innerHeight + 500) {
         toRemove.push(element);
       }
     });
 
-    // Clean up elements that fell off
     toRemove.forEach(element => {
       if (element && element.parentNode) {
         const physics = physicsElements.get(element);
         if (physics && physics.originalStyles) {
-          // Restore original styles
           element.style.position = physics.originalStyles.position;
           element.style.left = physics.originalStyles.left;
           element.style.top = physics.originalStyles.top;
@@ -384,7 +390,7 @@
     });
   }
 
-  // Check collision and kick elements (chaos mode)
+  // Check collision and kick elements (mobile chaos mode)
   function checkAndKickElements() {
     if (!game.chaosMode) return;
 
@@ -398,42 +404,39 @@
     };
 
     game.obstacles.forEach(obstacle => {
-      // Skip if already has physics
       if (physicsElements.has(obstacle.element)) return;
 
-      // Check collision
       if (stickManRect.right > obstacle.left &&
           stickManRect.left < obstacle.right &&
           stickManRect.bottom > obstacle.top &&
           stickManRect.top < obstacle.bottom) {
 
-        // Calculate kick direction
         const dx = obstacle.centerX - stickManRect.centerX;
         const dy = obstacle.centerY - stickManRect.centerY;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist > 0 && dist < game.kickDistance) {
           const kickVelX = (dx / dist) * game.kickForce + game.velocityX * 2;
-          const kickVelY = (dy / dist) * game.kickForce - 5; // Upward kick
+          const kickVelY = (dy / dist) * game.kickForce - 5;
 
-          // Apply physics to kicked element
           applyPhysicsToElement(obstacle.element, kickVelX, kickVelY);
         }
       }
     });
   }
 
-  // Check if position collides with obstacles
-  function checkCollision(x, y, padding = 20) {
+  // Check collision with obstacles
+  function checkCollision(x, y, padding = 25) {
     const stickManRect = {
       left: x - padding,
       top: y - padding,
       right: x + 50 + padding,
-      bottom: y + 80 + padding
+      bottom: y + 80 + padding,
+      centerX: x + 25,
+      centerY: y + 40
     };
 
     for (let obstacle of game.obstacles) {
-      // Skip elements with physics (they're falling)
       if (physicsElements.has(obstacle.element)) continue;
 
       if (stickManRect.right > obstacle.left &&
@@ -446,52 +449,236 @@
     return null;
   }
 
-  // Calculate movement (desktop mode - run from cursor)
-  function calculateEscapeDirection() {
-    // Calculate distance to mouse
-    const dx = game.stickManX + 25 - game.mouseX;
-    const dy = game.stickManY + 40 - game.mouseY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+  // Find nearest obstacle in direction (desktop mode)
+  function findObstacleInPath(x, y, dirX, dirY, maxDist = 150) {
+    let nearest = null;
+    let minDist = maxDist;
 
-    // Determine if panic mode
-    const isPanic = distance < game.panicDistance;
-    const currentSpeed = isPanic ? game.panicSpeed : game.speed;
+    for (let obstacle of game.obstacles) {
+      const toObstacleX = obstacle.centerX - (x + 25);
+      const toObstacleY = obstacle.centerY - (y + 40);
+      const dist = Math.sqrt(toObstacleX * toObstacleX + toObstacleY * toObstacleY);
 
-    // Update panic class
-    if (isPanic) {
-      game.stickMan.classList.add('panic');
-    } else {
-      game.stickMan.classList.remove('panic');
-    }
-
-    // Normalize direction (away from mouse)
-    if (distance > 0) {
-      const dirX = dx / distance;
-      const dirY = dy / distance;
-
-      // Apply acceleration
-      game.velocityX += dirX * 0.5;
-      game.velocityY += dirY * 0.5;
-
-      // Limit velocity
-      const velocityMag = Math.sqrt(game.velocityX * game.velocityX + game.velocityY * game.velocityY);
-      if (velocityMag > currentSpeed) {
-        game.velocityX = (game.velocityX / velocityMag) * currentSpeed;
-        game.velocityY = (game.velocityY / velocityMag) * currentSpeed;
+      if (dist < minDist) {
+        const dot = (toObstacleX * dirX + toObstacleY * dirY) / dist;
+        if (dot > 0.3) {
+          nearest = obstacle;
+          minDist = dist;
+        }
       }
     }
 
-    updatePosition();
+    return nearest;
   }
 
-  // Calculate movement (mobile chaos mode - random running)
+  // Decide if should jump over obstacle (desktop mode)
+  function shouldJump(obstacle) {
+    const now = Date.now();
+    if (now - game.lastJumpTime < game.jumpCooldown) return false;
+    if (!obstacle) return false;
+    return obstacle.height < 100 && obstacle.height > 30;
+  }
+
+  // Decide if should climb obstacle (desktop mode)
+  function shouldClimb(obstacle) {
+    if (!obstacle) return false;
+    return obstacle.height >= 100 && obstacle.height < 400;
+  }
+
+  // Start jump (desktop mode)
+  function startJump() {
+    if (game.isJumping || game.isClimbing) return;
+    game.isJumping = true;
+    game.jumpStartY = game.stickManY;
+    game.lastJumpTime = Date.now();
+    changeState(STATE.JUMPING);
+  }
+
+  // Start climb (desktop mode)
+  function startClimb(obstacle) {
+    if (game.isJumping || game.isClimbing) return;
+    if (!obstacle) return;
+    game.isClimbing = true;
+    game.climbTarget = obstacle;
+    game.climbProgress = 0;
+    changeState(STATE.CLIMBING);
+  }
+
+  // Change state with animation
+  function changeState(newState) {
+    if (game.state === newState) return;
+
+    const now = Date.now();
+    if (now - game.stateChangeTime < game.minStateTime) return;
+
+    clearState();
+    game.state = newState;
+    game.stateChangeTime = now;
+
+    switch (newState) {
+      case STATE.IDLE:
+        game.stickMan.classList.add('idle');
+        break;
+      case STATE.RUNNING:
+        game.stickMan.classList.add('running');
+        break;
+      case STATE.PANIC:
+        game.stickMan.classList.add('panic', 'running');
+        break;
+      case STATE.JUMPING:
+        game.stickMan.classList.add('jumping');
+        break;
+      case STATE.CLIMBING:
+        game.stickMan.classList.add('climbing');
+        break;
+    }
+  }
+
+  // Calculate intelligent movement (desktop mode)
+  function calculateMovement() {
+    const dx = game.stickManX + 25 - game.mouseX;
+    const dy = game.stickManY + 40 - game.mouseY;
+    const distanceToMouse = Math.sqrt(dx * dx + dy * dy);
+
+    const isPanic = distanceToMouse < game.panicDistance;
+    const currentSpeed = isPanic ? game.panicSpeed : game.speed;
+
+    if (!game.isJumping && !game.isClimbing) {
+      if (isPanic && game.state !== STATE.PANIC) {
+        changeState(STATE.PANIC);
+      } else if (!isPanic && game.state === STATE.PANIC) {
+        changeState(STATE.RUNNING);
+      }
+    }
+
+    // Handle jumping
+    if (game.isJumping) {
+      const jumpDuration = 500;
+      const jumpTime = Date.now() - game.lastJumpTime;
+      const jumpProgress = Math.min(jumpTime / jumpDuration, 1);
+
+      if (jumpProgress >= 1) {
+        game.isJumping = false;
+        changeState(isPanic ? STATE.PANIC : STATE.RUNNING);
+      } else {
+        const jumpHeight = 80;
+        const t = jumpProgress;
+        const arc = -4 * jumpHeight * (t * t - t);
+        game.stickManY = game.jumpStartY - arc;
+      }
+    }
+
+    // Handle climbing
+    if (game.isClimbing && game.climbTarget) {
+      game.climbProgress += 0.015;
+
+      if (game.climbProgress >= 1) {
+        game.isClimbing = false;
+        game.stickManY = game.climbTarget.top - 85;
+        game.climbTarget = null;
+        changeState(isPanic ? STATE.PANIC : STATE.RUNNING);
+      } else {
+        const startY = game.climbTarget.bottom;
+        const endY = game.climbTarget.top - 85;
+        game.stickManY = startY + (endY - startY) * easing.easeInOutQuad(game.climbProgress);
+
+        const obstacleEdge = (dx > 0) ? game.climbTarget.right : game.climbTarget.left - 50;
+        game.stickManX += (obstacleEdge - game.stickManX) * 0.1;
+      }
+    }
+
+    // Normal movement (running)
+    if (!game.isJumping && !game.isClimbing) {
+      if (distanceToMouse > 0) {
+        const dirX = dx / distanceToMouse;
+        const dirY = dy / distanceToMouse;
+
+        game.velocityX += dirX * 0.8;
+        game.velocityY += dirY * 0.8;
+
+        game.velocityX *= 0.85;
+        game.velocityY *= 0.85;
+
+        const velocityMag = Math.sqrt(game.velocityX * game.velocityX + game.velocityY * game.velocityY);
+        if (velocityMag > currentSpeed) {
+          game.velocityX = (game.velocityX / velocityMag) * currentSpeed;
+          game.velocityY = (game.velocityY / velocityMag) * currentSpeed;
+        }
+      }
+
+      let newX = game.stickManX + game.velocityX;
+      let newY = game.stickManY + game.velocityY;
+
+      const moveDir = {
+        x: game.velocityX / Math.max(Math.abs(game.velocityX), 0.1),
+        y: game.velocityY / Math.max(Math.abs(game.velocityY), 0.1)
+      };
+
+      const obstacleAhead = findObstacleInPath(
+        game.stickManX,
+        game.stickManY,
+        moveDir.x,
+        moveDir.y,
+        distanceToMouse < game.jumpDistance ? 100 : 150
+      );
+
+      if (obstacleAhead && distanceToMouse < game.jumpDistance) {
+        if (shouldJump(obstacleAhead)) {
+          startJump();
+        } else if (shouldClimb(obstacleAhead)) {
+          startClimb(obstacleAhead);
+        }
+      }
+
+      const collision = checkCollision(newX, newY);
+      if (collision) {
+        const bounceX = (game.stickManX + 25) - collision.centerX;
+        const bounceY = (game.stickManY + 40) - collision.centerY;
+        const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
+
+        if (bounceDist > 0) {
+          game.velocityX = (bounceX / bounceDist) * currentSpeed * 1.2;
+          game.velocityY = (bounceY / bounceDist) * currentSpeed * 1.2;
+          newX = game.stickManX + game.velocityX;
+          newY = game.stickManY + game.velocityY;
+        }
+      }
+
+      const margin = 20;
+      if (newX < margin) {
+        newX = margin;
+        game.velocityX = Math.abs(game.velocityX) * 0.8;
+      }
+      if (newX > window.innerWidth - 70) {
+        newX = window.innerWidth - 70;
+        game.velocityX = -Math.abs(game.velocityX) * 0.8;
+      }
+      if (newY < margin) {
+        newY = margin;
+        game.velocityY = Math.abs(game.velocityY) * 0.8;
+      }
+      if (newY > window.innerHeight - 100) {
+        newY = window.innerHeight - 100;
+        game.velocityY = -Math.abs(game.velocityY) * 0.8;
+      }
+
+      game.stickManX = newX;
+      game.stickManY = newY;
+
+      if (game.velocityX < -0.5) {
+        game.stickMan.classList.add('flip');
+      } else if (game.velocityX > 0.5) {
+        game.stickMan.classList.remove('flip');
+      }
+    }
+  }
+
+  // Calculate movement (mobile chaos mode)
   function calculateChaosMovement() {
-    // Change direction randomly
     if (shouldChangeDirection()) {
       setRandomTarget();
     }
 
-    // Move towards target
     const dx = game.targetX - (game.stickManX + 25);
     const dy = game.targetY - (game.stickManY + 40);
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -503,7 +690,6 @@
       game.velocityX += dirX * 0.8;
       game.velocityY += dirY * 0.8;
 
-      // Limit velocity
       const velocityMag = Math.sqrt(game.velocityX * game.velocityX + game.velocityY * game.velocityY);
       if (velocityMag > game.speed) {
         game.velocityX = (game.velocityX / velocityMag) * game.speed;
@@ -511,75 +697,59 @@
       }
     }
 
-    // Random chance to panic
     if (Math.random() < 0.01) {
       game.stickMan.classList.toggle('panic');
     }
 
-    updatePosition();
-    checkAndKickElements();
-  }
-
-  // Update stick man position
-  function updatePosition() {
-    // Calculate new position
     let newX = game.stickManX + game.velocityX;
     let newY = game.stickManY + game.velocityY;
 
-    // Check collision with obstacles (that aren't falling)
     const collision = checkCollision(newX, newY);
     if (collision) {
-      // Bounce away from obstacle
-      const obstacleCenter = {
-        x: (collision.left + collision.right) / 2,
-        y: (collision.top + collision.bottom) / 2
-      };
-
-      const bounceX = game.stickManX + 25 - obstacleCenter.x;
-      const bounceY = game.stickManY + 40 - obstacleCenter.y;
+      const bounceX = (game.stickManX + 25) - collision.centerX;
+      const bounceY = (game.stickManY + 40) - collision.centerY;
       const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
 
       if (bounceDist > 0) {
-        const currentSpeed = game.chaosMode ? game.speed : game.panicSpeed;
-        game.velocityX = (bounceX / bounceDist) * currentSpeed;
-        game.velocityY = (bounceY / bounceDist) * currentSpeed;
+        game.velocityX = (bounceX / bounceDist) * game.speed * 1.2;
+        game.velocityY = (bounceY / bounceDist) * game.speed * 1.2;
         newX = game.stickManX + game.velocityX;
         newY = game.stickManY + game.velocityY;
       }
     }
 
-    // Keep within viewport bounds
     const margin = 10;
     if (newX < margin) {
       newX = margin;
       game.velocityX = Math.abs(game.velocityX);
-      if (game.chaosMode) setRandomTarget();
+      setRandomTarget();
     }
     if (newX > window.innerWidth - 60) {
       newX = window.innerWidth - 60;
       game.velocityX = -Math.abs(game.velocityX);
-      if (game.chaosMode) setRandomTarget();
+      setRandomTarget();
     }
     if (newY < margin) {
       newY = margin;
       game.velocityY = Math.abs(game.velocityY);
-      if (game.chaosMode) setRandomTarget();
+      setRandomTarget();
     }
     if (newY > window.innerHeight - 90) {
       newY = window.innerHeight - 90;
       game.velocityY = -Math.abs(game.velocityY);
-      if (game.chaosMode) setRandomTarget();
+      setRandomTarget();
     }
 
     game.stickManX = newX;
     game.stickManY = newY;
 
-    // Update flip direction
     if (game.velocityX < -0.5) {
       game.stickMan.classList.add('flip');
     } else if (game.velocityX > 0.5) {
       game.stickMan.classList.remove('flip');
     }
+
+    checkAndKickElements();
   }
 
   // Main game loop
@@ -590,15 +760,17 @@
     if (game.chaosMode) {
       calculateChaosMovement();
     } else {
-      calculateEscapeDirection();
+      calculateMovement();
     }
 
-    // Update physics for falling elements
-    updatePhysics();
+    // Update physics for falling elements (mobile chaos mode)
+    if (game.chaosMode) {
+      updatePhysics();
+    }
 
-    // Update stick man position
-    game.stickMan.style.left = game.stickManX + 'px';
-    game.stickMan.style.top = game.stickManY + 'px';
+    // Update position
+    game.stickMan.style.left = Math.round(game.stickManX) + 'px';
+    game.stickMan.style.top = Math.round(game.stickManY) + 'px';
 
     // Continue loop
     game.animationFrame = requestAnimationFrame(gameLoop);
@@ -610,22 +782,5 @@
   } else {
     init();
   }
-
-  // Update obstacles on window resize
-  window.addEventListener('resize', () => {
-    if (game.active) {
-      updateObstacles();
-    }
-  });
-
-  // Update obstacles on scroll (throttled)
-  let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    if (!game.active) return;
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      updateObstacles();
-    }, 100);
-  });
 
 })();
