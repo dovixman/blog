@@ -646,3 +646,107 @@
 #stick-man:not(.exploding) {
   transition: left 0.05s linear, top 0.05s linear;
 }
+
+/* ============================================
+   MOBILE CHAOS MODE - PHYSICS EFFECTS
+   ============================================ */
+
+/* Elements being kicked/affected by physics get a subtle glow */
+*[style*="position: fixed"][style*="z-index: 9999"] {
+  box-shadow: 0 0 20px rgba(255, 100, 100, 0.5);
+  filter: brightness(1.1);
+}
+
+/* Smooth performance for falling elements */
+.physics-element {
+  will-change: transform, left, top;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Make mobile experience smoother */
+@media (max-width: 768px) {
+  /* Faster animations on mobile for chaos mode */
+  #stick-man.running .stick-man-leg.left {
+    animation: running 0.3s infinite;
+  }
+
+  #stick-man.running .stick-man-leg.right {
+    animation: running-right 0.3s infinite;
+  }
+
+  #stick-man.running .stick-man-arm.left {
+    animation: arm-swing-left 0.3s infinite;
+  }
+
+  #stick-man.running .stick-man-arm.right {
+    animation: arm-swing-right 0.3s infinite;
+  }
+
+  #stick-man.running .stick-man-torso {
+    animation: body-bounce 0.3s infinite;
+  }
+
+  #stick-man.running .stick-man-head {
+    animation: head-bounce 0.3s infinite;
+  }
+
+  /* Even faster panic mode on mobile */
+  #stick-man.panic .stick-man-leg.left {
+    animation: running 0.15s infinite;
+  }
+
+  #stick-man.panic .stick-man-leg.right {
+    animation: running-right 0.15s infinite;
+  }
+
+  #stick-man.panic .stick-man-arm.left {
+    animation: arm-swing-left 0.15s infinite;
+  }
+
+  #stick-man.panic .stick-man-arm.right {
+    animation: arm-swing-right 0.15s infinite;
+  }
+
+  #stick-man.panic .stick-man-torso {
+    animation: body-bounce 0.15s infinite;
+  }
+
+  #stick-man.panic .stick-man-head {
+    animation: head-bounce 0.15s infinite;
+  }
+}
+
+/* Visual effect when element is about to be kicked */
+@keyframes shake-warning {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* Dust/impact effect animation */
+@keyframes dust-puff {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+/* Add dust puff on impact */
+#stick-man.chaos::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, rgba(200,200,200,0.6), transparent);
+  border-radius: 50%;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: dust-puff 0.3s ease-out infinite;
+  pointer-events: none;
+}
