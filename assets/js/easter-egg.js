@@ -61,11 +61,12 @@
     // Anti-stuck system
     stuckCounter: 0,
     lastPositions: [],
-    positionHistorySize: 10,
+    positionHistorySize: 5, // Reduced for faster detection
     isGhosting: false,
     ghostingEndTime: 0,
     lastUnstuckTime: 0,
-    unstuckCooldown: 2000
+    unstuckCooldown: 1000, // Reduced from 2000ms
+    minVelocity: 2 // Minimum velocity to maintain movement
   };
 
   // Physics constants (mobile only)
@@ -301,8 +302,8 @@
       game.lastPositions.shift();
     }
 
-    // Need enough history to determine
-    if (game.lastPositions.length < game.positionHistorySize) {
+    // Need at least 3 positions to determine
+    if (game.lastPositions.length < 3) {
       return false;
     }
 
@@ -316,8 +317,8 @@
 
     const avgMovement = totalMovement / (game.lastPositions.length - 1);
 
-    // Stuck if average movement is very small
-    return avgMovement < 0.5;
+    // More aggressive - stuck if average movement is very small
+    return avgMovement < 1.5; // Increased from 0.5
   }
 
   // Find nearest free position
@@ -592,6 +593,50 @@
     return null;
   }
 
+  // Calculate slide vector along obstacle edge
+  function calculateSlideVector(velocityX, velocityY, collision) {
+    // Get the collision normal (from obstacle center to stick man)
+    const normalX = (game.stickManX + 25) - collision.centerX;
+    const normalY = (game.stickManY + 40) - collision.centerY;
+    const normalLen = Math.sqrt(normalX * normalX + normalY * normalY);
+
+    if (normalLen === 0) return { x: velocityX, y: velocityY };
+
+    const normX = normalX / normalLen;
+    const normY = normalY / normalLen;
+
+    // Calculate tangent (perpendicular to normal)
+    const tangentX = -normY;
+    const tangentY = normX;
+
+    // Project velocity onto tangent to get slide direction
+    const dot = velocityX * tangentX + velocityY * tangentY;
+    const slideX = tangentX * dot;
+    const slideY = tangentY * dot;
+
+    // Add small bounce component (20% of normal bounce)
+    const bounceStrength = 0.2;
+    const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+    const bounceX = normX * speed * bounceStrength;
+    const bounceY = normY * speed * bounceStrength;
+
+    return {
+      x: slideX + bounceX,
+      y: slideY + bounceY
+    };
+  }
+
+  // Enforce minimum velocity to prevent stuck states
+  function enforceMinimumVelocity() {
+    const velocityMag = Math.sqrt(game.velocityX * game.velocityX + game.velocityY * game.velocityY);
+
+    if (game.active && velocityMag > 0 && velocityMag < game.minVelocity) {
+      const scale = game.minVelocity / velocityMag;
+      game.velocityX *= scale;
+      game.velocityY *= scale;
+    }
+  }
+
   // Find nearest obstacle in direction (desktop mode)
   function findObstacleInPath(x, y, dirX, dirY, maxDist = 150) {
     let nearest = null;
@@ -775,19 +820,36 @@
 
       const collision = checkCollision(newX, newY);
       if (collision) {
-        const bounceX = (game.stickManX + 25) - collision.centerX;
-        const bounceY = (game.stickManY + 40) - collision.centerY;
-        const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
+        // Use sliding collision for fluid movement
+        const slideVec = calculateSlideVector(game.velocityX, game.velocityY, collision);
 
-        if (bounceDist > 0) {
-          // Stronger bounce to avoid getting stuck
-          const bounceMultiplier = 2.0;
-          game.velocityX = (bounceX / bounceDist) * currentSpeed * bounceMultiplier;
-          game.velocityY = (bounceY / bounceDist) * currentSpeed * bounceMultiplier;
-          newX = game.stickManX + game.velocityX * 1.5;
-          newY = game.stickManY + game.velocityY * 1.5;
+        // Apply slide with extra push to escape
+        const pushMultiplier = 1.3;
+        game.velocityX = slideVec.x * pushMultiplier;
+        game.velocityY = slideVec.y * pushMultiplier;
+
+        // Calculate new position with slide
+        newX = game.stickManX + game.velocityX;
+        newY = game.stickManY + game.velocityY;
+
+        // If still colliding after slide, apply stronger bounce
+        if (checkCollision(newX, newY)) {
+          const bounceX = (game.stickManX + 25) - collision.centerX;
+          const bounceY = (game.stickManY + 40) - collision.centerY;
+          const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
+
+          if (bounceDist > 0) {
+            const bounceMultiplier = 2.5;
+            game.velocityX = (bounceX / bounceDist) * currentSpeed * bounceMultiplier;
+            game.velocityY = (bounceY / bounceDist) * currentSpeed * bounceMultiplier;
+            newX = game.stickManX + game.velocityX * 2;
+            newY = game.stickManY + game.velocityY * 2;
+          }
         }
       }
+
+      // Enforce minimum velocity
+      enforceMinimumVelocity();
 
       const margin = 20;
       if (newX < margin) {
@@ -851,19 +913,36 @@
 
     const collision = checkCollision(newX, newY);
     if (collision) {
-      const bounceX = (game.stickManX + 25) - collision.centerX;
-      const bounceY = (game.stickManY + 40) - collision.centerY;
-      const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
+      // Use sliding collision for fluid movement
+      const slideVec = calculateSlideVector(game.velocityX, game.velocityY, collision);
 
-      if (bounceDist > 0) {
-        // Stronger bounce for chaos mode
-        const bounceMultiplier = 2.5;
-        game.velocityX = (bounceX / bounceDist) * game.speed * bounceMultiplier;
-        game.velocityY = (bounceY / bounceDist) * game.speed * bounceMultiplier;
-        newX = game.stickManX + game.velocityX * 1.5;
-        newY = game.stickManY + game.velocityY * 1.5;
+      // Apply slide with extra push to escape (chaos mode is more aggressive)
+      const pushMultiplier = 1.5;
+      game.velocityX = slideVec.x * pushMultiplier;
+      game.velocityY = slideVec.y * pushMultiplier;
+
+      // Calculate new position with slide
+      newX = game.stickManX + game.velocityX;
+      newY = game.stickManY + game.velocityY;
+
+      // If still colliding after slide, apply stronger bounce
+      if (checkCollision(newX, newY)) {
+        const bounceX = (game.stickManX + 25) - collision.centerX;
+        const bounceY = (game.stickManY + 40) - collision.centerY;
+        const bounceDist = Math.sqrt(bounceX * bounceX + bounceY * bounceY);
+
+        if (bounceDist > 0) {
+          const bounceMultiplier = 3.0; // Even stronger for chaos mode
+          game.velocityX = (bounceX / bounceDist) * game.speed * bounceMultiplier;
+          game.velocityY = (bounceY / bounceDist) * game.speed * bounceMultiplier;
+          newX = game.stickManX + game.velocityX * 2;
+          newY = game.stickManY + game.velocityY * 2;
+        }
       }
     }
+
+    // Enforce minimum velocity
+    enforceMinimumVelocity();
 
     const margin = 10;
     if (newX < margin) {
