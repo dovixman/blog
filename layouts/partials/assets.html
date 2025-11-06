@@ -207,16 +207,16 @@
 
 {{- partial "plugin/analytics.html" . -}}
 
-{{- /* Easter Egg CSS */ -}}
-{{- $easterEggCSS := resources.Get "css/easter-egg.css" -}}
-{{- if $easterEggCSS -}}
-    {{- $easterEggCSS = $easterEggCSS | resources.Minify -}}
-    <link rel="stylesheet" href="{{ $easterEggCSS.RelPermalink }}">
-{{- end -}}
+{{- /* Easter Egg CSS - DISABLED */ -}}
+{{- /* $easterEggCSS := resources.Get "css/easter-egg.css" */ -}}
+{{- /* if $easterEggCSS */ -}}
+    {{- /* $easterEggCSS = $easterEggCSS | resources.Minify */ -}}
+    {{- /* link rel="stylesheet" href="{{ $easterEggCSS.RelPermalink }}" */ -}}
+{{- /* end */ -}}
 
-{{- /* Easter Egg JavaScript */ -}}
-{{- $easterEggJS := resources.Get "js/easter-egg.js" -}}
-{{- if $easterEggJS -}}
-    {{- $easterEggJS = $easterEggJS | resources.Minify -}}
-    <script type="text/javascript" src="{{ $easterEggJS.RelPermalink }}"></script>
-{{- end -}}
+{{- /* Easter Egg JavaScript - DISABLED */ -}}
+{{- /* $easterEggJS := resources.Get "js/easter-egg.js" */ -}}
+{{- /* if $easterEggJS */ -}}
+    {{- /* $easterEggJS = $easterEggJS | resources.Minify */ -}}
+    {{- /* script type="text/javascript" src="{{ $easterEggJS.RelPermalink }}" */ -}}
+{{- /* end */ -}}
