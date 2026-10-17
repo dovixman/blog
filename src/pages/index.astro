@@ -1,0 +1,314 @@
+---
+import '@fontsource-variable/inter-tight/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '@fontsource-variable/fraunces/wght-italic.css';
+import '../styles/global.css';
+
+const title = 'David Fuentes — Lead Technical Architect';
+const description =
+  'David Fuentes (dovixman). Lead Technical Architect, Tech Lead y Software Architect. Arquitectura de software, liderazgo de equipos, ciberseguridad, inteligencia artificial y blockchain.';
+const canonical = new URL('/', Astro.site).toString();
+
+const areas = [
+  {
+    name: 'Arquitectura de software',
+    text: 'Sistemas pensados para evolucionar: límites claros, decisiones explícitas y la deuda técnica bajo control.',
+  },
+  {
+    name: 'Liderazgo de equipos',
+    text: 'Equipos técnicos con contexto compartido, criterio propio y autonomía para decidir bien.',
+  },
+  {
+    name: 'Laboratorios personales',
+    text: 'Un espacio propio para experimentar, romper cosas y aprender antes de que importe.',
+  },
+  {
+    name: 'Ciberseguridad',
+    text: 'La seguridad como propiedad del diseño, no como parche: servicios y aplicaciones seguros desde la base.',
+  },
+  {
+    name: 'Inteligencia artificial',
+    text: 'Formación de máster y curiosidad aplicada: qué aporta la IA a la ingeniería de software real.',
+  },
+  {
+    name: 'Blockchain',
+    text: 'Sistemas descentralizados y lo que implican para el diseño de una arquitectura.',
+  },
+];
+
+const experience = [
+  { role: 'Lead Technical Architect', org: 'Intelygenz', project: 'MetTel', from: '2022', to: 'Actualidad', current: true },
+  { role: 'Technical Lead', org: 'Intelygenz', project: 'Inditex', from: '2020', to: '2022' },
+  { role: 'Senior Software Architect', org: 'Intelygenz', project: 'Inditex', from: '2019', to: '2020' },
+  { role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra', from: '2018', to: '2019' },
+  { role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera', from: '2017', to: '2018' },
+  { role: 'Spring/Java Developer', org: 'Almis Informática Financiera', from: '2015', to: '2018' },
+  { role: 'Java & Web Developer', org: 'Alecop S. Coop.', from: '2012', to: '2015' },
+];
+
+const education = [
+  { title: 'Máster en Inteligencia Artificial', detail: '', from: '2020', to: '' },
+  {
+    title: 'Máster en Ciberseguridad',
+    detail: 'Especialización en seguridad en servicios y aplicaciones',
+    from: '2017',
+    to: '2018',
+  },
+  { title: 'Grado en Ingeniería Informática', detail: '', from: '2012', to: '2016' },
+];
+
+const manifesto =
+  'Los sistemas que importan no se dibujan: se construyen, se operan y se hacen crecer con equipos que los entienden. Mi trabajo es que la arquitectura y las personas avancen en la misma dirección.';
+const pad = (n: number) => String(n).padStart(2, '0');
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0a0a0b" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0b'/%3E%3Crect x='8' y='8' width='7' height='7' fill='%23ece9e2'/%3E%3Crect x='17' y='8' width='7' height='7' fill='%23ece9e2' opacity='.4'/%3E%3Crect x='8' y='17' width='7' height='7' fill='%23ece9e2' opacity='.4'/%3E%3Crect x='17' y='17' width='7' height='7' fill='%23ff5b22'/%3E%3C/svg%3E"
+    />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+
+    <div class="stage" aria-hidden="true">
+      <canvas id="scene"></canvas>
+      <div class="stage__fallback"></div>
+    </div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="curtain" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="dovixman — inicio">
+        <span class="brand__mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="brand__name">dovixman</span>
+      </a>
+      <div class="hud" aria-hidden="true">
+        <span class="hud__k">sec</span><span class="hud__v" data-hud-sec>00 / 05</span>
+        <span class="hud__bar"><span data-hud-progress></span></span>
+        <span class="hud__k">view</span><span class="hud__v hud__state" data-hud-state>monolith</span>
+        <span class="hud__k">gl</span><span class="hud__v hud__gl" data-hud-gl>idle</span>
+      </div>
+      <nav aria-label="Principal">
+        <ul>
+          <li class="hide-sm"><a href="#perfil">Perfil</a></li>
+          <li class="hide-sm"><a href="#areas">Áreas</a></li>
+          <li class="hide-sm"><a href="#trayectoria">Trayectoria</a></li>
+          <li class="hide-sm"><a href="#formacion">Formación</a></li>
+          <li><a class="topbar__cta" href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <main id="contenido">
+      <!-- HERO -->
+      <section class="hero" id="top" data-scene="0" data-label="monolith" aria-labelledby="hero-title">
+        <div class="hero__meta">
+          <p class="mono hero__kicker"><span class="dot" aria-hidden="true"></span> Lead Technical Architect · Intelygenz / MetTel</p>
+          <p class="mono hero__coords" aria-hidden="true">[ 2012 — {year} ]</p>
+        </div>
+
+        <h1 class="hero__title" id="hero-title" aria-label="David Fuentes">
+          <span class="hero__line" aria-hidden="true"><span class="hero__word" data-split>David</span></span>
+          <span class="hero__line hero__line--r" aria-hidden="true"><span class="hero__word" data-split>Fuentes</span></span>
+        </h1>
+
+        <div class="hero__foot">
+          <p class="hero__lede" data-reveal>
+            Tech Lead y Software Architect. Diseño arquitecturas de software y lidero a los equipos que las construyen.
+            <em>Más de una década entre código, sistemas y personas.</em>
+          </p>
+          <a class="scrollcue mono" href="#perfil">
+            <span class="scrollcue__line" aria-hidden="true"></span>
+            Desplaza para explorar
+          </a>
+        </div>
+      </section>
+
+      <!-- MANIFESTO / PERFIL -->
+      <section class="manifesto" id="perfil" data-scene="1" data-label="distributed" aria-labelledby="perfil-title">
+        <div class="sec-head">
+          <span class="mono sec-head__idx">01</span>
+          <h2 class="mono sec-head__title" id="perfil-title">Perfil</h2>
+          <span class="sec-head__rule" aria-hidden="true"></span>
+        </div>
+        <p class="manifesto__text" data-words>{manifesto}</p>
+        <dl class="facts">
+          <div class="facts__item" data-reveal>
+            <dt class="mono">Desde</dt>
+            <dd>2012</dd>
+          </div>
+          <div class="facts__item" data-reveal>
+            <dt class="mono">Roles</dt>
+            <dd>07</dd>
+          </div>
+          <div class="facts__item" data-reveal>
+            <dt class="mono">Másteres</dt>
+            <dd>02</dd>
+          </div>
+          <div class="facts__item" data-reveal>
+            <dt class="mono">Ahora</dt>
+            <dd class="facts__small">Lead Technical Architect</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- AREAS -->
+      <section class="areas" id="areas" data-scene="1" data-label="network" aria-labelledby="areas-title">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee__track" data-marquee>
+            <span>Sistemas</span><span class="outline">Equipos</span><span>Seguridad</span><span class="outline">IA</span><span>Sistemas</span><span class="outline">Equipos</span><span>Seguridad</span><span class="outline">IA</span>
+          </div>
+        </div>
+        <div class="sec-head">
+          <span class="mono sec-head__idx">02</span>
+          <h2 class="mono sec-head__title" id="areas-title">Áreas</h2>
+          <span class="sec-head__rule" aria-hidden="true"></span>
+        </div>
+        <ol class="areas__list">
+          {
+            areas.map((a, i) => (
+              <li class="area" data-reveal>
+                <span class="mono area__idx">{pad(i + 1)}</span>
+                <h3 class="area__name">{a.name}</h3>
+                <p class="area__text">{a.text}</p>
+                <span class="area__fill" aria-hidden="true" />
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <!-- TRAYECTORIA -->
+      <section class="career" id="trayectoria" data-scene="2" data-label="layers" aria-labelledby="career-title">
+        <div class="sec-head">
+          <span class="mono sec-head__idx">03</span>
+          <h2 class="mono sec-head__title" id="career-title">Trayectoria</h2>
+          <span class="sec-head__rule" aria-hidden="true"></span>
+        </div>
+        <div class="career__grid">
+          <div class="career__aside">
+            <p class="career__big" aria-hidden="true"><span data-layer-num>07</span><span class="career__of">/07</span></p>
+            <p class="career__note">
+              Cada capa se apoya en la anterior. Del desarrollo Java y web a la arquitectura técnica de proyectos completos.
+            </p>
+          </div>
+          <ol class="career__list">
+            {
+              experience.map((e, i) => (
+                <li class:list={['job', { 'is-current': e.current }]} data-job={experience.length - 1 - i}>
+                  <p class="mono job__years">
+                    <span>{e.from}</span>
+                    <span class="job__dash" aria-hidden="true" />
+                    <span>{e.to}</span>
+                  </p>
+                  <div class="job__body">
+                    <h3 class="job__role">{e.role}</h3>
+                    <p class="job__org">
+                      {e.org}
+                      {e.project && <span class="job__proj"> / {e.project}</span>}
+                    </p>
+                  </div>
+                  <span class="mono job__layer" aria-hidden="true">L{pad(experience.length - i)}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+
+      <!-- FORMACIÓN -->
+      <section class="edu" id="formacion" data-scene="2" data-label="offline" data-light aria-labelledby="edu-title">
+        <div class="edu__inner">
+          <div class="sec-head sec-head--dark">
+            <span class="mono sec-head__idx">04</span>
+            <h2 class="mono sec-head__title" id="edu-title">Formación</h2>
+            <span class="sec-head__rule" aria-hidden="true"></span>
+          </div>
+          <p class="edu__statement" data-reveal>
+            Ingeniería como base. <em>Seguridad</em> e <em>inteligencia artificial</em> como especialización.
+          </p>
+          <ul class="edu__list">
+            {
+              education.map((ed) => (
+                <li class="degree" data-reveal>
+                  <p class="mono degree__years">
+                    {ed.from}
+                    {ed.to ? ` — ${ed.to}` : ' —'}
+                  </p>
+                  <h3 class="degree__title">{ed.title}</h3>
+                  {ed.detail && <p class="degree__detail">{ed.detail}</p>}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <!-- CONTACTO -->
+      <section class="contact" id="contacto" data-scene="3" data-label="recomposed" aria-labelledby="contact-title">
+        <div class="sec-head">
+          <span class="mono sec-head__idx">05</span>
+          <p class="mono sec-head__title">Contacto</p>
+          <span class="sec-head__rule" aria-hidden="true"></span>
+        </div>
+        <h2 class="contact__title" id="contact-title">
+          <span class="contact__line"><span data-split-soft>¿Un sistema</span></span>
+          <span class="contact__line"><span data-split-soft>que diseñar<em>,</em></span></span>
+          <span class="contact__line contact__line--dim"><span data-split-soft>o un equipo</span></span>
+          <span class="contact__line contact__line--dim"><span data-split-soft>que hacer crecer?</span></span>
+        </h2>
+        <a class="contact__mail" href="mailto:me@dovixman.io" data-magnetic>
+          <span class="contact__mail-label mono">Escríbeme</span>
+          <span class="contact__mail-addr">me@dovixman.io</span>
+          <span class="contact__mail-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M8 5h11v11"></path></svg>
+          </span>
+        </a>
+        <footer class="footer">
+          <p class="mono">© {year} David Fuentes · dovixman</p>
+          <ul class="footer__links">
+            <li><a class="mono" href="https://github.com/dovixman" rel="me noopener" target="_blank">GitHub ↗</a></li>
+            <li><a class="mono" href="mailto:me@dovixman.io">me@dovixman.io</a></li>
+            <li><a class="mono" href="#top">Volver arriba ↑</a></li>
+          </ul>
+        </footer>
+      </section>
+    </main>
+
+    <script>
+      import '../scripts/main.js';
+    </script>
+  </body>
+</html>
