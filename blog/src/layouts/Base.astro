@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import { url } from '../lib/posts';
+
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article';
+  nav?: 'posts' | 'categorias' | 'tags';
+}
+
+const { title, description, type = 'website', nav } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const fullTitle = title === 'Blog' ? 'Blog · David Fuentes' : `${title} · Blog de David Fuentes`;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Blog de David Fuentes" href={url('rss.xml')} />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <slot name="head" />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href={url()}>Blog <span>· David Fuentes</span></a>
+        <nav class="site-nav" aria-label="Blog">
+          <a href={url()} aria-current={nav === 'posts' ? 'page' : undefined}>Artículos</a>
+          <a href={url('categorias/')} aria-current={nav === 'categorias' ? 'page' : undefined}>Categorías</a>
+          <a href={url('tags/')} aria-current={nav === 'tags' ? 'page' : undefined}>Tags</a>
+          <a href="/">Inicio</a>
+        </nav>
+      </div>
+    </header>
+    <main id="contenido" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>© {new Date().getFullYear()} David Fuentes</span>
+        <span><a href={url('rss.xml')}>RSS</a> · <a href="mailto:me@dovixman.io">me@dovixman.io</a></span>
+      </div>
+    </footer>
+  </body>
+</html>

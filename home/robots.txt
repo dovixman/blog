@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dovixman.io/blog/sitemap-index.xml

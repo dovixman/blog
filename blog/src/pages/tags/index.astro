@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import { byTag, getPosts, url } from '../../lib/posts';
+
+const tags = byTag(await getPosts());
+---
+<Base title="Tags" description="Todos los tags del blog de David Fuentes." nav="tags">
+  <h1 class="page-title">Tags</h1>
+  <p class="page-intro">Temas transversales: un artículo puede tener varios.</p>
+  {tags.length === 0 ? (
+    <p class="empty">Todavía no hay tags.</p>
+  ) : (
+    <ul class="taxonomy">
+      {tags.map((t) => <li><a href={url(`tags/${t.slug}/`)}>#{t.label}</a> <span>({t.posts.length})</span></li>)}
+    </ul>
+  )}
+</Base>
