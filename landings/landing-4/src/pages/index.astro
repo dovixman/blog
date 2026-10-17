@@ -10,7 +10,7 @@ const description =
 const email = 'me@dovixman.io';
 const github = 'https://github.com/dovixman';
 const year = new Date().getFullYear();
-const canonical = new URL('/', Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
 const experience = [
   { years: '2022 — Actualidad', role: 'Lead Technical Architect', org: 'Intelygenz', project: 'MetTel', current: true },
@@ -71,12 +71,13 @@ const nav = [
 <html lang="es">
   <head>
     <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="David Fuentes" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f4f2ee" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)" />

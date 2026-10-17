@@ -21,12 +21,10 @@ jobs:
         with:
           node-version: 22
           cache: npm
-
-      - name: Install dependencies
-        run: npm ci
+          cache-dependency-path: landings/*/package-lock.json
 
       - name: Build
-        run: npm run build
+        run: ./scripts/build.sh
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

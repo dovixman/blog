@@ -1,0 +1,90 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+import Boot from '../components/Boot.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import System from '../components/System.astro';
+import Trace from '../components/Trace.astro';
+import Education from '../components/Education.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { profile } from '../data/profile';
+
+const title = `${profile.name} (${profile.handle}) — ${profile.role}`;
+const description =
+  'David Fuentes, dovixman. Lead Technical Architect en Intelygenz. Arquitectura de software, liderazgo de equipos, ciberseguridad e inteligencia artificial.';
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const GA_ID = 'G-461656PKYM';
+---
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <meta name="theme-color" content="#07090c" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Decide on the boot sequence before first paint. Runs once per session and never with reduced motion. -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.remove('no-js');
+        d.classList.add('js');
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var seen = false;
+        try {
+          seen = sessionStorage.getItem('dfx-boot') === '1';
+        } catch (e) {}
+        if (!reduce) {
+          d.classList.add('intro-pending');
+          if (!seen) d.classList.add('is-booting');
+          // Safety net: never hide content if the module script fails to load.
+          setTimeout(function () {
+            if (!d.classList.contains('motion-ready')) d.classList.remove('is-booting', 'intro-pending');
+          }, 2500);
+        }
+      })();
+    </script>
+
+    <!-- Google Analytics -->
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+    <script is:inline define:vars={{ GA_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <Boot />
+    <Header />
+    <main id="main">
+      <Hero />
+      <System />
+      <Trace />
+      <Education />
+      <Contact />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>
