@@ -1,0 +1,163 @@
+---
+const links = [
+  { href: '#sistema', label: 'Sistema', n: '01' },
+  { href: '#trayectoria', label: 'Trayectoria', n: '02' },
+  { href: '#formacion', label: 'Formación', n: '03' },
+  { href: '#contacto', label: 'Contacto', n: '04' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="bar">
+    <a class="brand" href="#top" aria-label="dovixman, volver al inicio">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="48 21"></circle>
+        <circle cx="16" cy="16" r="3.2" fill="var(--amber)"></circle>
+      </svg>
+      <span class="brand-name">dovixman</span>
+    </a>
+    <nav aria-label="Principal">
+      <ul class="nav">
+        {
+          links.map((l) => (
+            <li class={l.n === '04' ? 'is-cta' : ''}>
+              <a href={l.href} data-nav={l.href.slice(1)}>
+                <span class="nav-n mono" aria-hidden="true">{l.n}</span>
+                <span class="nav-label" data-scramble>{l.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="clock mono" aria-hidden="true">
+      <span class="pulse"></span>
+      <span data-clock>UTC --:--:--</span>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    padding: 14px var(--gutter);
+    pointer-events: none;
+  }
+
+  .bar {
+    pointer-events: auto;
+    max-width: calc(var(--maxw) - 2 * var(--gutter) + 40px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 52px;
+    padding: 0 10px 0 16px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    transition:
+      background-color 0.4s var(--ease),
+      border-color 0.4s var(--ease);
+  }
+
+  :global(.is-scrolled) .bar {
+    background: rgba(9, 12, 16, 0.78);
+    border-color: var(--line);
+    backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--signal);
+  }
+
+  .brand-mark {
+    width: 26px;
+    height: 26px;
+    transition: transform 0.8s var(--ease);
+  }
+
+  .brand:hover .brand-mark {
+    transform: rotate(180deg);
+  }
+
+  .brand-name {
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-size: 16px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 4px;
+  }
+
+  .nav a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    transition:
+      color 0.25s var(--ease),
+      background-color 0.25s var(--ease);
+  }
+
+  .nav a:hover,
+  .nav a[aria-current='true'] {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-n {
+    font-size: 10px;
+    color: var(--dim);
+    transition: color 0.25s var(--ease);
+  }
+
+  .nav a:hover .nav-n,
+  .nav a[aria-current='true'] .nav-n {
+    color: var(--signal);
+  }
+
+  .is-cta a {
+    color: var(--text);
+    border: 1px solid var(--line-2);
+  }
+
+  .clock {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 132px;
+    justify-content: flex-end;
+    padding-right: 6px;
+  }
+
+  @media (min-width: 1100px) {
+    .clock {
+      display: inline-flex;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .nav li:not(.is-cta) {
+      display: none;
+    }
+    .nav-n {
+      display: none;
+    }
+  }
+</style>
