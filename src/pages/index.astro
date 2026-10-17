@@ -1,0 +1,341 @@
+---
+import '@fontsource/instrument-serif/latin-400.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '@fontsource-variable/inter-tight/wght.css';
+import '../styles/global.css';
+
+const title = 'David Fuentes — Tech Lead & Software Architect';
+const description =
+  'David Fuentes (dovixman), Lead Technical Architect en Intelygenz. Arquitectura de software, liderazgo de equipos técnicos, ciberseguridad e inteligencia artificial.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const year = new Date().getFullYear();
+const canonical = new URL('/', Astro.site).href;
+
+const experience = [
+  { years: '2022 — Actualidad', role: 'Lead Technical Architect', org: 'Intelygenz', project: 'MetTel', current: true },
+  { years: '2020 — 2022', role: 'Technical Lead', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2019 — 2020', role: 'Senior Software Architect', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2018 — 2019', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { years: '2017 — 2018', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { years: '2015 — 2018', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { years: '2012 — 2015', role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+const areas = [
+  {
+    title: 'Arquitectura de software',
+    text: 'Diseño de sistemas con decisiones explícitas y razonadas: estructuras que se entienden hoy y siguen admitiendo cambios mañana.',
+  },
+  {
+    title: 'Liderazgo de equipos',
+    text: 'Contexto claro, estándares compartidos y autonomía, para que cada persona del equipo pueda decidir y avanzar con confianza.',
+  },
+  {
+    title: 'Laboratorios personales',
+    text: 'Un espacio propio para experimentar, probar ideas y aprender haciendo, lejos de la presión de producción.',
+  },
+  {
+    title: 'Ciberseguridad',
+    text: 'Seguridad en servicios y aplicaciones entendida como una propiedad del diseño, no como una capa que se añade al final.',
+  },
+  {
+    title: 'Inteligencia artificial',
+    text: 'Formación de máster y exploración aplicada: dónde aporta valor real y cómo integrarla en arquitecturas existentes.',
+  },
+  {
+    title: 'Blockchain',
+    text: 'Interés por los sistemas descentralizados y por lo que implican a la hora de diseñar confianza entre partes.',
+  },
+];
+
+const education = [
+  { years: '2020 —', title: 'Máster en Inteligencia Artificial' },
+  {
+    years: '2017 — 2018',
+    title: 'Máster en Ciberseguridad',
+    detail: 'Especialización en seguridad en servicios y aplicaciones',
+  },
+  { years: '2012 — 2016', title: 'Grado en Ingeniería Informática' },
+];
+
+const nav = [
+  { href: '#perfil', label: 'Perfil' },
+  { href: '#trayectoria', label: 'Trayectoria' },
+  { href: '#areas', label: 'Áreas' },
+  { href: '#contacto', label: 'Contacto' },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f4f2ee" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <script is:inline>
+      // Enable motion only when JS runs and the user has not asked for reduced motion.
+      (function () {
+        var d = document.documentElement;
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.add('motion');
+          // Failsafe: never leave content hidden if the motion script does not boot.
+          setTimeout(function () {
+            if (!d.classList.contains('motion-ready')) d.classList.remove('motion');
+          }, 3000);
+        }
+      })();
+    </script>
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <div class="progress" aria-hidden="true"><span></span></div>
+    <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span></div>
+
+    <header class="site-header" data-header>
+      <div class="site-header__inner wrap">
+        <a class="brand" href="#top" aria-label="David Fuentes, volver al inicio">
+          <span class="brand__name">David Fuentes</span>
+          <span class="brand__handle">dovixman</span>
+        </a>
+        <nav class="site-nav" aria-label="Principal">
+          <ul>
+            {
+              nav.map((item) => (
+                <li class={item.href === '#contacto' ? 'is-cta' : ''}>
+                  <a class="link-roll" href={item.href}>
+                    <span data-text={item.label}>{item.label}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- Hero -->
+      <section class="hero wrap" id="top" aria-labelledby="hero-title">
+        <div class="hero__meta" data-hero-meta>
+          <p class="label">Tech Lead &amp; Software Architect</p>
+          <p class="label hero__meta-now">
+            <span class="dot" aria-hidden="true"></span>
+            Lead Technical Architect · Intelygenz
+          </p>
+          <p class="label hero__meta-since">Desde 2012</p>
+        </div>
+
+        <h1 class="hero__title" id="hero-title">
+          <span class="sr-only">David Fuentes. </span>
+          <span class="hero__line" data-hero-line>Arquitectura de software</span>
+          <span class="hero__line" data-hero-line>con <em>criterio,</em> liderazgo</span>
+          <span class="hero__line" data-hero-line>con <em>oficio.</em></span>
+        </h1>
+
+        <div class="hero__foot">
+          <a class="scroll-cue label" href="#perfil" data-hero-fade>
+            <span class="scroll-cue__line" aria-hidden="true"></span>
+            Desplázate
+          </a>
+
+          <p class="hero__intro" data-hero-fade>
+            Soy David Fuentes, Lead Technical Architect en Intelygenz. Más de una década recorriendo el
+            camino que va del desarrollo en Java a la dirección técnica de proyectos para Inditex y MetTel.
+          </p>
+
+          <div class="hero__cta" data-hero-fade>
+            <a class="btn-round" href={`mailto:${email}`} data-magnetic data-cursor="lg">
+              <span class="btn-round__fill" aria-hidden="true"></span>
+              <span class="btn-round__label" data-magnetic-inner>Escríbeme</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 Perfil -->
+      <section class="section wrap" id="perfil" aria-labelledby="perfil-title">
+        <header class="section__head">
+          <p class="label section__index" data-reveal><span>01</span> Perfil</p>
+          <h2 class="sr-only" id="perfil-title">Perfil</h2>
+        </header>
+
+        <div class="profile">
+          <p class="lead" data-split>
+            Trabajo en el punto donde se cruzan la arquitectura y las personas: convertir problemas complejos en
+            sistemas claros, y decisiones técnicas en <em>equipos que avanzan</em> con autonomía.
+          </p>
+
+          <div class="profile__cols">
+            <div data-reveal>
+              <h3 class="kicker">Tech Lead</h3>
+              <p>
+                Acompaño a los equipos en lo que hace que el software llegue lejos: contexto compartido,
+                prioridades nítidas y una cultura técnica en la que las buenas decisiones son la opción por defecto.
+              </p>
+            </div>
+            <div data-reveal>
+              <h3 class="kicker">Software Architect</h3>
+              <p>
+                Diseño la estructura que sostiene el producto: límites, contratos y compromisos explícitos entre
+                rendimiento, coste, seguridad y velocidad de cambio, siempre documentados y razonados.
+              </p>
+            </div>
+          </div>
+
+          <dl class="facts">
+            <div class="fact" data-reveal>
+              <dt class="label">Trayectoria</dt>
+              <dd><span class="fact__num">2012</span><span class="fact__text">comienzo como Java &amp; Web Developer</span></dd>
+            </div>
+            <div class="fact" data-reveal>
+              <dt class="label">Experiencia</dt>
+              <dd><span class="fact__num">7</span><span class="fact__text">roles en 4 organizaciones</span></dd>
+            </div>
+            <div class="fact" data-reveal>
+              <dt class="label">Formación</dt>
+              <dd><span class="fact__num">2</span><span class="fact__text">másteres: IA y Ciberseguridad</span></dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- 02 Trayectoria -->
+      <section class="section wrap" id="trayectoria" aria-labelledby="trayectoria-title">
+        <header class="section__head">
+          <p class="label section__index" data-reveal><span>02</span> Trayectoria</p>
+          <h2 class="section__title" id="trayectoria-title" data-split>
+            De escribir código a <em>diseñar</em> cómo se escribe.
+          </h2>
+        </header>
+
+        <ol class="timeline" role="list">
+          {
+            experience.map((job) => (
+              <li class={`timeline__row${job.current ? ' is-current' : ''}`} data-row>
+                <span class="timeline__years">{job.years}</span>
+                <span class="timeline__role">{job.role}</span>
+                <span class="timeline__org">
+                  {job.org}
+                  {job.project && <span class="timeline__project"> · Proyecto {job.project}</span>}
+                </span>
+                {job.current && <span class="timeline__badge label">Actual</span>}
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <!-- 03 Áreas -->
+      <section class="section wrap" id="areas" aria-labelledby="areas-title">
+        <header class="section__head">
+          <p class="label section__index" data-reveal><span>03</span> Áreas</p>
+          <h2 class="section__title" id="areas-title" data-split>
+            Lo que me ocupa <em>y</em> lo que me interesa.
+          </h2>
+        </header>
+
+        <ul class="areas" role="list">
+          {
+            areas.map((area, i) => (
+              <li class="area" data-reveal>
+                <span class="area__num label">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="area__title">{area.title}</h3>
+                <p class="area__text">{area.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- 04 Formación -->
+      <section class="section wrap" id="formacion" aria-labelledby="formacion-title">
+        <header class="section__head">
+          <p class="label section__index" data-reveal><span>04</span> Formación</p>
+          <h2 class="section__title" id="formacion-title" data-split>
+            Aprender es parte <em>del trabajo.</em>
+          </h2>
+        </header>
+
+        <ol class="timeline timeline--edu" role="list">
+          {
+            education.map((item) => (
+              <li class="timeline__row" data-row>
+                <span class="timeline__years">{item.years}</span>
+                <span class="timeline__role">{item.title}</span>
+                <span class="timeline__org">{item.detail ?? ''}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <!-- 05 Contacto -->
+      <section class="contact wrap" id="contacto" aria-labelledby="contacto-title">
+        <p class="label section__index" data-reveal><span>05</span> Contacto</p>
+        <h2 class="contact__title" id="contacto-title" data-split>
+          ¿Hablamos de <em>arquitectura,</em> equipos o de lo próximo?
+        </h2>
+
+        <div class="contact__row">
+          <a class="contact__mail" href={`mailto:${email}`} data-magnetic data-magnetic-strength="0.18">
+            <span data-magnetic-inner>{email}</span>
+            <span class="contact__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5" /></svg>
+            </span>
+          </a>
+
+          <ul class="contact__links" role="list">
+            <li>
+              <a class="link-roll" href={github} rel="me noopener" target="_blank">
+                <span data-text="GitHub ↗">GitHub ↗</span>
+              </a>
+            </li>
+            <li>
+              <a class="link-roll" href={`mailto:${email}`}>
+                <span data-text="Email ↗">Email ↗</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer wrap">
+      <p>© {year} David Fuentes — dovixman</p>
+      <p class="site-footer__note">Diseñado y construido con cuidado.</p>
+      <a class="link-roll" href="#top"><span data-text="Volver arriba ↑">Volver arriba ↑</span></a>
+    </footer>
+
+    <script>
+      import '../scripts/motion.ts';
+    </script>
+  </body>
+</html>
