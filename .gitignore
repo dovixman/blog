@@ -3,8 +3,6 @@ node_modules/
 
 # build output
 dist/
-
-# astro
 .astro/
 
 # logs
@@ -12,7 +10,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# environment
+# env
 .env
 .env.*
 

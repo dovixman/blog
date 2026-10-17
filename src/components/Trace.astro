@@ -1,0 +1,286 @@
+---
+import { experience, START_YEAR } from '../data/profile';
+
+const now = new Date();
+const nowYear = now.getFullYear() + now.getMonth() / 12;
+const axisEnd = Math.ceil(nowYear) + 0.0001;
+const span = axisEnd - START_YEAR;
+const pct = (y: number) => (((y - START_YEAR) / span) * 100).toFixed(3);
+const years = Math.floor(nowYear - START_YEAR);
+const ticks: number[] = [];
+for (let y = START_YEAR; y <= Math.floor(axisEnd); y += 2) if (nowYear - y > 1.3) ticks.push(y);
+
+const rows = experience.map((e) => {
+  const end = e.to ?? nowYear;
+  const dur = end - e.from;
+  const durLabel = e.to === null ? 'en curso' : dur <= 1 ? '≈ 1 año' : `≈ ${Math.round(dur)} años`;
+  return { ...e, start: pct(e.from), width: (((end - e.from) / span) * 100).toFixed(3), durLabel };
+});
+---
+
+<section class="section trace" id="trayectoria" aria-labelledby="trayectoria-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="section-index mono" data-reveal>02 · Trayectoria</p>
+      <div>
+        <h2 class="section-title" id="trayectoria-title" data-split>
+          <span data-years>{years}</span> años <span class="muted">en producción.</span>
+        </h2>
+        <p class="section-lede" data-reveal>
+          Leída como una traza distribuida: cada rol es un span en el tiempo. Del desarrollo Java y web a la
+          arquitectura, el DevOps y el liderazgo técnico de equipos.
+        </p>
+      </div>
+    </header>
+
+    <div class="trace-table" style={`--tick:${(200 / span).toFixed(3)}%`}>
+      <div class="trace-axis" aria-hidden="true">
+        <span class="axis-label mono">span · rol · organización</span>
+        <div class="axis-track">
+          {
+            ticks.map((t) => (
+              <span class="tick mono" style={`left:${pct(t)}%`}>
+                {t}
+              </span>
+            ))
+          }
+          <span class="tick tick--now mono" style={`left:${pct(nowYear)}%`}>hoy</span>
+        </div>
+      </div>
+
+      <ol class="spans">
+        {
+          rows.map((r) => (
+            <li class:list={['span', { 'is-live': r.to === null }]} data-span>
+              <div class="span-id mono" aria-hidden="true">
+                <span>SPAN·{r.id}</span>
+              </div>
+              <div class="span-body">
+                <h3 class="span-role">{r.role}</h3>
+                <p class="span-org">
+                  {r.org}
+                  {r.context && <span class="span-ctx"> · {r.context}</span>}
+                </p>
+              </div>
+              <p class="span-time mono">
+                <time datetime={String(r.from)}>{r.from}</time>
+                <span aria-hidden="true"> — </span>
+                <span class="visually-hidden"> a </span>
+                {r.to === null ? <span class="live">actualidad</span> : <time datetime={String(r.to)}>{r.to}</time>}
+                <span class="span-dur">{r.durLabel}</span>
+              </p>
+              <div class="span-track" aria-hidden="true">
+                <span class="span-bar" style={`left:${r.start}%;width:${r.width}%`} data-span-bar>
+                  {r.to === null && <span class="span-head" />}
+                </span>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trace-axis {
+    display: none;
+  }
+
+  .trace-axis {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .axis-label {
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  .axis-track {
+    position: relative;
+    height: 16px;
+  }
+
+  .tick {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  .tick:first-child {
+    transform: none;
+  }
+
+  .tick--now {
+    color: var(--amber);
+  }
+
+  .spans {
+    display: grid;
+  }
+
+  .span {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'id time'
+      'body body'
+      'track track';
+    gap: 10px 16px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .span-id {
+    grid-area: id;
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  .span-body {
+    grid-area: body;
+    min-width: 0;
+  }
+
+  .span-time {
+    grid-area: time;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 6px;
+    justify-content: flex-end;
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .span-dur {
+    flex-basis: 100%;
+    text-align: right;
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  .live {
+    color: var(--amber);
+  }
+
+  .span-track {
+    grid-area: track;
+    position: relative;
+    height: 22px;
+    background-image: linear-gradient(to right, var(--line) 1px, transparent 1px);
+    background-size: var(--tick) 100%;
+  }
+
+  @media (min-width: 1000px) {
+    .trace-axis,
+    .span {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1.1fr) 170px minmax(0, 1fr);
+      grid-template-areas: none;
+      column-gap: 28px;
+      align-items: center;
+    }
+    .trace-axis .axis-label {
+      grid-column: 1 / 4;
+    }
+    .span {
+      padding: 30px 0;
+    }
+    .span-id,
+    .span-body,
+    .span-time,
+    .span-track {
+      grid-area: auto;
+    }
+    .span-time {
+      justify-content: flex-start;
+    }
+    .span-dur {
+      text-align: left;
+    }
+  }
+
+  .span-role {
+    font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+
+  .span-org {
+    margin-top: 6px;
+    color: var(--muted);
+  }
+
+  .span-ctx {
+    color: var(--dim);
+  }
+
+  .span-bar {
+    position: absolute;
+    top: 50%;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(124, 240, 197, 0.25), rgba(124, 240, 197, 0.75));
+    box-shadow: 0 0 0 1px rgba(124, 240, 197, 0.35) inset;
+    transform-origin: left center;
+  }
+
+  .is-live .span-bar {
+    background: linear-gradient(90deg, rgba(255, 180, 84, 0.25), rgba(255, 180, 84, 0.85));
+    box-shadow: 0 0 0 1px rgba(255, 180, 84, 0.45) inset;
+  }
+
+  .span-head {
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 14px rgba(255, 180, 84, 0.8);
+  }
+
+  .span-head::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1px solid var(--amber);
+    animation: ping 2.4s var(--ease) infinite;
+  }
+
+  .span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--signal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .span:hover::after {
+    transform: scaleX(1);
+  }
+
+  .span:hover .span-role {
+    color: var(--signal);
+  }
+
+  .span-role {
+    transition: color 0.3s var(--ease);
+  }
+</style>

@@ -1,0 +1,121 @@
+---
+import { experience, domains, START_YEAR, profile } from '../data/profile';
+const lines = [
+  { tag: 'init', text: `dovixman.io · secuencia de arranque` },
+  { tag: ' ok ', text: `perfil cargado: ${profile.name}` },
+  { tag: ' ok ', text: `rol activo: ${profile.role}` },
+  { tag: ' ok ', text: `${experience.length} spans de trayectoria · ${START_YEAR} → hoy` },
+  { tag: ' ok ', text: `${domains.length} dominios enlazados` },
+  { tag: 'done', text: 'sistema operativo · bienvenido' },
+];
+---
+
+<div class="boot-screen" id="boot" aria-hidden="true">
+  <div class="boot-inner">
+    <div class="boot-top mono">
+      <span>DFX / boot</span>
+      <span class="boot-pct" data-boot-pct>000%</span>
+    </div>
+    <ol class="boot-log">
+      {
+        lines.map((l) => (
+          <li class="boot-line" data-boot-line>
+            <span class={`boot-tag ${l.tag === 'done' ? 'is-done' : ''}`}>[{l.tag}]</span>
+            <span class="boot-text" data-text={l.text}>{l.text}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="boot-bar"><span data-boot-bar></span></div>
+    <button class="boot-skip mono" type="button" data-boot-skip tabindex="-1">Saltar · Esc</button>
+  </div>
+</div>
+
+<style>
+  .boot-screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    place-items: center;
+    background: var(--bg);
+    padding: 24px;
+  }
+
+  :global(html.is-booting) .boot-screen {
+    display: grid;
+  }
+
+  .boot-inner {
+    width: min(560px, 100%);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .boot-top {
+    display: flex;
+    justify-content: space-between;
+    color: var(--signal);
+    margin-bottom: 20px;
+  }
+
+  .boot-log {
+    display: grid;
+    gap: 6px;
+    min-height: calc(6 * 1.6em + 30px);
+  }
+
+  .boot-line {
+    display: flex;
+    gap: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+  }
+
+  .boot-tag {
+    color: var(--signal);
+    white-space: pre;
+  }
+
+  .boot-tag.is-done {
+    color: var(--amber);
+  }
+
+  .boot-text {
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .boot-bar {
+    margin-top: 24px;
+    height: 1px;
+    background: var(--line-2);
+    overflow: hidden;
+  }
+
+  .boot-bar span {
+    display: block;
+    height: 100%;
+    background: var(--signal);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  .boot-skip {
+    margin-top: 20px;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--dim);
+    cursor: pointer;
+    font-size: 11px;
+  }
+
+  .boot-skip:hover {
+    color: var(--text);
+  }
+</style>
