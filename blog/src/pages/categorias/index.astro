@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import { byCategory, getPosts, url } from '../../lib/posts';
+
+const categories = byCategory(await getPosts());
+---
+<Base title="Categorías" description="Artículos del blog de David Fuentes agrupados por categoría." nav="categorias">
+  <h1 class="page-title">Categorías</h1>
+  <p class="page-intro">Cada artículo pertenece a una categoría.</p>
+  {categories.length === 0 ? (
+    <p class="empty">Todavía no hay categorías.</p>
+  ) : (
+    <ul class="taxonomy">
+      {categories.map((c) => <li><a href={url(`categorias/${c.slug}/`)}>{c.label}</a> <span>({c.posts.length})</span></li>)}
+    </ul>
+  )}
+</Base>

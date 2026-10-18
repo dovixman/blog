@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import { getPosts } from '../lib/posts';
+
+const posts = await getPosts();
+---
+<Base title="Blog" description="Artículos de David Fuentes sobre arquitectura de software, liderazgo técnico, ciberseguridad e inteligencia artificial." nav="posts">
+  <h1 class="page-title">Artículos</h1>
+  <p class="page-intro">Notas sobre arquitectura de software, liderazgo de equipos, ciberseguridad e inteligencia artificial.</p>
+  <PostList posts={posts} />
+</Base>

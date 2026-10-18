@@ -1,0 +1,14 @@
+---
+import { formatDate, readingTime, slugify, url, type Post } from '../lib/posts';
+
+interface Props { post: Post }
+const { post } = Astro.props;
+const { date, updated, category, draft } = post.data;
+---
+<div class="meta">
+  <time datetime={date.toISOString()}>{formatDate(date)}</time>
+  {updated && <span>Actualizado el <time datetime={updated.toISOString()}>{formatDate(updated)}</time></span>}
+  <a href={url(`categorias/${slugify(category)}/`)}>{category}</a>
+  <span>{readingTime(post.body)} min de lectura</span>
+  {draft && <strong>Borrador</strong>}
+</div>

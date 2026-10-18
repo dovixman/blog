@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { byTag, getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  return byTag(await getPosts()).map((t) => ({
+    params: { tag: t.slug },
+    props: { label: t.label, posts: t.posts },
+  }));
+}
+
+const { label, posts } = Astro.props;
+---
+<Base title={`#${label}`} description={`Artículos con el tag ${label}.`} nav="tags">
+  <h1 class="page-title">#{label}</h1>
+  <p class="page-intro">{posts.length} {posts.length === 1 ? 'artículo' : 'artículos'} con este tag.</p>
+  <PostList posts={posts} />
+</Base>
