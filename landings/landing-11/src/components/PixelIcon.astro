@@ -1,0 +1,45 @@
+---
+/**
+ * 1-bit pixel icon drawn from a 16×16 ASCII grid.
+ * "#" = ink, "." = paper, " " = transparent. Horizontal runs are merged into rects.
+ */
+import { icons, type IconName } from '../lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 48, class: className } = Astro.props;
+const grid = icons[name];
+
+type Run = { x: number; y: number; w: number; c: '#' | '.' };
+const runs: Run[] = [];
+grid.forEach((row, y) => {
+  let x = 0;
+  while (x < row.length) {
+    const c = row[x];
+    if (c === '#' || c === '.') {
+      let w = 1;
+      while (row[x + w] === c) w++;
+      runs.push({ x, y, w, c });
+      x += w;
+    } else {
+      x++;
+    }
+  }
+});
+---
+
+<svg
+  class:list={['pixel-icon', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 16 16"
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+  focusable="false"
+>
+  {runs.map((r) => <rect x={r.x} y={r.y} width={r.w} height="1" class={r.c === '#' ? 'ink' : 'paper'} />)}
+</svg>
