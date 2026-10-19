@@ -1,0 +1,351 @@
+---
+import '@fontsource/pixelify-sans/latin-400.css';
+import '@fontsource/pixelify-sans/latin-600.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '../styles/desktop.css';
+import PixelIcon from '../components/PixelIcon.astro';
+
+const title = 'David Fuentes — Escritorio';
+const description =
+  'El escritorio de David Fuentes (dovixman): Lead Technical Architect en Intelygenz, Tech Lead y Software Architect. Trayectoria, formación, áreas de interés y contacto.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const experience = [
+  { years: '2022–actual', role: 'Lead Technical Architect', org: 'Intelygenz', project: 'MetTel' },
+  { years: '2020–2022', role: 'Technical Lead', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2019–2020', role: 'Senior Software Architect', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2018–2019', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { years: '2017–2018', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { years: '2015–2018', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { years: '2012–2015', role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+const education = [
+  { years: '2020–', title: 'Máster en Inteligencia Artificial' },
+  {
+    years: '2017–2018',
+    title: 'Máster en Ciberseguridad',
+    detail: 'Especialidad en seguridad en servicios y aplicaciones.',
+  },
+  { years: '2012–2016', title: 'Grado en Ingeniería Informática' },
+];
+
+const areas = [
+  {
+    title: 'Arquitectura de software',
+    text: 'Sistemas con decisiones explícitas y razonadas, que se entienden hoy y admiten cambios mañana.',
+  },
+  {
+    title: 'Liderazgo de equipos',
+    text: 'Contexto claro, estándares compartidos y autonomía para que el equipo decida y avance.',
+  },
+  {
+    title: 'Laboratorios personales',
+    text: 'Un espacio propio para experimentar y aprender haciendo, lejos de la presión de producción.',
+  },
+  {
+    title: 'Ciberseguridad',
+    text: 'La seguridad en servicios y aplicaciones como propiedad del diseño, no como capa final.',
+  },
+  {
+    title: 'Inteligencia artificial',
+    text: 'Formación de máster y exploración aplicada: dónde aporta valor real y cómo integrarla.',
+  },
+  {
+    title: 'Blockchain',
+    text: 'Sistemas descentralizados y lo que implican a la hora de diseñar confianza entre partes.',
+  },
+];
+
+type Win = {
+  id: string;
+  label: string;
+  icon: 'user' | 'folder' | 'book' | 'grid' | 'mail' | 'doc';
+  width: number;
+  info?: string;
+  infoRight?: string;
+};
+
+const windows: Win[] = [
+  { id: 'sobre', label: 'Sobre mí', icon: 'user', width: 500 },
+  { id: 'trayectoria', label: 'Trayectoria', icon: 'folder', width: 640, info: `${experience.length} elementos`, infoRight: 'Desde 2012' },
+  { id: 'formacion', label: 'Formación', icon: 'book', width: 480, info: `${education.length} elementos`, infoRight: 'Desde 2012' },
+  { id: 'areas', label: 'Áreas', icon: 'grid', width: 600, info: `${areas.length} elementos` },
+  { id: 'contacto', label: 'Contacto', icon: 'mail', width: 440 },
+  { id: 'blog', label: 'Blog', icon: 'doc', width: 420 },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#escritorio">Saltar al escritorio</a>
+
+    <header class="menubar">
+      <nav class="menubar__menus" aria-label="Menú del sistema">
+        <ul class="menubar__list" data-menubar>
+          <li class="menu">
+            <button class="menu__trigger menu__trigger--mark" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu-sistema" aria-label="Menú dovixman">
+              <PixelIcon name="mark" size={20} />
+            </button>
+            <ul class="menu__panel" id="menu-sistema" role="menu" hidden>
+              <li role="none"><button type="button" role="menuitem" data-open="sobre">Acerca de David Fuentes…</button></li>
+              <li role="none"><button type="button" role="menuitem" data-open="contacto">Contacto…</button></li>
+              <li role="separator" class="menu__sep"></li>
+              <li role="none"><button type="button" role="menuitem" data-close-all>Cerrar todas las ventanas</button></li>
+            </ul>
+          </li>
+          <li class="menu">
+            <button class="menu__trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu-ventanas">Ventanas</button>
+            <ul class="menu__panel" id="menu-ventanas" role="menu" hidden>
+              {
+                windows.map((w) => (
+                  <li role="none">
+                    <button type="button" role="menuitem" data-open={w.id} data-state-for={w.id}>
+                      <span class="menu__check" aria-hidden="true" />
+                      {w.label}
+                    </button>
+                  </li>
+                ))
+              }
+            </ul>
+          </li>
+          <li class="menu">
+            <button class="menu__trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu-enlaces">Enlaces</button>
+            <ul class="menu__panel" id="menu-enlaces" role="menu" hidden>
+              <li role="none"><a role="menuitem" href={blog}>Blog <span aria-hidden="true">↗</span></a></li>
+              <li role="none"><a role="menuitem" href={github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></li>
+              <li role="none"><a role="menuitem" href={`mailto:${email}`}>{email}</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <nav class="menubar__static" aria-label="Secciones">
+        <span class="menubar__brand"><PixelIcon name="mark" size={20} /> dovixman</span>
+        <ul>
+          {windows.map((w) => <li><a href={`#win-${w.id}`}>{w.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <time class="menubar__clock" data-clock aria-live="off"></time>
+    </header>
+
+    <main class="desktop" id="escritorio" tabindex="-1">
+      <div class="caption">
+        <h1 class="caption__name"><span>David</span> <span>Fuentes</span></h1>
+        <p class="caption__role">Lead Technical Architect · Tech Lead · Software Architect</p>
+        <p class="caption__hint">
+          <span class="hint-fine">Doble clic en un icono para abrirlo.</span>
+          <span class="hint-coarse">Toca un icono para abrirlo.</span>
+        </p>
+      </div>
+
+      <ul class="icons" aria-label="Iconos del escritorio">
+        {
+          windows.map((w) => (
+            <li>
+              <button class="icon" type="button" data-icon={w.id} aria-controls={`win-${w.id}`} aria-expanded="false">
+                <PixelIcon name={w.icon} size={48} />
+                <span class="icon__label">{w.label}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="windows">
+        {
+          windows.map((w) => (
+            <section class="win" id={`win-${w.id}`} data-win={w.id} aria-labelledby={`win-${w.id}-title`} style={`--w: ${w.width}px`}>
+              <header class="win__bar" data-drag>
+                <button class="win__btn win__close" type="button" data-action="close" aria-label={`Cerrar ${w.label}`} />
+                <h2 class="win__title" id={`win-${w.id}-title`} tabindex="-1">
+                  <span>{w.label}</span>
+                </h2>
+                <button class="win__btn win__min" type="button" data-action="minimize" aria-label={`Minimizar ${w.label}`} />
+                <button class="win__btn win__zoom" type="button" data-action="zoom" aria-label={`Ampliar ${w.label}`} aria-pressed="false" />
+              </header>
+              {w.info && (
+                <p class="win__info">
+                  <span>{w.info}</span>
+                  {w.infoRight && <span>{w.infoRight}</span>}
+                </p>
+              )}
+
+              <div class="win__body">
+                {w.id === 'sobre' && (
+                  <div class="about">
+                    <div class="about__head">
+                      <PixelIcon name="user" size={64} class="about__icon" />
+                      <div>
+                        <p class="about__name">David Fuentes</p>
+                        <p class="about__handle">dovixman</p>
+                      </div>
+                    </div>
+                    <dl class="getinfo">
+                      <div><dt>Puesto</dt><dd>Lead Technical Architect</dd></div>
+                      <div><dt>Empresa</dt><dd>Intelygenz · proyecto MetTel</dd></div>
+                      <div><dt>Desde</dt><dd>2022</dd></div>
+                      <div><dt>Perfil</dt><dd>Tech Lead y Software Architect</dd></div>
+                    </dl>
+                    <p>
+                      Diseño arquitecturas de software y lidero equipos técnicos. Me interesa que cada decisión sea
+                      explícita y razonada, y que el equipo tenga el contexto necesario para decidir y avanzar con
+                      autonomía.
+                    </p>
+                    <p>
+                      Empecé en 2012 como desarrollador Java y web; desde entonces he pasado por I+D, DevOps y
+                      arquitectura. Hoy combino ese recorrido con formación en ciberseguridad e inteligencia artificial.
+                    </p>
+                    <div class="btnrow">
+                      <button class="btn btn--default" type="button" data-open="trayectoria">Ver trayectoria</button>
+                      <button class="btn" type="button" data-open="contacto">Contacto</button>
+                    </div>
+                  </div>
+                )}
+
+                {w.id === 'trayectoria' && (
+                  <table class="list">
+                    <caption class="sr-only">Trayectoria profesional, de la más reciente a la más antigua</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Puesto</th>
+                        <th scope="col">Empresa</th>
+                        <th scope="col" class="list__years" aria-sort="descending">Años <span aria-hidden="true">▾</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {experience.map((e, i) => (
+                        <tr class={i === 0 ? 'is-current' : ''}>
+                          <th scope="row">
+                            <PixelIcon name="doc" size={16} class="list__icon" />
+                            {e.role}
+                          </th>
+                          <td>
+                            {e.org}
+                            {e.project && <span class="list__project"> / {e.project}</span>}
+                          </td>
+                          <td class="list__years">{e.years}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+
+                {w.id === 'formacion' && (
+                  <ol class="edu">
+                    {education.map((e) => (
+                      <li>
+                        <PixelIcon name="book" size={32} class="edu__icon" />
+                        <div>
+                          <p class="edu__title">{e.title}</p>
+                          {e.detail && <p class="edu__detail">{e.detail}</p>}
+                        </div>
+                        <p class="edu__years">{e.years}</p>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                {w.id === 'areas' && (
+                  <ul class="areas">
+                    {areas.map((a) => (
+                      <li>
+                        <h3>{a.title}</h3>
+                        <p>{a.text}</p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {w.id === 'contacto' && (
+                  <div class="contact">
+                    <PixelIcon name="mail" size={64} class="contact__icon" />
+                    <p class="contact__lead">¿Hablamos de arquitectura, equipos o de algún proyecto? Escríbeme.</p>
+                    <dl class="contact__rows">
+                      <div>
+                        <dt>Correo</dt>
+                        <dd><a href={`mailto:${email}`}>{email}</a></dd>
+                      </div>
+                      <div>
+                        <dt>GitHub</dt>
+                        <dd><a href={github} rel="me noopener">github.com/dovixman</a></dd>
+                      </div>
+                      <div>
+                        <dt>Blog</dt>
+                        <dd><a href={blog}>dovixman.io/blog</a></dd>
+                      </div>
+                    </dl>
+                    <div class="btnrow">
+                      <a class="btn btn--default" href={`mailto:${email}`}>Escribir correo</a>
+                    </div>
+                  </div>
+                )}
+
+                {w.id === 'blog' && (
+                  <div class="blogwin">
+                    <p>El blog personal de David Fuentes, en dovixman.io.</p>
+                    <p class="blogwin__url">
+                      <span aria-hidden="true">→ </span>dovixman.io/blog/
+                    </p>
+                    <div class="btnrow">
+                      <a class="btn btn--default" href={blog}>Abrir el blog</a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <div class="tray" data-tray aria-label="Ventanas minimizadas" role="group" hidden></div>
+    </main>
+
+    <p class="sr-only" aria-live="polite" data-announcer></p>
+
+    <script>
+      import '../scripts/desktop';
+    </script>
+  </body>
+</html>
