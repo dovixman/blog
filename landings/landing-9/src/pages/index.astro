@@ -1,0 +1,333 @@
+---
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '../styles/global.css';
+import Doodle from '../components/Doodle.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const title = 'David Fuentes — Cuaderno de notas';
+const description =
+  'El cuaderno de David Fuentes (dovixman): Lead Technical Architect en Intelygenz, Tech Lead y Software Architect. Trayectoria, intereses y contacto.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const year = new Date().getFullYear();
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const fontFace = `@font-face{font-family:'Dovixman';src:url('${base}fonts/DovixmanFont.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}`;
+
+const experience = [
+  { years: '2022 – hoy', role: 'Lead Technical Architect', org: 'Intelygenz', project: 'MetTel', current: true },
+  { years: '2020 – 2022', role: 'Technical Lead', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2019 – 2020', role: 'Senior Software Architect', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2018 – 2019', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { years: '2017 – 2018', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { years: '2015 – 2018', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { years: '2012 – 2015', role: 'Java & Web Developer', org: 'Alecop S. Coop.', first: true },
+];
+
+const notes = [
+  {
+    title: 'Arquitectura de software',
+    text: 'Decisiones explícitas y razonadas: sistemas que se entienden hoy y siguen admitiendo cambios mañana.',
+    color: 'yellow',
+  },
+  {
+    title: 'Liderazgo de equipos',
+    text: 'Contexto claro, estándares compartidos y autonomía para que cada persona pueda decidir con confianza.',
+    color: 'pink',
+  },
+  {
+    title: 'Laboratorios personales',
+    text: 'Un espacio propio para experimentar, probar ideas y aprender haciendo, lejos de producción.',
+    color: 'green',
+  },
+  {
+    title: 'Ciberseguridad',
+    text: 'La seguridad en servicios y aplicaciones como propiedad del diseño, no como una capa al final.',
+    color: 'blue',
+  },
+  {
+    title: 'Inteligencia artificial',
+    text: 'Dónde aporta valor real y cómo integrarla en arquitecturas que ya existen.',
+    color: 'yellow',
+  },
+  {
+    title: 'Blockchain',
+    text: 'Sistemas descentralizados y lo que implican a la hora de diseñar confianza entre partes.',
+    color: 'pink',
+  },
+];
+
+const education = [
+  { years: '2020 –', title: 'Máster en Inteligencia Artificial' },
+  {
+    years: '2017 – 2018',
+    title: 'Máster en Ciberseguridad',
+    detail: 'Seguridad en servicios y aplicaciones',
+  },
+  { years: '2012 – 2016', title: 'Grado en Ingeniería Informática' },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="preload" href={`${base}fonts/DovixmanFont.woff2`} as="font" type="font/woff2" crossorigin />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f6f1e4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <style is:inline set:html={fontFace} />
+
+    <script is:inline>
+      // Hand-drawn strokes start "undrawn" only when JS runs and motion is welcome.
+      (function () {
+        var d = document.documentElement;
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.add('ink');
+          setTimeout(function () {
+            if (!d.classList.contains('ink-ready')) d.classList.remove('ink');
+          }, 3000);
+        }
+      })();
+    </script>
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <div class="sheet" id="top">
+      <div class="holes" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <a class="logo hand" href="#top" aria-label="David Fuentes, volver al inicio">dovixman</a>
+        <nav aria-label="Principal">
+          <ul class="nav">
+            <li><a href="#sobre-mi">Sobre mí</a></li>
+            <li><a href="#trayectoria">Trayectoria</a></li>
+            <li><a href="#notas">Notas</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main id="main">
+        <!-- ================= HERO ================= -->
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero__head">
+            <p class="kicker">Cuaderno de notas · David Fuentes</p>
+            <h1 id="hero-title" class="hand hero__title">
+              <span class="hero__line">Hola, </span>
+              <span class="hero__line">soy <span class="marked">David<Doodle kind="underline" class="hero__underline" color="red" /></span></span>
+            </h1>
+            <p class="hand hero__aka">
+              <span>(aka dovixman)</span>
+              <Doodle kind="squiggle" class="hero__squiggle" />
+            </p>
+          </div>
+          <div class="hero__text">
+            <p class="lead">
+              Tech Lead y Software Architect. Hoy trabajo como <strong>Lead Technical Architect en Intelygenz</strong>, en el
+              proyecto MetTel. Diseño sistemas y acompaño a equipos técnicos para que construyan software que se entiende, se
+              mantiene y aguanta el cambio.
+            </p>
+            <ul class="hero__links">
+              <li><a class="pen-link" href={`mailto:${email}`}>{email}</a></li>
+              <li><a class="pen-link" href={github} rel="me noopener">GitHub</a></li>
+              <li><a class="pen-link" href={blog}>Blog</a></li>
+            </ul>
+          </div>
+
+          <aside class="hero__aside" aria-label="Nota rápida">
+            <div class="postit postit--yellow postit--hero" data-stick>
+              <span class="tape" aria-hidden="true"></span>
+              <p class="hand postit__title">Ahora mismo</p>
+              <p class="postit__body">
+                Lead Technical Architect<br />
+                <span class="muted">Intelygenz · proyecto MetTel</span>
+              </p>
+              <p class="hand postit__foot">desde 2022</p>
+            </div>
+          </aside>
+        </section>
+
+        <!-- ================= SOBRE MÍ ================= -->
+        <section class="block" id="sobre-mi" aria-labelledby="sobre-title">
+          <div class="margin-note hand" aria-hidden="true">01</div>
+          <header class="block__head">
+            <h2 id="sobre-title" class="hand h2">Sobre mí</h2>
+            <Doodle kind="underline-short" class="h2__underline" />
+          </header>
+
+          <div class="ruled-wrap">
+            <div class="ruled">
+              <p>
+                Escribo software desde 2012. Empecé como desarrollador Java y web, pasé por la I+D, la arquitectura y DevOps,
+                y hoy mi trabajo consiste sobre todo en <mark class="hl" data-ink>tomar buenas decisiones técnicas y ayudar a
+                que un equipo las haga suyas</mark>.
+              </p>
+              <p>
+                Me interesan la arquitectura de software, el liderazgo de equipos, la ciberseguridad, la inteligencia artificial
+                y blockchain. Y guardo siempre un rincón para los <mark class="hl" data-ink>laboratorios personales</mark>: un
+                sitio donde probar ideas con calma y aprender haciendo.
+              </p>
+            </div>
+            <p class="side-note hand" aria-hidden="true">
+              <Doodle kind="arrow-up" class="side-note__arrow" />
+              lo importante,<br />subrayado
+            </p>
+          </div>
+        </section>
+
+        <!-- ================= TRAYECTORIA ================= -->
+        <section class="block" id="trayectoria" aria-labelledby="tray-title">
+          <div class="margin-note hand" aria-hidden="true">02</div>
+          <header class="block__head">
+            <h2 id="tray-title" class="hand h2">Trayectoria</h2>
+            <Doodle kind="underline" class="h2__underline" />
+            <p class="block__intro">De Java y web a la arquitectura y el liderazgo técnico, de 2012 a hoy.</p>
+          </header>
+
+          <div class="timeline">
+            <Doodle kind="vline" class="timeline__line" />
+            <ol class="timeline__list">
+              {
+                experience.map((item) => (
+                  <li class={`entry${item.current ? ' entry--current' : ''}`}>
+                    <p class="entry__years hand">{item.years}</p>
+                    <div class="entry__body">
+                      <h3 class="entry__role">
+                        <span class="entry__role-text">
+                          {item.role}
+                          {item.current && <Doodle kind="circle" class="entry__circle" color="red" />}
+                        </span>
+                      </h3>
+                      <p class="entry__org">
+                        {item.org}
+                        {item.project && <span class="muted"> · {item.project}</span>}
+                      </p>
+                      {item.current && (
+                        <p class="entry__note hand" aria-hidden="true">
+                          <Doodle kind="arrow-back" class="entry__note-arrow" color="red" />
+                          aquí estoy ahora
+                        </p>
+                      )}
+                      {item.first && (
+                        <p class="entry__note entry__note--first hand" aria-hidden="true">
+                          por aquí empezó todo
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                ))
+              }
+            </ol>
+          </div>
+        </section>
+
+        <!-- ================= NOTAS / ÁREAS ================= -->
+        <section class="block" id="notas" aria-labelledby="notas-title">
+          <div class="margin-note hand" aria-hidden="true">03</div>
+          <header class="block__head">
+            <h2 id="notas-title" class="hand h2">Lo que me interesa</h2>
+            <Doodle kind="underline" class="h2__underline" />
+            <p class="block__intro">Seis notas pegadas en la tapa del cuaderno.</p>
+          </header>
+
+          <ul class="board">
+            {
+              notes.map((note, i) => (
+                <li class={`postit postit--${note.color} postit--n${i + 1}`} data-stick>
+                  <span class="tape" aria-hidden="true" />
+                  <h3 class="hand postit__title">{note.title}</h3>
+                  <p class="postit__body">{note.text}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <!-- ================= FORMACIÓN ================= -->
+        <section class="block" id="formacion" aria-labelledby="form-title">
+          <div class="margin-note hand" aria-hidden="true">04</div>
+          <header class="block__head">
+            <h2 id="form-title" class="hand h2">Apuntes de clase</h2>
+            <Doodle kind="underline-short" class="h2__underline" />
+          </header>
+
+          <div class="card" data-stick>
+            <Doodle kind="clip" class="card__clip" />
+            <p class="card__label hand">Formación</p>
+            <ul class="card__list">
+              {
+                education.map((ed) => (
+                  <li>
+                    <span class="card__years hand">{ed.years}</span>
+                    <span class="card__title">
+                      {ed.title}
+                      {ed.detail && <span class="card__detail">{ed.detail}</span>}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </section>
+
+        <!-- ================= CONTACTO ================= -->
+        <section class="block contact" id="contacto" aria-labelledby="contact-title">
+          <div class="margin-note hand" aria-hidden="true">05</div>
+          <h2 id="contact-title" class="hand contact__title">¿Hablamos?</h2>
+          <Doodle kind="arrow-down" class="contact__arrow" color="red" />
+          <p class="contact__text">
+            Si quieres hablar de arquitectura, de equipos o de alguna idea a medio dibujar, escríbeme.
+          </p>
+          <p class="contact__mail">
+            <a href={`mailto:${email}`}>
+              <span>{email}</span>
+              <Doodle kind="underline" class="contact__underline" color="red" />
+            </a>
+          </p>
+          <ul class="contact__links">
+            <li><a class="pen-link" href={github} rel="me noopener">github.com/dovixman</a></li>
+            <li><a class="pen-link" href={blog}>Leer el blog</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>© {year} David Fuentes · dovixman</p>
+        <p class="hand footer__thanks">gracias por leer hasta aquí</p>
+        <a class="pen-link" href="#top">Volver arriba</a>
+      </footer>
+    </div>
+
+    <script>
+      import '../scripts/ink.ts';
+    </script>
+  </body>
+</html>
