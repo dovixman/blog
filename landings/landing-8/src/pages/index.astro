@@ -1,0 +1,230 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '../styles/swiss.css';
+
+const title = 'David Fuentes — Tech Lead & Software Architect';
+const description =
+  'David Fuentes (dovixman), Lead Technical Architect en Intelygenz. Arquitectura de software, liderazgo de equipos, ciberseguridad e inteligencia artificial.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const experience = [
+  { from: '2022', to: 'Actualidad', role: 'Lead Technical Architect', org: 'Intelygenz', project: 'Proyecto MetTel', current: true },
+  { from: '2020', to: '2022', role: 'Technical Lead', org: 'Intelygenz', project: 'Proyecto Inditex' },
+  { from: '2019', to: '2020', role: 'Senior Software Architect', org: 'Intelygenz', project: 'Proyecto Inditex' },
+  { from: '2018', to: '2019', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { from: '2017', to: '2018', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { from: '2015', to: '2018', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { from: '2012', to: '2015', role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+const education = [
+  { from: '2020', to: '', title: 'Máster en Inteligencia Artificial' },
+  { from: '2017', to: '2018', title: 'Máster en Ciberseguridad', detail: 'Seguridad en servicios y aplicaciones' },
+  { from: '2012', to: '2016', title: 'Grado en Ingeniería Informática' },
+];
+
+const areas = [
+  { title: 'Arquitectura de software', text: 'Decisiones explícitas y razonadas. Sistemas que se entienden hoy y admiten cambios mañana.' },
+  { title: 'Liderazgo de equipos', text: 'Contexto claro, estándares compartidos y autonomía para que cada persona decida con confianza.' },
+  { title: 'Laboratorios personales', text: 'Un espacio propio para experimentar, probar ideas y aprender haciendo.' },
+  { title: 'Ciberseguridad', text: 'La seguridad en servicios y aplicaciones como propiedad del diseño, no como capa final.' },
+  { title: 'Inteligencia artificial', text: 'Dónde aporta valor real y cómo integrarla en arquitecturas existentes.' },
+  { title: 'Blockchain', text: 'Sistemas descentralizados y cómo se diseña la confianza entre partes.' },
+];
+
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f3f2ee" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+
+    <div class="grid-overlay" aria-hidden="true">
+      <div class="wrap grid">{Array.from({ length: 12 }, () => <span></span>)}</div>
+    </div>
+
+    <header class="wrap grid masthead">
+      <p class="mh mh--name"><strong>David Fuentes</strong><br />dovixman</p>
+      <p class="mh mh--role">Lead Technical Architect<br />Intelygenz / MetTel</p>
+      <p class="mh mh--meta">Tech Lead<br />Software Architect</p>
+      <p class="mh mh--mail"><a href={`mailto:${email}`}>{email}</a><br /><a href={github} rel="me noopener">GitHub</a></p>
+      <button class="grid-toggle js-only" type="button" aria-pressed="true">Rejilla</button>
+    </header>
+
+    <main id="main">
+      <section class="wrap grid hero" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="hero__title">
+          David<br />Fuentes
+        </h1>
+        <div class="hero__block">
+          <p class="hero__year">2022<span>—</span></p>
+          <p class="hero__caption">
+            Lead Technical Architect<br />en Intelygenz, proyecto MetTel.
+          </p>
+        </div>
+        <p class="hero__lede">
+          Tech Lead y Software Architect. Diseño sistemas que se entienden hoy y siguen admitiendo cambios mañana, y
+          lidero equipos dando contexto, estándares compartidos y autonomía.
+        </p>
+        <nav class="hero__index" aria-label="Secciones">
+          <ol>
+            <li><a href="#exp-title"><span>01</span>Experiencia</a></li>
+            <li><a href="#edu-title"><span>02</span>Formación</a></li>
+            <li><a href="#areas-title"><span>03</span>Áreas</a></li>
+            <li><a href="#contact-title"><span>04</span>Contacto</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section class="wrap grid section" aria-labelledby="exp-title">
+        <header class="section__head">
+          <p class="section__num" aria-hidden="true">01</p>
+          <h2 id="exp-title" class="section__title">Experiencia</h2>
+          <p class="section__note">Siete puestos desde 2012, de Java y desarrollo web a la arquitectura técnica.</p>
+        </header>
+        <ol class="rows">
+          {
+            experience.map((e) => (
+              <li class:list={['row', { 'row--now': e.current }]}>
+                <p class="row__year">
+                  <span class="sr-only">De </span>
+                  {e.from}
+                </p>
+                <p class="row__to">
+                  <span class="sr-only">a </span>
+                  {e.to}
+                </p>
+                <h3 class="row__title">{e.role}</h3>
+                <p class="row__org">
+                  {e.org}
+                  {e.project && (
+                    <>
+                      <br />
+                      {e.project}
+                    </>
+                  )}
+                </p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="wrap grid section" aria-labelledby="edu-title">
+        <header class="section__head">
+          <p class="section__num" aria-hidden="true">02</p>
+          <h2 id="edu-title" class="section__title">Formación</h2>
+        </header>
+        <ol class="rows">
+          {
+            education.map((e) => (
+              <li class="row">
+                <p class="row__year">
+                  <span class="sr-only">Desde </span>
+                  {e.from}
+                </p>
+                <p class="row__to">{e.to ? <><span class="sr-only">hasta </span>{e.to}</> : <span aria-hidden="true">—</span>}</p>
+                <h3 class="row__title">{e.title}</h3>
+                <p class="row__org">{e.detail}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="wrap grid section" aria-labelledby="areas-title">
+        <header class="section__head">
+          <p class="section__num" aria-hidden="true">03</p>
+          <h2 id="areas-title" class="section__title">Áreas</h2>
+        </header>
+        <ul class="cells">
+          {
+            areas.map((a, i) => (
+              <li class="cell">
+                <p class="cell__num" aria-hidden="true">{pad(i + 1)}</p>
+                <h3 class="cell__title">{a.title}</h3>
+                <p class="cell__text">{a.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="wrap grid section contact" aria-labelledby="contact-title">
+        <header class="section__head">
+          <p class="section__num" aria-hidden="true">04</p>
+          <h2 id="contact-title" class="section__title">Contacto</h2>
+        </header>
+        <p class="contact__mail"><a href={`mailto:${email}`}>{email}</a></p>
+        <ul class="contact__links">
+          <li><span>GitHub</span><a href={github} rel="me noopener">github.com/dovixman</a></li>
+          <li><span>Blog</span><a href={blog}>dovixman.io/blog</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="wrap grid footer">
+      <p class="ft ft--a">David Fuentes<br />dovixman</p>
+      <p class="ft ft--b">Arquitectura de software,<br />liderazgo de equipos.</p>
+      <p class="ft ft--c">Compuesto en Inter<br />sobre una rejilla de 12 columnas.</p>
+    </footer>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('.grid-toggle');
+      const key = 'l8-grid';
+      const apply = (on: boolean) => {
+        document.documentElement.classList.toggle('no-grid', !on);
+        btn?.setAttribute('aria-pressed', String(on));
+      };
+      try {
+        if (localStorage.getItem(key) === 'off') apply(false);
+      } catch {}
+      btn?.addEventListener('click', () => {
+        const on = btn.getAttribute('aria-pressed') !== 'true';
+        apply(on);
+        try {
+          localStorage.setItem(key, on ? 'on' : 'off');
+        } catch {}
+      });
+    </script>
+  </body>
+</html>
