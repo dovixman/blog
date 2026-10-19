@@ -1,0 +1,386 @@
+---
+import '@fontsource/unifrakturcook/latin-700.css';
+import '@fontsource-variable/playfair-display/wght.css';
+import '@fontsource-variable/playfair-display/wght-italic.css';
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/source-serif-4/opsz-italic.css';
+import '../styles/global.css';
+
+const paper = 'El Heraldo de Dovixman';
+const title = `${paper} — David Fuentes, Tech Lead y Software Architect`;
+const description =
+  'David Fuentes («dovixman»), Lead Technical Architect en Intelygenz. Trayectoria, formación y áreas de trabajo contadas como la portada de un diario.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+// Fecha de la edición: se fija en el momento del build.
+const now = new Date();
+const tz = 'Europe/Madrid';
+const longDate = new Intl.DateTimeFormat('es-ES', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: tz,
+}).format(now);
+const isoDate = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(now);
+const year = Number(isoDate.slice(0, 4));
+const careerStart = 2012;
+const careerYears = year - careerStart;
+
+const toRoman = (n: number) => {
+  const map: [number, string][] = [
+    [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'],
+    [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I'],
+  ];
+  let out = '';
+  for (const [v, s] of map) while (n >= v) { out += s; n -= v; }
+  return out;
+};
+const volume = toRoman(careerYears + 1);
+
+const nav = [
+  { href: '#portada', label: 'Portada' },
+  { href: '#hemeroteca', label: 'Hemeroteca' },
+  { href: '#suplemento', label: 'Suplemento' },
+  { href: '#secciones', label: 'Secciones' },
+  { href: '#cartas', label: 'Cartas' },
+];
+
+const archive = [
+  {
+    years: '2022 — actualidad',
+    org: 'Intelygenz · MetTel',
+    head: 'Lead Technical Architect en Intelygenz para el proyecto MetTel',
+    text: 'La etapa en curso: arquitectura técnica dentro del proyecto MetTel, el cargo con el que se abre esta portada.',
+    lead: true,
+  },
+  {
+    years: '2020 — 2022',
+    org: 'Intelygenz · Inditex',
+    head: 'Asume el liderazgo técnico para Inditex',
+    text: 'Technical Lead dentro de Intelygenz: del diseño de la solución a guiar al equipo que la lleva a producción.',
+  },
+  {
+    years: '2019 — 2020',
+    org: 'Intelygenz · Inditex',
+    head: 'Llega a Intelygenz como Senior Software Architect',
+    text: 'Arquitectura de software para Inditex, primer capítulo en la casa.',
+  },
+  {
+    years: '2018 — 2019',
+    org: 'Minsait by Indra',
+    head: 'Arquitectura y DevOps en Minsait',
+    text: 'Doble función como Senior Software Architect & DevOps: diseñar el sistema y cuidar cómo se despliega.',
+  },
+  {
+    years: '2017 — 2018',
+    org: 'Almis Informática Financiera',
+    head: 'Al frente de I+D y arquitectura en Almis',
+    text: 'R&D and Architecture Lead: investigación, desarrollo y decisiones de arquitectura bajo un mismo cargo.',
+  },
+  {
+    years: '2015 — 2018',
+    org: 'Almis Informática Financiera',
+    head: 'Tres años de Spring y Java',
+    text: 'Spring/Java Developer en el sector de la informática financiera.',
+  },
+  {
+    years: '2012 — 2015',
+    org: 'Alecop S. Coop.',
+    head: 'El punto de partida: Java y web',
+    text: 'Java & Web Developer. Aquí empieza la trayectoria que recoge esta hemeroteca.',
+  },
+];
+
+const education = [
+  {
+    years: '2020 —',
+    title: 'Máster en Inteligencia Artificial',
+    text: 'En curso desde 2020.',
+  },
+  {
+    years: '2017 — 2018',
+    title: 'Máster en Ciberseguridad',
+    text: 'Especialidad en seguridad en servicios y aplicaciones.',
+  },
+  {
+    years: '2012 — 2016',
+    title: 'Grado en Ingeniería Informática',
+    text: 'La base de todo lo demás.',
+  },
+];
+
+const sections = [
+  {
+    tag: 'Arquitectura',
+    head: 'Sistemas que se entienden hoy y admiten cambios mañana',
+    text: 'Diseño de software con decisiones explícitas y razonadas, desde la estructura general hasta los compromisos de cada pieza.',
+  },
+  {
+    tag: 'Liderazgo',
+    head: 'Contexto claro, autonomía real',
+    text: 'Liderazgo de equipos técnicos: estándares compartidos para que cada persona pueda decidir y avanzar con confianza.',
+  },
+  {
+    tag: 'Laboratorio',
+    head: 'Aprender haciendo, lejos de producción',
+    text: 'Laboratorios personales para experimentar, probar ideas y equivocarse barato antes de proponer nada en serio.',
+  },
+  {
+    tag: 'Ciberseguridad',
+    head: 'La seguridad como propiedad del diseño',
+    text: 'Seguridad en servicios y aplicaciones, la especialidad de su máster, entendida desde la arquitectura y no como una capa final.',
+  },
+  {
+    tag: 'Inteligencia artificial',
+    head: 'Dónde aporta valor y cómo integrarla',
+    text: 'Máster en curso y exploración aplicada sobre cómo encaja la IA en arquitecturas que ya existen.',
+  },
+  {
+    tag: 'Blockchain',
+    head: 'Diseñar confianza entre partes',
+    text: 'Interés por los sistemas descentralizados y por lo que implican a la hora de diseñar.',
+  },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <meta name="theme-color" content="#f3ede1" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#portada">Saltar al contenido</a>
+
+    <div class="sheet">
+      <header class="masthead">
+        <div class="strip">
+          <p>Edición digital</p>
+          <p><time datetime={isoDate}>{longDate}</time></p>
+          <p>Año {volume} · Ejemplar gratuito</p>
+        </div>
+
+        <div class="nameplate">
+          <p class="ear ear--left">
+            <span class="ear__label">Director</span>
+            David Fuentes
+            <span class="ear__sub">«dovixman»</span>
+          </p>
+          <p class="nameplate__title" aria-hidden="true">{paper}</p>
+          <p class="ear ear--right">
+            <span class="ear__label">Redacción</span>
+            <a href={`mailto:${email}`}>{email}</a>
+            <span class="ear__sub">Se aceptan cartas</span>
+          </p>
+        </div>
+
+        <p class="motto">
+          Diario de arquitectura de software, liderazgo técnico y laboratorios personales
+        </p>
+
+        <nav class="sections-nav" aria-label="Secciones del diario">
+          <ul>
+            {nav.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </header>
+
+      <main id="main">
+        <p class="flash">
+          <span class="flash__tag">Última hora</span>
+          <span>Lead Technical Architect en Intelygenz desde 2022, en el proyecto MetTel.</span>
+        </p>
+
+        <section id="portada" class="front" aria-labelledby="lead-title" tabindex="-1">
+          <article class="lead">
+            <p class="kicker">Perfil · Actualidad</p>
+            <h1 id="lead-title" class="lead__title">
+              <span class="visually-hidden">{paper}: </span>
+              David Fuentes lidera la arquitectura técnica del proyecto MetTel en Intelygenz
+            </h1>
+            <p class="lead__deck">
+              El ingeniero informático —«dovixman» en la red— suma más de una década entre el
+              desarrollo Java, la arquitectura de software y el liderazgo de equipos.
+            </p>
+            <p class="byline">
+              <span>Por la Redacción</span>
+              <span aria-hidden="true">·</span>
+              <time datetime={isoDate}>{longDate}</time>
+            </p>
+
+            <div class="lead__body">
+              <p class="dropcap">
+                Desde 2022, David Fuentes ejerce como Lead Technical Architect en Intelygenz,
+                dentro del proyecto MetTel. Es el último capítulo de una trayectoria que arrancó
+                en {careerStart} como desarrollador Java y web en Alecop S. Coop. y que, paso a
+                paso, le ha llevado del código a las decisiones de diseño que sostienen sistemas
+                completos.
+              </p>
+              <p>
+                Antes de MetTel, su etapa en Intelygenz pasó por Inditex: primero como Senior
+                Software Architect (2019–2020) y después como Technical Lead (2020–2022), un doble
+                papel que combina el diseño de sistemas con la responsabilidad de guiar a un equipo.
+              </p>
+              <blockquote class="pull">
+                <p>«Del código a las decisiones de diseño que sostienen sistemas completos».</p>
+              </blockquote>
+              <p>
+                Su recorrido incluye también Minsait by Indra, donde trabajó como Senior Software
+                Architect &amp; DevOps, y Almis Informática Financiera, donde pasó de desarrollador
+                Spring/Java a liderar el área de I+D y arquitectura.
+              </p>
+              <p>
+                La formación ha ido a la par: Grado en Ingeniería Informática, Máster en
+                Ciberseguridad y, desde 2020, Máster en Inteligencia Artificial. A ello se suman
+                sus laboratorios personales, donde la ciberseguridad, la IA y el blockchain
+                figuran entre los temas de interés.
+              </p>
+              <p class="continue">
+                Trayectoria completa en la <a href="#hemeroteca">Hemeroteca</a>.
+              </p>
+            </div>
+          </article>
+
+          <aside class="rail" aria-label="Breves">
+            <div class="figure-box">
+              <p class="kicker">La cifra</p>
+              <p class="figure-box__num">{careerYears}</p>
+              <p class="figure-box__label">años de oficio, desde {careerStart}</p>
+              <dl class="figure-box__list">
+                <div><dt>Puestos</dt><dd>7</dd></div>
+                <div><dt>Empresas</dt><dd>4</dd></div>
+                <div><dt>Titulaciones</dt><dd>3</dd></div>
+              </dl>
+            </div>
+
+            <div class="briefs">
+              <h2 class="rail__title">Breves</h2>
+              <p><strong class="sc">Aulas.</strong> Máster en Inteligencia Artificial, en curso desde 2020.</p>
+              <p><strong class="sc">Código.</strong> Su actividad pública, en <a href={github}>GitHub</a> como dovixman.</p>
+              <p><strong class="sc">Lecturas.</strong> El blog del autor, en <a href={blog}>dovixman.io/blog</a>.</p>
+              <p><strong class="sc">Correo.</strong> Las cartas al director se reciben en <a href={`mailto:${email}`}>{email}</a>.</p>
+            </div>
+
+            <nav class="index" aria-label="En esta edición">
+              <h2 class="rail__title">En esta edición</h2>
+              <ol>
+                <li><a href="#hemeroteca"><span>Hemeroteca</span><span class="leader" aria-hidden="true"></span><span>2</span></a></li>
+                <li><a href="#suplemento"><span>Suplemento de formación</span><span class="leader" aria-hidden="true"></span><span>3</span></a></li>
+                <li><a href="#secciones"><span>Secciones</span><span class="leader" aria-hidden="true"></span><span>4</span></a></li>
+                <li><a href="#cartas"><span>Cartas al director</span><span class="leader" aria-hidden="true"></span><span>5</span></a></li>
+              </ol>
+            </nav>
+          </aside>
+        </section>
+
+        <section id="hemeroteca" class="archive" aria-labelledby="archive-title">
+          <header class="section-head">
+            <h2 id="archive-title">Hemeroteca</h2>
+            <p>Trayectoria profesional, de la noticia más reciente a la primera</p>
+          </header>
+
+          <ol class="archive__list">
+            {archive.map((item) => (
+              <li class:list={['story', { 'story--lead': item.lead }]}>
+                <article>
+                  <p class="dateline"><span>{item.years}</span> <span class="dateline__org">{item.org}</span></p>
+                  <h3 class="story__head">{item.head}</h3>
+                  <p class="story__text">{item.text}</p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section id="suplemento" class="supplement" aria-labelledby="supplement-title">
+          <div class="supplement__inner">
+            <header class="supplement__head">
+              <p class="supplement__label">Suplemento · Formación</p>
+              <h2 id="supplement-title" class="supplement__title"><em>Aulas</em></h2>
+              <p class="supplement__deck">
+                Tres titulaciones que explican buena parte de la trayectoria: ingeniería,
+                seguridad e inteligencia artificial.
+              </p>
+            </header>
+            <ol class="supplement__list">
+              {education.map((item, i) => (
+                <li>
+                  <span class="supplement__num" aria-hidden="true">{toRoman(i + 1)}</span>
+                  <p class="supplement__years">{item.years}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section id="secciones" class="desk" aria-labelledby="desk-title">
+          <header class="section-head">
+            <h2 id="desk-title">Secciones</h2>
+            <p>Las áreas que cubre este diario</p>
+          </header>
+          <div class="desk__grid">
+            {sections.map((s) => (
+              <article class="desk__item">
+                <p class="kicker">{s.tag}</p>
+                <h3>{s.head}</h3>
+                <p>{s.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="cartas" class="letters" aria-labelledby="letters-title">
+          <header class="section-head">
+            <h2 id="letters-title">Cartas al director</h2>
+            <p>Correspondencia, propuestas y preguntas</p>
+          </header>
+          <div class="letters__grid">
+            <p class="letters__intro">
+              ¿Una propuesta, una pregunta sobre arquitectura o una idea para el laboratorio?
+              Escriba directamente a la redacción:
+            </p>
+            <a class="letters__mail" href={`mailto:${email}`}>{email}</a>
+            <ul class="letters__links">
+              <li><span class="sc">Código</span> <a href={github}>github.com/dovixman</a></li>
+              <li><span class="sc">Blog</span> <a href={blog}>dovixman.io/blog</a></li>
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <footer class="colophon">
+        <p class="colophon__name" aria-hidden="true">{paper}</p>
+        <p>
+          Edición del <time datetime={isoDate}>{longDate}</time>. Compuesto en UnifrakturCook,
+          Playfair Display y Source Serif 4.
+        </p>
+        <p>© {year} David Fuentes</p>
+      </footer>
+    </div>
+  </body>
+</html>

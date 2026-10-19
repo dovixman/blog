@@ -1,0 +1,338 @@
+---
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+
+const title = 'David Fuentes';
+const description =
+  'David Fuentes (dovixman), Lead Technical Architect en Intelygenz. Tech Lead y Software Architect.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const experience = [
+  { from: '2022', to: 'hoy', role: 'Lead Technical Architect', org: 'Intelygenz · MetTel' },
+  { from: '2020', to: '2022', role: 'Technical Lead', org: 'Intelygenz · Inditex' },
+  { from: '2019', to: '2020', role: 'Senior Software Architect', org: 'Intelygenz · Inditex' },
+  { from: '2018', to: '2019', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { from: '2017', to: '2018', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { from: '2015', to: '2018', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { from: '2012', to: '2015', role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+const education = [
+  { from: '2020', to: '', role: 'Máster en Inteligencia Artificial' },
+  { from: '2017', to: '2018', role: 'Máster en Ciberseguridad', org: 'Seguridad en servicios y aplicaciones' },
+  { from: '2012', to: '2016', role: 'Grado en Ingeniería Informática' },
+];
+
+const links = [
+  { label: 'Correo', text: email, href: `mailto:${email}` },
+  { label: 'GitHub', text: 'dovixman', href: github, rel: 'me noopener' },
+  { label: 'Blog', text: 'dovixman.io/blog', href: blog },
+];
+
+const fontFace = `@font-face{font-family:'Inter Variable';font-style:normal;font-display:swap;font-weight:100 900;src:url(${interUrl}) format('woff2-variations'),url(${interUrl}) format('woff2');}`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <style is:inline set:html={fontFace}></style>
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1>David Fuentes</h1>
+        <p class="muted">Lead Technical Architect en Intelygenz</p>
+      </header>
+
+      <section aria-label="Sobre mí" class="prose">
+        <p>
+          Soy Tech Lead y Software Architect. Desde 2022 trabajo como Lead Technical Architect en Intelygenz, en
+          el proyecto MetTel.
+        </p>
+        <p>
+          Diseño arquitecturas de software con decisiones explícitas y razonadas, y lidero equipos técnicos dándoles
+          el contexto que necesitan para decidir con autonomía.
+        </p>
+        <p>
+          Fuera del día a día mantengo laboratorios personales donde exploro ciberseguridad, inteligencia artificial
+          y blockchain.
+        </p>
+      </section>
+
+      <section aria-labelledby="h-trayectoria">
+        <h2 id="h-trayectoria">Trayectoria</h2>
+        <ol class="rows">
+          {
+            experience.map((e) => (
+              <li>
+                <span class="years">
+                  {e.from}
+                  <span aria-hidden="true">–</span>
+                  <span class="sr-only"> a </span>
+                  {e.to}
+                </span>
+                <span class="what">
+                  {e.role}
+                  <span class="muted">{e.org}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section aria-labelledby="h-formacion">
+        <h2 id="h-formacion">Formación</h2>
+        <ol class="rows">
+          {
+            education.map((e) => (
+              <li>
+                <span class="years">
+                  {e.from}
+                  <span aria-hidden="true">–</span>
+                  {e.to ? (
+                    <>
+                      <span class="sr-only"> a </span>
+                      {e.to}
+                    </>
+                  ) : (
+                    <span class="sr-only"> en curso</span>
+                  )}
+                </span>
+                <span class="what">
+                  {e.role}
+                  {e.org && <span class="muted">{e.org}</span>}
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section aria-labelledby="h-enlaces">
+        <h2 id="h-enlaces">Enlaces</h2>
+        <ul class="rows">
+          {
+            links.map((l) => (
+              <li>
+                <span class="years">{l.label}</span>
+                <span class="what">
+                  <a href={l.href} rel={l.rel}>
+                    {l.text}
+                  </a>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --fg: #1b1b1a;
+    --muted: #6b6b68;
+    --line: #c2c2bd;
+    color-scheme: light dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111110;
+      --fg: #ececea;
+      --muted: #9b9b97;
+      --line: #4d4d4a;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font:
+      400 15px/1.65 'Inter Variable',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+    font-feature-settings: 'cv11', 'ss03';
+    letter-spacing: -0.006em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  main {
+    max-width: calc(34rem + 48px);
+    margin: 0 auto;
+    padding: clamp(56px, 14vh, 128px) 24px 96px;
+  }
+
+  h1,
+  h2,
+  p,
+  ol,
+  ul {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: inherit;
+    font-weight: 550;
+    letter-spacing: -0.011em;
+  }
+
+  h2 {
+    margin-bottom: 14px;
+    color: var(--muted);
+    font-size: inherit;
+    font-weight: 400;
+  }
+
+  section {
+    margin-top: 48px;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .prose p {
+    text-wrap: pretty;
+    hanging-punctuation: first;
+  }
+
+  .prose p + p {
+    margin-top: 1em;
+  }
+
+  .rows {
+    padding: 0;
+    list-style: none;
+  }
+
+  .rows li {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    column-gap: 16px;
+  }
+
+  .rows li + li {
+    margin-top: 10px;
+  }
+
+  .years {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .what {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    min-width: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line);
+    transition: text-decoration-color 150ms ease;
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    main {
+      padding-top: 56px;
+    }
+
+    .rows li {
+      grid-template-columns: 5.75rem 1fr;
+      column-gap: 12px;
+    }
+
+    .what {
+      flex-direction: column;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: none;
+    }
+  }
+</style>

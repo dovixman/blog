@@ -1,0 +1,198 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '../styles/global.css';
+
+const title = 'DAVID FUENTES / dovixman';
+const description =
+  'David Fuentes (dovixman). Lead Technical Architect en Intelygenz. Tech Lead y Software Architect. Trayectoria, formación y contacto.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const favicon = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`;
+const year = new Date().getFullYear();
+
+const experience = [
+  { from: '2022', to: 'HOY', role: 'Lead Technical Architect', org: 'Intelygenz', project: 'MetTel' },
+  { from: '2020', to: '2022', role: 'Technical Lead', org: 'Intelygenz', project: 'Inditex' },
+  { from: '2019', to: '2020', role: 'Senior Software Architect', org: 'Intelygenz', project: 'Inditex' },
+  { from: '2018', to: '2019', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { from: '2017', to: '2018', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { from: '2015', to: '2018', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { from: '2012', to: '2015', role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+const areas = [
+  'Arquitectura de software',
+  'Liderazgo de equipos',
+  'Laboratorios personales',
+  'Ciberseguridad',
+  'Inteligencia artificial',
+  'Blockchain',
+];
+
+const education = [
+  { years: '2020 → …', title: 'Máster en Inteligencia Artificial' },
+  { years: '2017 → 2018', title: 'Máster en Ciberseguridad', detail: 'Seguridad en servicios y aplicaciones.' },
+  { years: '2012 → 2016', title: 'Grado en Ingeniería Informática' },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffe14d" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+
+    <header class="bar">
+      <a class="bar__cell bar__home" href="#main">DOVIXMAN.IO</a>
+      <nav class="bar__nav" aria-label="Índice">
+        <a class="bar__cell" href="#trayectoria">[01] Trayectoria</a>
+        <a class="bar__cell" href="#areas">[02] Áreas</a>
+        <a class="bar__cell" href="#formacion">[03] Formación</a>
+        <a class="bar__cell" href="#contacto">[04] Contacto</a>
+      </nav>
+    </header>
+
+    <main id="main" class="grid">
+      <section class="cell cell--name" aria-labelledby="name">
+        <p class="mono small">// fichero: david-fuentes.txt — última edición {year}</p>
+        <h1 id="name" class="giant">
+          <span>David</span>
+          <span>Fuentes<span class="giant__dot" aria-hidden="true">.</span></span>
+        </h1>
+        <p class="mono handle">alias <strong>dovixman</strong></p>
+        <p class="sticker" aria-hidden="true">Tech Lead<br />+ Software<br />Architect</p>
+      </section>
+
+      <section class="cell cell--role" aria-labelledby="role">
+        <p class="mono small">Ahora mismo ↓</p>
+        <h2 id="role" class="big">Lead Technical Architect</h2>
+        <p class="mono">en <strong>Intelygenz</strong>, proyecto <strong>MetTel</strong>. Desde 2022.</p>
+      </section>
+
+      <section class="cell cell--manifesto" aria-label="Qué hago">
+        <p class="mono small">Qué hago</p>
+        <p class="manifesto">
+          Tech Lead y Software Architect. Diseño sistemas y lidero los equipos que los construyen. Sin adornos.
+        </p>
+      </section>
+
+      <section id="trayectoria" class="cell cell--xp" aria-labelledby="xp-title">
+        <div class="cell__head">
+          <h2 id="xp-title" class="label">[01] Trayectoria</h2>
+          <p class="mono small">2012 → hoy · 7 entradas</p>
+        </div>
+        <table class="xp">
+          <caption class="visually-hidden">Experiencia profesional, de la más reciente a la más antigua</caption>
+          <thead>
+            <tr>
+              <th scope="col">Años</th>
+              <th scope="col">Rol</th>
+              <th scope="col">Dónde</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              experience.map((item, i) => (
+                <tr class:list={{ 'is-now': i === 0 }}>
+                  <td class="xp__years">
+                    {item.from}–{item.to}
+                  </td>
+                  <th scope="row" class="xp__role">
+                    {item.role}
+                  </th>
+                  <td class="xp__org">
+                    {item.org}
+                    {item.project && <span class="xp__project"> / {item.project}</span>}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </section>
+
+      <section id="areas" class="cell cell--areas" aria-labelledby="areas-title">
+        <h2 id="areas-title" class="label">[02] Áreas</h2>
+        <ol class="areas">
+          {
+            areas.map((area, i) => (
+              <li>
+                <span class="mono areas__n" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span>{area}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section id="formacion" class="cell cell--edu" aria-labelledby="edu-title">
+        <h2 id="edu-title" class="label">[03] Formación</h2>
+        <ul class="edu">
+          {
+            education.map((item) => (
+              <li>
+                <p class="mono small">{item.years}</p>
+                <p class="edu__title">{item.title}</p>
+                {item.detail && <p class="mono small">{item.detail}</p>}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section id="contacto" class="cell cell--contact" aria-labelledby="contact-title">
+        <h2 id="contact-title" class="label">[04] Contacto</h2>
+        <p class="mono">Sin formularios. Un correo y listo.</p>
+        <a class="mail" href={`mailto:${email}`}>{email}</a>
+      </section>
+
+      <a class="cell cell--link cell--github" href={github} rel="me">
+        <span class="mono small">GitHub ↗</span>
+        <span class="link__big">github.com/dovixman</span>
+      </a>
+      <a class="cell cell--link cell--blog" href={blog}>
+        <span class="mono small">Blog ↗</span>
+        <span class="link__big">dovixman.io/blog</span>
+      </a>
+    </main>
+
+    <footer class="foot mono small">
+      <p>© {year} David Fuentes.</p>
+      <p>HTML + CSS. Cero JavaScript propio.</p>
+    </footer>
+  </body>
+</html>
