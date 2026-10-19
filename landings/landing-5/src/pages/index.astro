@@ -1,0 +1,304 @@
+---
+import '@fontsource-variable/geist/wght.css';
+import '@fontsource-variable/geist-mono/wght.css';
+import '../styles/global.css';
+
+const title = 'David Fuentes — Lead Technical Architect';
+const description =
+  'David Fuentes (dovixman): Lead Technical Architect en Intelygenz, Tech Lead y Software Architect. Arquitectura de software, liderazgo de equipos, ciberseguridad e IA.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const favicon = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`;
+const year = new Date().getFullYear();
+const yearsOfCraft = year - 2012;
+
+const experience = [
+  { years: '2022 — act.', role: 'Lead Technical Architect', org: 'Intelygenz · MetTel', current: true },
+  { years: '2020 — 22', role: 'Technical Lead', org: 'Intelygenz · Inditex' },
+  { years: '2019 — 20', role: 'Senior Software Architect', org: 'Intelygenz · Inditex' },
+  { years: '2018 — 19', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { years: '2017 — 18', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { years: '2015 — 18', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { years: '2012 — 15', role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+const areas = [
+  'Arquitectura de software',
+  'Liderazgo de equipos',
+  'Laboratorios personales',
+  'Ciberseguridad',
+  'Inteligencia artificial',
+  'Blockchain',
+];
+
+const education = [
+  { years: '2020 —', title: 'Máster en Inteligencia Artificial' },
+  { years: '2017 — 18', title: 'Máster en Ciberseguridad', detail: 'Seguridad en servicios y aplicaciones' },
+  { years: '2012 — 16', title: 'Grado en Ingeniería Informática' },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#08080a" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <header class="top wrap">
+      <a class="brand" href="#main" aria-label="David Fuentes, ir al contenido">
+        <span class="brand__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="brand__name">dovixman</span>
+      </a>
+      <nav aria-label="Enlaces">
+        <ul class="top__links">
+          <li><a href={blog}>Blog</a></li>
+          <li><a href={github} rel="me">GitHub</a></li>
+          <li><a class="top__cta" href={`mailto:${email}`}>Contacto</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="bento" data-bento>
+        <!-- Rol actual -->
+        <section class="card card--hero" style="--i:0" aria-labelledby="hero-title">
+          <div class="card__glow" aria-hidden="true"></div>
+          <p class="eyebrow">
+            <span class="pulse" aria-hidden="true"></span>
+            Rol actual · desde 2022
+          </p>
+          <div class="hero__body">
+            <p class="hero__name">David Fuentes</p>
+            <h1 id="hero-title" class="hero__role"><span class="visually-hidden">David Fuentes, </span>
+              Lead Technical<br /> Architect<span class="hero__at"> en Intelygenz</span>
+            </h1>
+            <p class="hero__lede">
+              Diseño la arquitectura del proyecto <strong>MetTel</strong> y acompaño a los equipos que la construyen.
+              Tech Lead y Software Architect: decisiones técnicas explícitas, sistemas que se entienden y equipos con
+              autonomía para avanzar.
+            </p>
+          </div>
+          <dl class="hero__facts">
+            <div>
+              <dt>Empresa</dt>
+              <dd>Intelygenz</dd>
+            </div>
+            <div>
+              <dt>Proyecto</dt>
+              <dd>MetTel</dd>
+            </div>
+            <div>
+              <dt>Oficio</dt>
+              <dd>Desde 2012 <span class="muted">· {yearsOfCraft} años</span></dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- Reloj -->
+        <section class="card card--clock" style="--i:1" aria-labelledby="clock-title">
+          <div class="card__glow" aria-hidden="true"></div>
+          <div class="card__head">
+            <h2 id="clock-title" class="label">Hora local</h2>
+            <span class="tag">Europe/Madrid</span>
+          </div>
+          <p class="clock" aria-live="off">
+            <time data-clock datetime="">
+              <span data-hm>--:--</span><span class="clock__sec" data-s>:--</span>
+            </time>
+          </p>
+          <div class="clock__foot">
+            <p class="muted" data-date>Madrid, España</p>
+            <div class="dayline" aria-hidden="true"><span data-day></span></div>
+          </div>
+        </section>
+
+        <!-- Contacto -->
+        <section class="card card--contact" style="--i:2" aria-labelledby="contact-title">
+          <div class="card__glow" aria-hidden="true"></div>
+          <div class="card__head">
+            <h2 id="contact-title" class="label">Contacto</h2>
+          </div>
+          <a class="contact__mail" href={`mailto:${email}`}>
+            <span>{email}</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+          <a class="contact__row" href={github} rel="me">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"></path></svg>
+            <span>github.com/dovixman</span>
+          </a>
+        </section>
+
+        <!-- Trayectoria -->
+        <section class="card card--timeline" style="--i:3" aria-labelledby="timeline-title">
+          <div class="card__glow" aria-hidden="true"></div>
+          <div class="card__head">
+            <h2 id="timeline-title" class="label">Trayectoria</h2>
+            <span class="tag">2012 — {year}</span>
+          </div>
+          <ol class="timeline">
+            {
+              experience.map((item) => (
+                <li class:list={['timeline__item', { 'is-current': item.current }]}>
+                  <span class="timeline__years">{item.years}</span>
+                  <span class="timeline__node" aria-hidden="true" />
+                  <span class="timeline__text">
+                    <span class="timeline__role">{item.role}</span>
+                    <span class="timeline__org">{item.org}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <!-- Áreas -->
+        <section class="card card--areas" style="--i:4" aria-labelledby="areas-title">
+          <div class="card__glow" aria-hidden="true"></div>
+          <div class="card__head">
+            <h2 id="areas-title" class="label">Áreas</h2>
+            <span class="tag">{areas.length}</span>
+          </div>
+          <p class="areas__lede">Donde pongo el foco, dentro y fuera del trabajo.</p>
+          <ul class="chips">
+            {areas.map((area) => <li class="chip">{area}</li>)}
+          </ul>
+        </section>
+
+        <!-- Formación -->
+        <section class="card card--edu" style="--i:5" aria-labelledby="edu-title">
+          <div class="card__glow" aria-hidden="true"></div>
+          <div class="card__head">
+            <h2 id="edu-title" class="label">Formación</h2>
+          </div>
+          <ul class="edu">
+            {
+              education.map((item) => (
+                <li>
+                  <span class="edu__years">{item.years}</span>
+                  <span class="edu__title">{item.title}</span>
+                  {item.detail && <span class="edu__detail">{item.detail}</span>}
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <!-- Blog -->
+        <section class="card card--blog" style="--i:6" aria-labelledby="blog-title">
+          <div class="card__glow" aria-hidden="true"></div>
+          <div class="card__head">
+            <h2 id="blog-title" class="label">Blog</h2>
+          </div>
+          <div class="blog__body">
+            <p class="blog__text">Notas sobre arquitectura, equipos y lo que voy aprendiendo en el laboratorio.</p>
+            <a class="blog__link" href={blog}>
+              <span>Leer el blog</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="foot wrap">
+      <p>© {year} David Fuentes</p>
+      <p class="muted">dovixman.io</p>
+    </footer>
+
+    <script>
+      // Live clock in Europe/Madrid.
+      const hm = document.querySelector<HTMLElement>('[data-hm]');
+      const sec = document.querySelector<HTMLElement>('[data-s]');
+      const timeEl = document.querySelector<HTMLTimeElement>('[data-clock]');
+      const dateEl = document.querySelector<HTMLElement>('[data-date]');
+      const dayEl = document.querySelector<HTMLElement>('[data-day]');
+      const tz = 'Europe/Madrid';
+      const partsFmt = new Intl.DateTimeFormat('es-ES', {
+        timeZone: tz,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hourCycle: 'h23',
+      });
+      const dateFmt = new Intl.DateTimeFormat('es-ES', {
+        timeZone: tz,
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+      });
+
+      const tick = () => {
+        const now = new Date();
+        const p = Object.fromEntries(partsFmt.formatToParts(now).map((x) => [x.type, x.value]));
+        if (hm) hm.textContent = `${p.hour}:${p.minute}`;
+        if (sec) sec.textContent = `:${p.second}`;
+        if (timeEl) timeEl.dateTime = now.toISOString();
+        if (dateEl) {
+          const d = dateFmt.format(now);
+          dateEl.textContent = d.charAt(0).toUpperCase() + d.slice(1) + ' · Madrid';
+        }
+        if (dayEl) {
+          const s = Number(p.hour) * 3600 + Number(p.minute) * 60 + Number(p.second);
+          dayEl.style.transform = `scaleX(${(s / 86400).toFixed(4)})`;
+        }
+      };
+      tick();
+      setInterval(tick, 1000);
+
+      // Pointer-following glow (pointer devices only).
+      const bento = document.querySelector<HTMLElement>('[data-bento]');
+      if (bento && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const cards = Array.from(bento.querySelectorAll<HTMLElement>('.card'));
+        let frame = 0;
+        let lastX = 0;
+        let lastY = 0;
+        const update = () => {
+          frame = 0;
+          for (const card of cards) {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--mx', `${lastX - r.left}px`);
+            card.style.setProperty('--my', `${lastY - r.top}px`);
+          }
+        };
+        bento.addEventListener('pointermove', (e) => {
+          lastX = e.clientX;
+          lastY = e.clientY;
+          if (!frame) frame = requestAnimationFrame(update);
+        });
+        bento.addEventListener('pointerenter', () => bento.classList.add('is-lit'));
+        bento.addEventListener('pointerleave', () => bento.classList.remove('is-lit'));
+      }
+    </script>
+  </body>
+</html>
