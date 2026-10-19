@@ -1,0 +1,296 @@
+---
+import '@fontsource-variable/anybody/wdth.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '../styles/global.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const title = 'David Fuentes — Lead Technical Architect';
+const description =
+  'David Fuentes (dovixman): Lead Technical Architect en Intelygenz, Tech Lead y Software Architect. Arquitectura de software, liderazgo de equipos, ciberseguridad e IA.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const year = new Date().getFullYear();
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const letters = (word: string) => [...word];
+
+const manifesto =
+  'Diseño sistemas que se entienden hoy y siguen admitiendo cambios mañana. Y acompaño a los equipos que los construyen para que decidan con criterio y con confianza.';
+const manifestoWords = manifesto.split(' ');
+const strongWords = new Set(['sistemas', 'entienden', 'cambios', 'equipos', 'confianza.']);
+
+const experience = [
+  { years: ['2022', 'Hoy'], role: 'Lead Technical Architect', org: 'Intelygenz · MetTel', current: true },
+  { years: ['2020', '2022'], role: 'Technical Lead', org: 'Intelygenz · Inditex' },
+  { years: ['2019', '2020'], role: 'Senior Software Architect', org: 'Intelygenz · Inditex' },
+  { years: ['2018', '2019'], role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { years: ['2017', '2018'], role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { years: ['2015', '2018'], role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { years: ['2012', '2015'], role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+// Each area is split into fixed lines so the width animation never re-wraps the text.
+const areas = [
+  ['Arquitectura', 'de software'],
+  ['Liderazgo', 'de equipos'],
+  ['Laboratorios', 'personales'],
+  ['Ciberseguridad'],
+  ['Inteligencia', 'artificial'],
+  ['Blockchain'],
+];
+
+const marqueeA = ['Arquitectura', 'Liderazgo', 'Ciberseguridad', 'IA', 'Blockchain', 'Laboratorios'];
+const marqueeB = ['Tech Lead', 'Software Architect', 'Lead Technical Architect', 'dovixman'];
+
+const education = [
+  { years: '2020 —', title: 'Máster en Inteligencia Artificial' },
+  { years: '2017 — 2018', title: 'Máster en Ciberseguridad', detail: 'Seguridad en servicios y aplicaciones' },
+  { years: '2012 — 2016', title: 'Grado en Ingeniería Informática' },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0e0e0c" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <script is:inline>
+      // Hide animated start states only when JS runs and motion is welcome.
+      (function () {
+        var d = document.documentElement;
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.add('motion');
+          setTimeout(function () {
+            if (!d.classList.contains('motion-ready')) d.classList.remove('motion');
+          }, 3000);
+        }
+      })();
+    </script>
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <header class="bar">
+      <a class="bar__brand" href="#top" aria-label="David Fuentes, volver al inicio">dovixman</a>
+      <nav aria-label="Principal">
+        <ul class="bar__nav">
+          <li><a href="#trayectoria">Trayectoria</a></li>
+          <li><a href="#areas">Áreas</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <p class="hero__meta mono">
+          <span>Tech Lead</span><span aria-hidden="true">/</span><span>Software Architect</span>
+        </p>
+        <h1 id="hero-title" class="hero__title" data-hero>
+          <span class="sr-only">David Fuentes</span>
+          <span class="hero__row" aria-hidden="true">
+            {letters('DAVID').map((l) => <span class="ch">{l}</span>)}
+          </span>
+          <span class="hero__row hero__row--b" aria-hidden="true">
+            {letters('FUENTES').map((l) => <span class="ch">{l}</span>)}
+          </span>
+        </h1>
+        <div class="hero__foot">
+          <p class="hero__role">
+            Lead Technical Architect en <strong>Intelygenz</strong>, proyecto MetTel. Desde 2022.
+          </p>
+          <p class="hero__scroll mono" aria-hidden="true">Desliza <span class="hero__arrow">↓</span></p>
+        </div>
+      </section>
+
+      <!-- MARQUEE -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__row" data-marquee="-1">
+          <div class="marquee__track">
+            {
+              [0, 1].map(() => (
+                <div class="marquee__set">
+                  {marqueeA.map((w) => (
+                    <>
+                      <span class="marquee__word">{w}</span>
+                      <span class="marquee__star">✳</span>
+                    </>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="marquee__row marquee__row--outline" data-marquee="1">
+          <div class="marquee__track">
+            {
+              [0, 1].map(() => (
+                <div class="marquee__set">
+                  {marqueeB.map((w) => (
+                    <>
+                      <span class="marquee__word">{w}</span>
+                      <span class="marquee__star">—</span>
+                    </>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- MANIFESTO -->
+      <section class="manifesto" aria-labelledby="manifesto-title">
+        <h2 id="manifesto-title" class="label mono">(01) Lo que hago</h2>
+        <p class="manifesto__text" data-words>
+          {
+            manifestoWords.map((w) => (
+              <>
+                <span class={`w${strongWords.has(w) ? ' w--strong' : ''}`}>{w}</span>{' '}
+              </>
+            ))
+          }
+        </p>
+      </section>
+
+      <!-- STATEMENT -->
+      <section class="statement" aria-label="Del código a la arquitectura">
+        <p class="statement__line" data-drift="-1"><span>Del código</span></p>
+        <p class="statement__line statement__line--outline" data-drift="1"><span>a la arquitectura</span></p>
+        <p class="statement__line statement__line--accent" data-drift="-1"><span>y al equipo</span></p>
+      </section>
+
+      <!-- TRAYECTORIA -->
+      <section class="career" id="trayectoria" aria-labelledby="career-title">
+        <div class="career__head">
+          <h2 id="career-title" class="label mono">(02) Trayectoria · 2012 — hoy</h2>
+        </div>
+        <div class="career__viewport">
+          <ol class="career__track" data-track>
+            {
+              experience.map((job) => (
+                <li class={`job${job.current ? ' job--current' : ''}`}>
+                  <p class="job__years">
+                    <span>{job.years[0]}</span>
+                    <span class="sr-only"> a </span>
+                    <span>
+                      <span class="job__dash" aria-hidden="true">—</span>
+                      {job.years[1]}
+                    </span>
+                  </p>
+                  <h3 class="job__role">
+                    <span class="mask">
+                      <span class="mask__in">{job.role}</span>
+                    </span>
+                  </h3>
+                  <p class="job__org mono">
+                    {job.org}
+                    {job.current && <span class="job__now">Actual</span>}
+                  </p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+
+      <!-- ÁREAS -->
+      <section class="areas" id="areas" aria-labelledby="areas-title">
+        <h2 id="areas-title" class="label mono">(03) Áreas de interés</h2>
+        <ul class="areas__list">
+          {
+            areas.map((a, i) => (
+              <li class="area" data-area>
+                <span class="area__n mono" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span class="area__t">
+                  {a.map((line, j) => (
+                    <span>
+                      {line}
+                      {j < a.length - 1 ? ' ' : ''}
+                    </span>
+                  ))}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- FORMACIÓN -->
+      <section class="edu" aria-labelledby="edu-title">
+        <h2 id="edu-title" class="label mono">(04) Formación</h2>
+        <ul class="edu__list">
+          {
+            education.map((e) => (
+              <li class="edu__item">
+                <span class="edu__years mono">{e.years}</span>
+                <span class="edu__title">
+                  <span class="mask">
+                    <span class="mask__in">{e.title}</span>
+                  </span>
+                </span>
+                {e.detail && <span class="edu__detail mono">{e.detail}</span>}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- CONTACTO -->
+      <section class="contact" id="contacto" aria-labelledby="contact-title">
+        <h2 id="contact-title" class="contact__title" data-contact>
+          <span class="sr-only">¿Hablamos?</span>
+          <span aria-hidden="true">
+            {letters('¿HABLAMOS?').map((l) => <span class="ch">{l}</span>)}
+          </span>
+        </h2>
+        <p class="contact__text">Arquitectura, equipos o una idea a medio construir: escríbeme.</p>
+        <a class="contact__mail" href={`mailto:${email}`}>{email}</a>
+        <ul class="contact__links mono">
+          <li><a href={github} rel="me noopener">GitHub ↗</a></li>
+          <li><a href={blog}>Blog ↗</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="foot mono">
+      <p>© {year} David Fuentes</p>
+      <a href="#top">Volver arriba ↑</a>
+    </footer>
+
+    <script>
+      import '../scripts/kinetic.ts';
+    </script>
+  </body>
+</html>
