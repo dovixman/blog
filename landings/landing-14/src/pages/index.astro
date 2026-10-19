@@ -1,0 +1,167 @@
+---
+import '@fontsource-variable/inter-tight/wght.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '../styles/global.css';
+
+const title = 'David Fuentes — Tech Lead & Software Architect';
+const description =
+  'David Fuentes (dovixman), Lead Technical Architect en Intelygenz. Arquitectura de software, liderazgo de equipos y laboratorios personales.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const year = new Date().getFullYear();
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const blocks = [
+  {
+    n: '01',
+    title: 'Arquitectura',
+    text: 'Lead Technical Architect en Intelygenz, en el proyecto MetTel, desde 2022. Antes, Senior Software Architect para Inditex y arquitectura y DevOps en Minsait by Indra.',
+  },
+  {
+    n: '02',
+    title: 'Liderazgo',
+    text: 'Technical Lead para Inditex entre 2020 y 2022, y R&D and Architecture Lead en Almis. Contexto claro y estándares compartidos para que el equipo decida con autonomía.',
+  },
+  {
+    n: '03',
+    title: 'Laboratorio',
+    text: 'Laboratorios personales para experimentar con ciberseguridad, inteligencia artificial y blockchain. Máster en Ciberseguridad y, desde 2020, Máster en IA.',
+  },
+];
+
+const path = [
+  { y: '2012', org: 'Alecop' },
+  { y: '2015', org: 'Almis' },
+  { y: '2018', org: 'Minsait' },
+  { y: '2019', org: 'Intelygenz · Inditex' },
+];
+---
+
+<!doctype html>
+<html lang="es" data-gl="off">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <meta name="theme-color" content="#07090c" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <div class="stage" data-stage>
+      <div class="backdrop" aria-hidden="true">
+        <canvas class="field" data-field></canvas>
+        <div class="scrim"></div>
+      </div>
+
+      <header class="bar wrap">
+        <a class="mark" href="#top" aria-label="David Fuentes, inicio">
+          <span class="mark__glyph" aria-hidden="true">df</span>
+          <span class="mark__text">dovixman</span>
+        </a>
+        <nav aria-label="Principal">
+          <ul class="bar__nav">
+            <li><a href="#bloques">Bloques</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href={blog}>Blog</a></li>
+          </ul>
+        </nav>
+        <button class="toggle" type="button" data-field-toggle aria-pressed="false" hidden>
+          <span class="toggle__icon" aria-hidden="true"></span>
+          <span data-label>Pausar fondo</span>
+        </button>
+      </header>
+
+      <main id="main">
+        <section class="hero wrap" id="top" aria-labelledby="name">
+          <p class="eyebrow">
+            <span class="dot" aria-hidden="true"></span>
+            Lead Technical Architect · Intelygenz
+          </p>
+          <h1 id="name" class="name">
+            <span class="name__first">David</span>
+            <span class="name__last">Fuentes</span>
+          </h1>
+          <p class="role">
+            Tech Lead y Software Architect. Desde 2012 entre el código, la arquitectura de software
+            y el liderazgo de equipos.
+          </p>
+
+          <div class="hero__foot">
+            <a class="cue" href="#bloques">
+              <span class="cue__line" aria-hidden="true"></span>
+              Desliza
+            </a>
+            <p class="hud" aria-hidden="true">
+              <span class="hud__label">campo · fbm · domain warp</span>
+              <span class="hud__value" data-hud>x  0.62 · y  0.58 · scroll  0.00</span>
+            </p>
+          </div>
+        </section>
+
+        <section class="blocks wrap" id="bloques" aria-labelledby="blocks-title">
+          <h2 id="blocks-title" class="visually-hidden">Tres bloques</h2>
+          <ol class="blocks__list">
+            {blocks.map((b) => (
+              <li class="card">
+                <span class="card__n" aria-hidden="true">{b.n}</span>
+                <h3 class="card__title">{b.title}</h3>
+                <p class="card__text">{b.text}</p>
+              </li>
+            ))}
+          </ol>
+
+          <div class="path" aria-label="Trayectoria resumida">
+            <p class="path__label">Trayectoria</p>
+            <ol class="path__list">
+              {path.map((p) => (
+                <li><span class="path__y">{p.y}</span> {p.org}</li>
+              ))}
+              <li class="path__now"><span class="path__y">2022</span> Intelygenz · MetTel</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="contact wrap" id="contacto" aria-labelledby="contact-title">
+          <h2 id="contact-title" class="contact__label">Contacto</h2>
+          <a class="contact__mail" href={`mailto:${email}`}>
+            <span>{email}</span>
+            <span class="contact__arrow" aria-hidden="true">↗</span>
+          </a>
+          <ul class="contact__links">
+            <li><a href={github}>GitHub <span aria-hidden="true">↗</span></a></li>
+            <li><a href={blog}>Blog <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <footer class="foot wrap">
+      <p>© {year} David Fuentes</p>
+      <p class="foot__note">Fondo: fragment shader WebGL propio, generado en tiempo real.</p>
+    </footer>
+
+    <script>
+      import { initField } from '../scripts/field';
+      initField();
+    </script>
+  </body>
+</html>
