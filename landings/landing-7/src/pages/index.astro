@@ -1,0 +1,366 @@
+---
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '../styles/terminal.css';
+
+const title = 'David Fuentes — Terminal';
+const description =
+  'David Fuentes (dovixman), Lead Technical Architect en Intelygenz. Tech Lead y Software Architect: arquitectura de software, liderazgo de equipos, ciberseguridad e IA.';
+const email = 'me@dovixman.io';
+const github = 'https://github.com/dovixman';
+const blog = 'https://dovixman.io/blog/';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const experience = [
+  { years: '2022 — act.', role: 'Lead Technical Architect', org: 'Intelygenz', project: 'MetTel', current: true },
+  { years: '2020 — 2022', role: 'Technical Lead', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2019 — 2020', role: 'Senior Software Architect', org: 'Intelygenz', project: 'Inditex' },
+  { years: '2018 — 2019', role: 'Senior Software Architect & DevOps', org: 'Minsait by Indra' },
+  { years: '2017 — 2018', role: 'R&D and Architecture Lead', org: 'Almis Informática Financiera' },
+  { years: '2015 — 2018', role: 'Spring/Java Developer', org: 'Almis Informática Financiera' },
+  { years: '2012 — 2015', role: 'Java & Web Developer', org: 'Alecop S. Coop.' },
+];
+
+const education = [
+  { years: '2020 —', title: 'Máster en Inteligencia Artificial' },
+  { years: '2017 — 2018', title: 'Máster en Ciberseguridad', detail: 'Seguridad en servicios y aplicaciones' },
+  { years: '2012 — 2016', title: 'Grado en Ingeniería Informática' },
+];
+
+const areas = [
+  { name: 'arquitectura', title: 'Arquitectura de software', text: 'Sistemas con decisiones explícitas: que se entiendan hoy y admitan cambios mañana.' },
+  { name: 'liderazgo', title: 'Liderazgo de equipos', text: 'Contexto claro, estándares compartidos y autonomía para decidir.' },
+  { name: 'laboratorios', title: 'Laboratorios personales', text: 'Un espacio propio para experimentar y aprender haciendo.' },
+  { name: 'ciberseguridad', title: 'Ciberseguridad', text: 'La seguridad como propiedad del diseño, no como capa final.' },
+  { name: 'ia', title: 'Inteligencia artificial', text: 'Dónde aporta valor real y cómo integrarla en arquitecturas existentes.' },
+  { name: 'blockchain', title: 'Blockchain', text: 'Sistemas descentralizados y cómo diseñar confianza entre partes.' },
+];
+
+const commands = [
+  { cmd: 'help', text: 'muestra esta ayuda' },
+  { cmd: 'whoami', text: 'quién soy, en dos líneas' },
+  { cmd: 'experiencia', text: 'trayectoria profesional' },
+  { cmd: 'formacion', text: 'estudios y másteres' },
+  { cmd: 'areas', text: 'en qué trabajo y qué me interesa' },
+  { cmd: 'contacto', text: 'correo y GitHub' },
+  { cmd: 'blog', text: 'enlace al blog' },
+  { cmd: 'ls', text: 'lista los ficheros' },
+  { cmd: 'cat cv.txt', text: 'el CV completo de una vez' },
+  { cmd: 'clear', text: 'limpia la pantalla (Ctrl+L)' },
+];
+
+const facts = [
+  { k: 'rol', v: 'Lead Technical Architect' },
+  { k: 'empresa', v: 'Intelygenz' },
+  { k: 'proyecto', v: 'MetTel' },
+  { k: 'desde', v: '2022' },
+  { k: 'perfil', v: 'Tech Lead · Software Architect' },
+  { k: 'oficio', v: 'desde 2012' },
+  { k: 'formación', v: 'Ing. Informática · Máster en Ciberseguridad · Máster en IA' },
+  { k: 'intereses', v: 'arquitectura, liderazgo, labs, ciberseguridad, IA, blockchain' },
+  { k: 'correo', v: email },
+  { k: 'github', v: 'dovixman' },
+];
+
+const suggestions = ['help', 'whoami', 'experiencia', 'formacion', 'areas', 'contacto', 'blog', 'cat cv.txt', 'clear'];
+
+// 5-row bitmap font, rendered at build time into an "ANSI shadow" style banner.
+const glyphs: Record<string, string[]> = {
+  D: ['####.', '#...#', '#...#', '#...#', '####.'],
+  O: ['.###.', '#...#', '#...#', '#...#', '.###.'],
+  V: ['#...#', '#...#', '#...#', '.#.#.', '..#..'],
+  I: ['###', '.#.', '.#.', '.#.', '###'],
+  X: ['#...#', '.#.#.', '..#..', '.#.#.', '#...#'],
+  M: ['#...#', '##.##', '#.#.#', '#...#', '#...#'],
+  A: ['.###.', '#...#', '#####', '#...#', '#...#'],
+  N: ['#...#', '##..#', '#.#.#', '#..##', '#...#'],
+};
+function pixels(word: string) {
+  const rows = Array.from({ length: 5 }, (_, r) =>
+    word
+      .split('')
+      .map((ch) => glyphs[ch][r])
+      .join('.'),
+  );
+  const cells: [number, number][] = [];
+  rows.forEach((row, y) => row.split('').forEach((c, x) => c === '#' && cells.push([x, y])));
+  return { cells, w: rows[0].length + 1, h: 6 };
+}
+const art = pixels('DOVIXMAN');
+const mono = pixels('D');
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="David Fuentes" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#14110e" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-461656PKYM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-461656PKYM');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip" href="#cmd">Ir a la línea de comandos</a>
+
+    <div class="term">
+      <header class="bar bar--top">
+        <span class="bar__lights" aria-hidden="true"><i></i><i></i><i></i></span>
+        <p class="bar__title">david@dovixman: ~</p>
+        <p class="bar__meta" aria-hidden="true">bash — UTF-8</p>
+      </header>
+
+      <div class="panes">
+      <main class="screen" id="screen">
+        <h1 class="sr-only">David Fuentes (dovixman) — Lead Technical Architect, en formato terminal</h1>
+
+        <div class="log" id="log" role="log" aria-live="polite" aria-label="Salida de la terminal">
+          <section class="block" data-out="banner" aria-label="Bienvenida">
+            <svg class="art" viewBox={`0 0 ${art.w} ${art.h}`} aria-hidden="true" focusable="false" shape-rendering="crispEdges">
+              <g class="art__shadow">{art.cells.map(([x, y]) => <rect x={x + 0.5} y={y + 0.5} width="1" height="1" />)}</g>
+              <g class="art__fill">{art.cells.map(([x, y]) => <rect x={x} y={y} width="1" height="1" />)}</g>
+            </svg>
+            <p class="welcome">
+              <span class="hl">David Fuentes</span> <span class="dim">· dovixman</span><br />
+              Lead Technical Architect en Intelygenz. Tech Lead y Software Architect.
+            </p>
+            <p class="dim hint js-only">
+              Escribe <kbd>help</kbd> para ver los comandos, o pulsa una sugerencia.<span class="only-fine"
+                >{' '}<kbd>Tab</kbd> autocompleta y <kbd>↑</kbd><kbd>↓</kbd> recorren el historial.</span
+              >
+            </p>
+          </section>
+
+          <section class="block" data-out="whoami" aria-labelledby="h-whoami">
+            <h2 class="echo" id="h-whoami"><span class="ps1" aria-hidden="true">david@dovixman:~$</span> whoami</h2>
+            <div class="out">
+              <p><span class="hl">David Fuentes</span> <span class="dim">(dovixman)</span></p>
+              <p>
+                Lead Technical Architect en <span class="acc">Intelygenz</span>, en el proyecto <span class="acc">MetTel</span>{' '}
+                desde 2022. Tech Lead y Software Architect.
+              </p>
+              <p class="dim">
+                Diseño sistemas que se entienden hoy y siguen admitiendo cambios mañana, y lidero equipos dando contexto,
+                estándares compartidos y autonomía.
+              </p>
+            </div>
+          </section>
+
+          <section class="block" data-out="experiencia" aria-labelledby="h-exp">
+            <h2 class="echo" id="h-exp"><span class="ps1" aria-hidden="true">david@dovixman:~$</span> experiencia</h2>
+            <div class="out">
+              <ol class="rows">
+                {
+                  experience.map((e) => (
+                    <li class:list={['row', { 'row--now': e.current }]}>
+                      <span class="row__k">{e.years}</span>
+                      <span class="row__v">
+                        <span class="hl">{e.role}</span>
+                        <span class="dim">
+                          {' '}
+                          — {e.org}
+                          {e.project && <> / <span class="acc">{e.project}</span></>}
+                        </span>
+                        {e.current && <span class="tag">actual</span>}
+                      </span>
+                    </li>
+                  ))
+                }
+              </ol>
+            </div>
+          </section>
+
+          <section class="block" data-out="formacion" aria-labelledby="h-edu">
+            <h2 class="echo" id="h-edu"><span class="ps1" aria-hidden="true">david@dovixman:~$</span> formacion</h2>
+            <div class="out">
+              <ol class="rows">
+                {
+                  education.map((e) => (
+                    <li class="row">
+                      <span class="row__k">{e.years}</span>
+                      <span class="row__v">
+                        <span class="hl">{e.title}</span>
+                        {e.detail && <span class="dim"> — {e.detail}</span>}
+                      </span>
+                    </li>
+                  ))
+                }
+              </ol>
+            </div>
+          </section>
+
+          <section class="block" data-out="areas" aria-labelledby="h-areas">
+            <h2 class="echo" id="h-areas"><span class="ps1" aria-hidden="true">david@dovixman:~$</span> areas</h2>
+            <div class="out">
+              <ul class="rows rows--areas">
+                {
+                  areas.map((a) => (
+                    <li class="row">
+                      <span class="row__k acc">./{a.name}</span>
+                      <span class="row__v">
+                        <span class="hl">{a.title}</span>
+                        <span class="dim"> — {a.text}</span>
+                      </span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </section>
+
+          <section class="block" data-out="contacto" aria-labelledby="h-contact">
+            <h2 class="echo" id="h-contact"><span class="ps1" aria-hidden="true">david@dovixman:~$</span> contacto</h2>
+            <div class="out">
+              <ul class="rows">
+                <li class="row">
+                  <span class="row__k">correo</span>
+                  <span class="row__v"><a href={`mailto:${email}`}>{email}</a></span>
+                </li>
+                <li class="row">
+                  <span class="row__k">github</span>
+                  <span class="row__v"><a href={github} rel="me noopener">github.com/dovixman</a></span>
+                </li>
+                <li class="row">
+                  <span class="row__k">blog</span>
+                  <span class="row__v"><a href={blog}>dovixman.io/blog</a></span>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="block" data-out="blog" aria-labelledby="h-blog">
+            <h2 class="echo" id="h-blog"><span class="ps1" aria-hidden="true">david@dovixman:~$</span> blog</h2>
+            <div class="out">
+              <p>
+                Notas sobre arquitectura, liderazgo técnico y lo que voy aprendiendo en mis laboratorios:{' '}
+                <a href={blog}>{blog}</a>
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <form class="prompt js-only" id="prompt" autocomplete="off">
+          <label for="cmd" class="sr-only">Escribe un comando y pulsa Intro (prueba con help)</label>
+          <span class="ps1" aria-hidden="true">david@dovixman:~$</span>
+          <span class="field">
+            <input
+              id="cmd"
+              name="cmd"
+              type="text"
+              inputmode="text"
+              enterkeyhint="send"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
+              aria-describedby="cmd-help"
+            />
+            <span class="cursor" id="cursor" aria-hidden="true"></span>
+          </span>
+          <span id="cmd-help" class="sr-only">Tab autocompleta. Flechas arriba y abajo recorren el historial.</span>
+        </form>
+      </main>
+
+      <aside class="info" aria-labelledby="info-title">
+        <div class="info__head">
+          <svg class="info__logo" viewBox={`0 0 ${mono.w} ${mono.h}`} aria-hidden="true" focusable="false" shape-rendering="crispEdges">
+            <g class="art__shadow">{mono.cells.map(([x, y]) => <rect x={x + 0.5} y={y + 0.5} width="1" height="1" />)}</g>
+            <g class="art__fill">{mono.cells.map(([x, y]) => <rect x={x} y={y} width="1" height="1" />)}</g>
+          </svg>
+          <div>
+            <h2 id="info-title" class="info__title"><span class="acc2">david</span>@<span class="acc2">dovixman</span></h2>
+            <p class="info__rule" aria-hidden="true">──────────────</p>
+          </div>
+        </div>
+        <dl class="facts">
+          {
+            facts.map((f) => (
+              <div>
+                <dt>{f.k}</dt>
+                <dd>{f.v}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></p>
+      </aside>
+      </div>
+
+      <nav class="chips js-only" aria-label="Comandos sugeridos">
+        <ul>
+          {
+            suggestions.map((s) => (
+              <li>
+                <button type="button" data-run={s}>
+                  {s}
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <footer class="bar bar--status">
+        <span class="seg seg--session">dovixman</span>
+        <span class="seg seg--win">0:bash*</span>
+        <span class="seg seg--win seg--wide">1:info</span>
+        <span class="seg seg--grow" aria-hidden="true"></span>
+        <a class="seg seg--link" href={`mailto:${email}`}>{email}</a>
+        <span class="seg seg--clock js-only" id="clock" aria-hidden="true"></span>
+      </footer>
+    </div>
+
+    <template id="tpl-help">
+      <p class="dim">Comandos disponibles:</p>
+      <ul class="rows rows--help">
+        {
+          commands.map((c) => (
+            <li class="row">
+              <span class="row__k">
+                <button type="button" class="cmdlink" data-run={c.cmd}>
+                  {c.cmd}
+                </button>
+              </span>
+              <span class="row__v dim">{c.text}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </template>
+
+    <template id="tpl-ls">
+      <p class="ls">
+        <span class="hl">cv.txt</span><span class="acc">experiencia.txt</span><span class="acc">formacion.txt</span><span
+          class="acc">areas.txt</span
+        ><span class="acc">contacto.txt</span><span class="link">blog -&gt; {blog}</span>
+      </p>
+    </template>
+
+    <script src="../scripts/terminal.ts"></script>
+  </body>
+</html>
